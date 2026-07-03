@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tableau de bord — Outils Polytech Lille</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0B1E3A;
+    --navy-deep:#071527;
+    --navy-line: rgba(245,241,230,0.14);
+    --gold:#C9A24B;
+    --gold-bright:#E4C878;
+    --cream:#F5F1E6;
+    --cream-dim: rgba(245,241,230,0.62);
+    --cream-faint: rgba(245,241,230,0.38);
+    --ok:#7FA37A;
+    --priv:#B57A5A;
+    --radius:2px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(ellipse at 15% -10%, rgba(201,162,75,0.10), transparent 45%),
+      var(--navy);
+    color:var(--cream);
+    font-family:'Source Serif 4', serif;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--gold);color:var(--navy-deep);}
+
+  a{color:inherit;}
+
+  .wrap{max-width:1180px;margin:0 auto;padding:64px 32px 100px;}
+
+  /* HEADER */
+  header{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:24px;
+    border-bottom:1px solid var(--navy-line);
+    padding-bottom:28px;
+    margin-bottom:40px;
+    flex-wrap:wrap;
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin:0 0 14px;
+  }
+  h1{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:clamp(32px, 4.2vw, 52px);
+    line-height:1.05;
+    margin:0;
+    color:var(--cream);
+    letter-spacing:-0.01em;
+  }
+  h1 em{
+    font-style:italic;
+    color:var(--gold-bright);
+    font-weight:600;
+  }
+  .header-meta{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    color:var(--cream-faint);
+    text-align:right;
+    line-height:1.8;
+    white-space:nowrap;
+  }
+  .header-meta strong{color:var(--gold);font-weight:500;}
+
+  /* STATS STRIP */
+  .stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    border:1px solid var(--navy-line);
+    margin-bottom:48px;
+  }
+  .stat{
+    padding:20px 22px;
+    border-right:1px solid var(--navy-line);
+  }
+  .stat:last-child{border-right:none;}
+  .stat .n{
+    font-family:'Playfair Display', serif;
+    font-size:32px;
+    font-weight:700;
+    color:var(--gold-bright);
+    line-height:1;
+  }
+  .stat .l{
+    font-family:'JetBrains Mono', monospace;
+    font-size:10px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--cream-faint);
+    margin-top:8px;
+  }
+
+  /* CONTROLS */
+  .controls{
+    display:flex;
+    gap:14px;
+    align-items:center;
+    margin-bottom:36px;
+    flex-wrap:wrap;
+  }
+  .search{
+    flex:1;
+    min-width:220px;
+    background:transparent;
+    border:1px solid var(--navy-line);
+    color:var(--cream);
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+    padding:12px 16px;
+    outline:none;
+    transition:border-color .15s ease;
+  }
+  .search::placeholder{color:var(--cream-faint);}
+  .search:focus{border-color:var(--gold);}
+
+  .chip{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    padding:11px 16px;
+    border:1px solid var(--navy-line);
+    background:transparent;
+    color:var(--cream-dim);
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .chip:hover{border-color:var(--gold);color:var(--cream);}
+  .chip.active{background:var(--gold);border-color:var(--gold);color:var(--navy-deep);font-weight:600;}
+
+  /* SECTIONS */
+  .section-title{
+    display:flex;
+    align-items:baseline;
+    gap:14px;
+    margin:52px 0 20px;
+  }
+  .section-title h2{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-style:italic;
+    font-size:22px;
+    color:var(--gold-bright);
+    margin:0;
+    white-space:nowrap;
+  }
+  .section-title .rule{
+    flex:1;
+    height:1px;
+    background:var(--navy-line);
+  }
+  .section-title .count{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    color:var(--cream-faint);
+  }
+
+  /* GRID */
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(310px, 1fr));
+    gap:1px;
+    background:var(--navy-line);
+    border:1px solid var(--navy-line);
+  }
+  .card{
+    background:var(--navy);
+    padding:24px 22px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    min-height:150px;
+    transition:background .18s ease;
+    position:relative;
+  }
+  .card:hover{background:var(--navy-deep);}
+  .card-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:10px;
+  }
+  .card h3{
+    font-family:'Playfair Display', serif;
+    font-size:18px;
+    font-weight:600;
+    margin:0;
+    color:var(--cream);
+    line-height:1.3;
+  }
+  .status-dot{
+    flex-shrink:0;
+    width:7px;height:7px;
+    border-radius:50%;
+    margin-top:7px;
+    background:var(--ok);
+  }
+  .status-dot.priv{background:var(--priv);}
+
+  .card p.desc{
+    font-size:13.5px;
+    color:var(--cream-dim);
+    line-height:1.55;
+    margin:0;
+    flex:1;
+  }
+  .card .meta{
+    font-family:'JetBrains Mono', monospace;
+    font-size:10.5px;
+    color:var(--cream-faint);
+    letter-spacing:0.03em;
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  .tag{
+    border:1px solid var(--navy-line);
+    padding:2px 7px;
+  }
+  .tag.priv{color:var(--priv);border-color:rgba(181,122,90,0.4);}
+  .tag.pub{color:var(--ok);border-color:rgba(127,163,122,0.4);}
+
+  .card-links{
+    display:flex;
+    gap:16px;
+    margin-top:4px;
+    padding-top:12px;
+    border-top:1px solid var(--navy-line);
+  }
+  .card-links a{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.04em;
+    text-decoration:none;
+    color:var(--cream-dim);
+    display:flex;
+    align-items:center;
+    gap:6px;
+    transition:color .15s ease;
+  }
+  .card-links a:hover{color:var(--gold-bright);}
+  .card-links a svg{width:12px;height:12px;flex-shrink:0;}
+
+  .hidden{display:none !important;}
+
+  footer{
+    margin-top:70px;
+    padding-top:24px;
+    border-top:1px solid var(--navy-line);
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    color:var(--cream-faint);
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+
+  @media (max-width:640px){
+    .wrap{padding:40px 18px 70px;}
+    header{flex-direction:column;align-items:flex-start;}
+    .header-meta{text-align:left;}
+    .stats{grid-template-columns:repeat(2,1fr);}
+    .stat:nth-child(2){border-right:none;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div>
+      <p class="eyebrow">Polytech Lille · Département Langues</p>
+      <h1>Registre des <em>outils</em><br>numériques</h1>
+    </div>
+    <div class="header-meta">
+      <div><strong>19</strong> dépôts · <strong>marcvasseurpolytech-dot</strong></div>
+      <div id="last-updated">Mis à jour —</div>
+    </div>
+  </header>
+
+  <div class="stats">
+    <div class="stat"><div class="n">19</div><div class="l">Projets au total</div></div>
+    <div class="stat"><div class="n">15</div><div class="l">Publics</div></div>
+    <div class="stat"><div class="n">4</div><div class="l">Privés</div></div>
+    <div class="stat"><div class="n">19</div><div class="l">Déployés sur Vercel</div></div>
+  </div>
+
+  <div class="controls">
+    <input class="search" id="search" type="text" placeholder="Rechercher un projet… (ex. jury, part 5, forms)">
+    <button class="chip active" data-filter="all">Tous</button>
+    <button class="chip" data-filter="admin">Outils admin</button>
+    <button class="chip" data-filter="tests">Tests TOEIC</button>
+    <button class="chip" data-filter="autre">Autres</button>
+  </div>
+
+  <div id="sections"></div>
+
+  <footer>
+    <span>github.com/marcvasseurpolytech-dot</span>
+    <span>Généré automatiquement depuis l'API GitHub</span>
+  </footer>
+</div>
+
+<script>
+const ICON_LIVE = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg>`;
+const ICON_REPO = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>`;
+
+const projects = [
+  // OUTILS ADMINISTRATIFS
+  {name:"Jury École — Langues", repo:"jury-ecole", desc:"Planification des jurys de fin d'année : onglets Planning, Étudiants, Synthèse, export PDF/XLS.", cat:"admin", updated:"2026-07-03", priv:false, live:"https://jury-ecole.vercel.app"},
+  {name:"KwikTOEIC", repo:"toeic-vision-api-", desc:"Correction d'examens TOEIC par CSV, clés de correction pour 12 sessions, exports ZG 0/1, ZG EP, OMR.", cat:"admin", updated:"2026-07-03", priv:true, live:"https://toeic-vision-api.vercel.app"},
+  {name:"Calendrier TOEIC", repo:"toeic-dates", desc:"Page d'information des sessions TOEIC officielles, panneau admin protégé, stockage via API GitHub.", cat:"admin", updated:"2026-07-02", priv:false, live:"https://toeic-dates.vercel.app"},
+  {name:"TOEIC Officiel", repo:"toeic-officiel", desc:"Gestion et présentation animée des scores TOEIC officiels, projetable en salle d'examen.", cat:"admin", updated:"2026-07-01", priv:false, live:"https://toeic-officiel.vercel.app"},
+  {name:"Surveillance TOEIC", repo:"toeic-surveillance", desc:"Suivi des sessions et affectations de surveillants sur trois amphithéâtres pour Messaoud.", cat:"admin", updated:"2026-06-30", priv:true, live:"https://toeic-surveillance.vercel.app"},
+  {name:"TOEIC Forms Hub", repo:"toeic-forms-hub", desc:"Hub d'envoi d'exercices Google Forms, suivi par groupe, envoi WhatsApp, tableau de bord.", cat:"admin", updated:"2026-06-29", priv:true, live:"https://toeic-forms-hub.vercel.app"},
+  {name:"Polytech Admin", repo:"polytech-admin", desc:"Suivi académique : présences, scores TOEIC, contrôles continus, compatible DeepFreeze.", cat:"admin", updated:"2026-06-24", priv:true, live:"https://polytech-admin.vercel.app"},
+  {name:"TOEIC Correction", repo:"TOEIC-correction", desc:"Application de correction d'examens TOEIC à partir des feuilles de réponses.", cat:"admin", updated:"2026-06-09", priv:false, live:"https://toeic-correction.vercel.app"},
+  {name:"TOEIC Groups Manager", repo:"toeic-groups-manager", desc:"Formation de groupes par niveau et affectation des enseignants — v2.0.", cat:"admin", updated:"2026-07-03", priv:false, live:"https://toeic-groups-manager.vercel.app"},
+
+  // TESTS INTERACTIFS
+  {name:"TOEIC Part 2", repo:"toeic-part-2", desc:"Entraînement interactif — Questions-Réponses (Listening).", cat:"tests", updated:"2026-05-29", priv:false, live:"https://toeic-part-2.vercel.app"},
+  {name:"TOEIC Part 3", repo:"toeic-part-3", desc:"Entraînement interactif — Conversations (Listening).", cat:"tests", updated:"2026-05-25", priv:false, live:"https://toeic-part-3.vercel.app"},
+  {name:"TOEIC Part 4", repo:"toeic-part-4", desc:"Entraînement interactif — Exposés courts (Listening).", cat:"tests", updated:"2026-05-25", priv:false, live:"https://toeic-part-4.vercel.app"},
+  {name:"TOEIC Part 5", repo:"TOEIC-Part-5", desc:"Entraînement interactif — Phrases à trous (Reading, grammaire/vocabulaire).", cat:"tests", updated:"2026-05-28", priv:false, live:"https://toeic-part-5.vercel.app"},
+  {name:"TOEIC Part 6", repo:"toeic-part-6", desc:"Entraînement interactif — Textes à trous (Reading).", cat:"tests", updated:"2026-05-29", priv:false, live:"https://toeic-part-6.vercel.app"},
+  {name:"TOEIC Part 7", repo:"toeic-part-7", desc:"Entraînement interactif — Compréhension de textes, mise en page double-panneau.", cat:"tests", updated:"2026-05-30", priv:false, live:"https://toeic-part-7.vercel.app"},
+  {name:"TOEIC Mini-Tests", repo:"toeic-mini-tests", desc:"Série de mini-tests TOEIC pour entraînement rapide, toutes parties confondues.", cat:"tests", updated:"2026-05-31", priv:false, live:"https://toeic-mini-tests.vercel.app"},
+  {name:"TOEIC Full Reading", repo:"TOEIC-full-reading", desc:"Test complet de compréhension écrite, conditions d'examen chronométrées.", cat:"tests", updated:"2026-05-25", priv:false, live:"https://toeic-full-reading.vercel.app"},
+  {name:"Irregular Verbs PEIP2", repo:"irregular-verbs-peip2", desc:"Quiz de verbes irréguliers par lot, remédiation grammaticale PEIP2.", cat:"tests", updated:"2026-05-20", priv:false, live:"https://irregular-verbs-peip2.vercel.app"},
+
+  // AUTRES
+  {name:"Bornes Polytech", repo:"bornes-polytech", desc:"Tableau de bord des bornes de recharge du parking Polytech.", cat:"autre", updated:"2026-06-05", priv:false, live:"https://bornes-polytech.vercel.app"},
+];
+
+const sectionLabels = {admin:"Outils administratifs", tests:"Tests interactifs TOEIC", autre:"Autres outils"};
+const order = ["admin","tests","autre"];
+const GH = "https://github.com/marcvasseurpolytech-dot/";
+
+function fmtDate(d){
+  const dt = new Date(d+"T00:00:00");
+  return dt.toLocaleDateString('fr-FR', {day:'2-digit', month:'short', year:'numeric'});
+}
+
+function render(filter, query){
+  const container = document.getElementById('sections');
+  container.innerHTML = "";
+  order.forEach(cat=>{
+    const items = projects.filter(p=>{
+      const matchCat = filter==='all' || p.cat===filter;
+      const q = query.trim().toLowerCase();
+      const matchQ = !q || p.name.toLowerCase().includes(q) || p.repo.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q);
+      return matchCat && matchQ && p.cat===cat;
+    });
+    if(items.length===0) return;
+
+    const section = document.createElement('div');
+    const title = document.createElement('div');
+    title.className = 'section-title';
+    title.innerHTML = `<h2>${sectionLabels[cat]}</h2><div class="rule"></div><span class="count">${items.length}</span>`;
+    section.appendChild(title);
+
+    const grid = document.createElement('div');
+    grid.className = 'grid';
+    items.forEach(p=>{
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <div class="card-top">
+          <h3>${p.name}</h3>
+          <span class="status-dot ${p.priv?'priv':''}" title="${p.priv?'Dépôt privé':'Dépôt public'}"></span>
+        </div>
+        <p class="desc">${p.desc}</p>
+        <div class="meta">
+          <span class="tag ${p.priv?'priv':'pub'}">${p.priv?'Privé':'Public'}</span>
+          <span>MAJ ${fmtDate(p.updated)}</span>
+        </div>
+        <div class="card-links">
+          <a href="${p.live}" target="_blank" rel="noopener">${ICON_LIVE} Site live</a>
+          <a href="${GH}${p.repo}" target="_blank" rel="noopener">${ICON_REPO} Dépôt</a>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+    section.appendChild(grid);
+    container.appendChild(section);
+  });
+
+  if(container.innerHTML === ""){
+    container.innerHTML = `<p style="font-family:'JetBrains Mono',monospace;color:var(--cream-faint);font-size:13px;padding:40px 0;">Aucun projet ne correspond à cette recherche.</p>`;
+  }
+}
+
+let currentFilter = 'all';
+let currentQuery = '';
+
+document.querySelectorAll('.chip').forEach(chip=>{
+  chip.addEventListener('click', ()=>{
+    document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+    chip.classList.add('active');
+    currentFilter = chip.dataset.filter;
+    render(currentFilter, currentQuery);
+  });
+});
+
+document.getElementById('search').addEventListener('input', (e)=>{
+  currentQuery = e.target.value;
+  render(currentFilter, currentQuery);
+});
+
+document.getElementById('last-updated').textContent = 'Mis à jour ' + new Date().toLocaleDateString('fr-FR', {day:'2-digit', month:'long', year:'numeric'});
+
+render('all','');
+</script>
+</body>
+</html>
