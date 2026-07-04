@@ -317,7 +317,7 @@
 const ACCESS_CODE = "3110";
 
 function checkAccess(){
-  const hash = window.location.hash.replace('#','');
+  const hash = window.location.hash.replace('#','').replace(/\/+$/,'');
   if(hash === ACCESS_CODE){
     document.getElementById('lock').classList.add('hidden');
     document.getElementById('dashboard').classList.remove('hidden');
@@ -328,7 +328,7 @@ function checkAccess(){
 
 document.getElementById('lock-form').addEventListener('submit', function(e){
   e.preventDefault();
-  const val = document.getElementById('code-input').value.trim();
+  const val = document.getElementById('code-input').value.trim().replace(/\/+$/,'');
   if(val === ACCESS_CODE){
     window.location.hash = val;
     checkAccess();
