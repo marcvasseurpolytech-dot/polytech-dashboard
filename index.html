@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tableau de bord — Outils Polytech Lille</title>
+<title>Dashbord — Polytech Lille</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -13,12 +13,12 @@
     --navy-line: rgba(245,241,230,0.14);
     --gold:#C9A24B;
     --gold-bright:#E4C878;
+    --gold-glow: rgba(228,200,120,0.55);
     --cream:#F5F1E6;
     --cream-dim: rgba(245,241,230,0.62);
     --cream-faint: rgba(245,241,230,0.38);
     --ok:#7FA37A;
     --priv:#B57A5A;
-    --radius:2px;
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
@@ -32,12 +32,89 @@
     -webkit-font-smoothing:antialiased;
   }
   ::selection{background:var(--gold);color:var(--navy-deep);}
+  a{color:inherit;text-decoration:none;}
 
-  a{color:inherit;}
+  /* ===== LOCK SCREEN ===== */
+  #lock{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+  }
+  .lock-box{
+    width:100%;
+    max-width:380px;
+    text-align:center;
+    padding:48px 36px;
+    border:1px solid var(--navy-line);
+    background:linear-gradient(180deg, rgba(245,241,230,0.03), transparent);
+    position:relative;
+  }
+  .lock-box::before{
+    content:"";
+    position:absolute;inset:0;
+    border:1px solid transparent;
+    box-shadow:0 0 0 1px rgba(228,200,120,0.15), 0 0 40px rgba(228,200,120,0.10);
+    pointer-events:none;
+  }
+  .lock-icon{
+    width:34px;height:34px;
+    margin:0 auto 22px;
+    color:var(--gold);
+  }
+  .lock-box .eyebrow{margin-bottom:10px;}
+  .lock-box h2{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:22px;
+    margin:0 0 8px;
+    color:var(--cream);
+  }
+  .lock-box p{
+    font-size:13.5px;
+    color:var(--cream-dim);
+    margin:0 0 26px;
+    line-height:1.6;
+  }
+  .lock-form{display:flex;gap:8px;}
+  #code-input{
+    flex:1;
+    background:transparent;
+    border:1px solid var(--navy-line);
+    color:var(--cream);
+    font-family:'JetBrains Mono', monospace;
+    letter-spacing:0.3em;
+    text-align:center;
+    font-size:16px;
+    padding:12px 10px;
+    outline:none;
+  }
+  #code-input:focus{border-color:var(--gold);box-shadow:0 0 12px rgba(228,200,120,0.25);}
+  .lock-form button{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    padding:0 20px;
+    border:1px solid var(--gold);
+    background:var(--gold);
+    color:var(--navy-deep);
+    font-weight:600;
+    cursor:pointer;
+  }
+  .lock-form button:hover{background:var(--gold-bright);}
+  .lock-error{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    color:var(--priv);
+    margin-top:14px;
+    min-height:14px;
+  }
 
+  /* ===== DASHBOARD ===== */
   .wrap{max-width:1180px;margin:0 auto;padding:64px 32px 100px;}
 
-  /* HEADER */
   header{
     display:flex;
     justify-content:space-between;
@@ -65,11 +142,7 @@
     color:var(--cream);
     letter-spacing:-0.01em;
   }
-  h1 em{
-    font-style:italic;
-    color:var(--gold-bright);
-    font-weight:600;
-  }
+  h1 em{font-style:italic;color:var(--gold-bright);font-weight:600;}
   .header-meta{
     font-family:'JetBrains Mono', monospace;
     font-size:12px;
@@ -80,198 +153,106 @@
   }
   .header-meta strong{color:var(--gold);font-weight:500;}
 
-  /* STATS STRIP */
   .stats{
     display:grid;
     grid-template-columns:repeat(4,1fr);
     border:1px solid var(--navy-line);
     margin-bottom:48px;
   }
-  .stat{
-    padding:20px 22px;
-    border-right:1px solid var(--navy-line);
-  }
+  .stat{padding:20px 22px;border-right:1px solid var(--navy-line);}
   .stat:last-child{border-right:none;}
   .stat .n{
     font-family:'Playfair Display', serif;
-    font-size:32px;
-    font-weight:700;
-    color:var(--gold-bright);
-    line-height:1;
+    font-size:32px;font-weight:700;
+    color:var(--gold-bright);line-height:1;
   }
   .stat .l{
     font-family:'JetBrains Mono', monospace;
-    font-size:10px;
-    letter-spacing:0.14em;
-    text-transform:uppercase;
-    color:var(--cream-faint);
-    margin-top:8px;
+    font-size:10px;letter-spacing:0.14em;text-transform:uppercase;
+    color:var(--cream-faint);margin-top:8px;
   }
 
-  /* CONTROLS */
   .controls{
-    display:flex;
-    gap:14px;
-    align-items:center;
-    margin-bottom:36px;
-    flex-wrap:wrap;
+    display:flex;gap:14px;align-items:center;margin-bottom:36px;flex-wrap:wrap;
   }
   .search{
-    flex:1;
-    min-width:220px;
-    background:transparent;
-    border:1px solid var(--navy-line);
-    color:var(--cream);
-    font-family:'JetBrains Mono', monospace;
-    font-size:13px;
-    padding:12px 16px;
-    outline:none;
-    transition:border-color .15s ease;
+    flex:1;min-width:220px;background:transparent;
+    border:1px solid var(--navy-line);color:var(--cream);
+    font-family:'JetBrains Mono', monospace;font-size:13px;
+    padding:12px 16px;outline:none;transition:border-color .15s ease, box-shadow .15s ease;
   }
   .search::placeholder{color:var(--cream-faint);}
-  .search:focus{border-color:var(--gold);}
+  .search:focus{border-color:var(--gold);box-shadow:0 0 14px rgba(228,200,120,0.18);}
 
-  .chip{
-    font-family:'JetBrains Mono', monospace;
-    font-size:11px;
-    letter-spacing:0.06em;
-    text-transform:uppercase;
-    padding:11px 16px;
-    border:1px solid var(--navy-line);
-    background:transparent;
-    color:var(--cream-dim);
-    cursor:pointer;
-    transition:all .15s ease;
-  }
-  .chip:hover{border-color:var(--gold);color:var(--cream);}
-  .chip.active{background:var(--gold);border-color:var(--gold);color:var(--navy-deep);font-weight:600;}
-
-  /* SECTIONS */
-  .section-title{
-    display:flex;
-    align-items:baseline;
-    gap:14px;
-    margin:52px 0 20px;
-  }
+  .section-title{display:flex;align-items:baseline;gap:14px;margin:52px 0 22px;}
   .section-title h2{
-    font-family:'Playfair Display', serif;
-    font-weight:600;
-    font-style:italic;
-    font-size:22px;
-    color:var(--gold-bright);
-    margin:0;
-    white-space:nowrap;
+    font-family:'Playfair Display', serif;font-weight:600;font-style:italic;
+    font-size:22px;color:var(--gold-bright);margin:0;white-space:nowrap;
   }
-  .section-title .rule{
-    flex:1;
-    height:1px;
-    background:var(--navy-line);
-  }
-  .section-title .count{
-    font-family:'JetBrains Mono', monospace;
-    font-size:11px;
-    color:var(--cream-faint);
-  }
+  .section-title .rule{flex:1;height:1px;background:var(--navy-line);}
+  .section-title .count{font-family:'JetBrains Mono', monospace;font-size:11px;color:var(--cream-faint);}
 
-  /* GRID */
   .grid{
     display:grid;
-    grid-template-columns:repeat(auto-fill, minmax(310px, 1fr));
-    gap:1px;
-    background:var(--navy-line);
-    border:1px solid var(--navy-line);
+    grid-template-columns:repeat(auto-fill, minmax(300px, 1fr));
+    gap:22px;
   }
+
+  /* Luminous card frame */
   .card{
-    background:var(--navy);
-    padding:24px 22px;
-    display:flex;
-    flex-direction:column;
-    gap:12px;
-    min-height:150px;
-    transition:background .18s ease;
     position:relative;
+    display:block;
+    padding:26px 24px;
+    background:linear-gradient(180deg, rgba(245,241,230,0.025), rgba(245,241,230,0.005));
+    border:1px solid var(--navy-line);
+    cursor:pointer;
+    overflow:hidden;
+    transition:border-color .25s ease, transform .2s ease, box-shadow .25s ease;
   }
-  .card:hover{background:var(--navy-deep);}
-  .card-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-start;
-    gap:10px;
+  .card::before{
+    content:"";
+    position:absolute;
+    top:-40%;left:-20%;
+    width:60%;height:180%;
+    background:linear-gradient(120deg, transparent, rgba(228,200,120,0.16), transparent);
+    transform:rotate(20deg) translateX(-120%);
+    transition:transform .7s ease;
+    pointer-events:none;
   }
+  .card:hover{
+    border-color:var(--gold);
+    box-shadow:0 0 0 1px rgba(228,200,120,0.35), 0 0 30px rgba(228,200,120,0.16), inset 0 0 24px rgba(228,200,120,0.04);
+    transform:translateY(-2px);
+  }
+  .card:hover::before{transform:rotate(20deg) translateX(60%);}
+  .card:focus-visible{outline:2px solid var(--gold-bright);outline-offset:3px;}
+
+  .card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:12px;}
   .card h3{
-    font-family:'Playfair Display', serif;
-    font-size:18px;
-    font-weight:600;
-    margin:0;
-    color:var(--cream);
-    line-height:1.3;
+    font-family:'Playfair Display', serif;font-size:18.5px;font-weight:600;
+    margin:0;color:var(--cream);line-height:1.3;
   }
   .status-dot{
-    flex-shrink:0;
-    width:7px;height:7px;
-    border-radius:50%;
-    margin-top:7px;
-    background:var(--ok);
+    flex-shrink:0;width:7px;height:7px;border-radius:50%;margin-top:7px;
+    background:var(--ok);box-shadow:0 0 6px var(--ok);
   }
-  .status-dot.priv{background:var(--priv);}
+  .status-dot.priv{background:var(--priv);box-shadow:0 0 6px var(--priv);}
 
-  .card p.desc{
-    font-size:13.5px;
-    color:var(--cream-dim);
-    line-height:1.55;
-    margin:0;
-    flex:1;
+  .card p.desc{font-size:13.5px;color:var(--cream-dim);line-height:1.55;margin:0 0 18px;}
+
+  .meta{
+    font-family:'JetBrains Mono', monospace;font-size:10.5px;color:var(--cream-faint);
+    letter-spacing:0.03em;display:flex;gap:10px;flex-wrap:wrap;
+    padding-top:14px;border-top:1px solid var(--navy-line);
   }
-  .card .meta{
-    font-family:'JetBrains Mono', monospace;
-    font-size:10.5px;
-    color:var(--cream-faint);
-    letter-spacing:0.03em;
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-  }
-  .tag{
-    border:1px solid var(--navy-line);
-    padding:2px 7px;
-  }
+  .tag{border:1px solid var(--navy-line);padding:2px 7px;}
   .tag.priv{color:var(--priv);border-color:rgba(181,122,90,0.4);}
   .tag.pub{color:var(--ok);border-color:rgba(127,163,122,0.4);}
 
-  .card-links{
-    display:flex;
-    gap:16px;
-    margin-top:4px;
-    padding-top:12px;
-    border-top:1px solid var(--navy-line);
-  }
-  .card-links a{
-    font-family:'JetBrains Mono', monospace;
-    font-size:11px;
-    letter-spacing:0.04em;
-    text-decoration:none;
-    color:var(--cream-dim);
-    display:flex;
-    align-items:center;
-    gap:6px;
-    transition:color .15s ease;
-  }
-  .card-links a:hover{color:var(--gold-bright);}
-  .card-links a svg{width:12px;height:12px;flex-shrink:0;}
-
-  .hidden{display:none !important;}
-
   footer{
-    margin-top:70px;
-    padding-top:24px;
-    border-top:1px solid var(--navy-line);
-    font-family:'JetBrains Mono', monospace;
-    font-size:11px;
-    color:var(--cream-faint);
-    display:flex;
-    justify-content:space-between;
-    flex-wrap:wrap;
-    gap:10px;
+    margin-top:70px;padding-top:24px;border-top:1px solid var(--navy-line);
+    font-family:'JetBrains Mono', monospace;font-size:11px;color:var(--cream-faint);
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
   }
 
   @media (max-width:640px){
@@ -281,98 +262,122 @@
     .stats{grid-template-columns:repeat(2,1fr);}
     .stat:nth-child(2){border-right:none;}
   }
-
-  @media (prefers-reduced-motion: reduce){
-    *{transition:none !important;}
-  }
+  @media (prefers-reduced-motion: reduce){*{transition:none !important;}}
 </style>
 </head>
 <body>
-<div class="wrap">
+
+<div id="lock">
+  <div class="lock-box">
+    <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="11" width="14" height="10" rx="1"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+    <p class="eyebrow">Accès restreint</p>
+    <h2>Dashbord</h2>
+    <p>Ce tableau de bord est réservé. Saisissez le code d'accès.</p>
+    <form class="lock-form" id="lock-form" autocomplete="off">
+      <input id="code-input" type="password" inputmode="numeric" maxlength="12" placeholder="••••">
+      <button type="submit">Entrer</button>
+    </form>
+    <div class="lock-error" id="lock-error"></div>
+  </div>
+</div>
+
+<div class="wrap hidden" id="dashboard">
 
   <header>
     <div>
       <p class="eyebrow">Polytech Lille · Département Langues</p>
-      <h1>Registre des <em>outils</em><br>numériques</h1>
+      <h1>Dash<em>bord</em></h1>
     </div>
     <div class="header-meta">
-      <div><strong>19</strong> dépôts · <strong>marcvasseurpolytech-dot</strong></div>
+      <div><strong id="proj-count">—</strong> outils actifs</div>
       <div id="last-updated">Mis à jour —</div>
     </div>
   </header>
 
   <div class="stats">
-    <div class="stat"><div class="n">19</div><div class="l">Projets au total</div></div>
-    <div class="stat"><div class="n">15</div><div class="l">Publics</div></div>
-    <div class="stat"><div class="n">4</div><div class="l">Privés</div></div>
-    <div class="stat"><div class="n">19</div><div class="l">Déployés sur Vercel</div></div>
+    <div class="stat"><div class="n" id="s-total">—</div><div class="l">Outils au total</div></div>
+    <div class="stat"><div class="n" id="s-pub">—</div><div class="l">Publics</div></div>
+    <div class="stat"><div class="n" id="s-priv">—</div><div class="l">Privés</div></div>
+    <div class="stat"><div class="n" id="s-vercel">—</div><div class="l">Déployés sur Vercel</div></div>
   </div>
 
   <div class="controls">
-    <input class="search" id="search" type="text" placeholder="Rechercher un projet… (ex. jury, part 5, forms)">
-    <button class="chip active" data-filter="all">Tous</button>
-    <button class="chip" data-filter="admin">Outils admin</button>
-    <button class="chip" data-filter="tests">Tests TOEIC</button>
-    <button class="chip" data-filter="autre">Autres</button>
+    <input class="search" id="search" type="text" placeholder="Rechercher un outil… (ex. jury, forms, correction)">
   </div>
 
   <div id="sections"></div>
 
   <footer>
-    <span>github.com/marcvasseurpolytech-dot</span>
-    <span>Généré automatiquement depuis l'API GitHub</span>
+    <span>Polytech Lille — usage interne</span>
+    <span id="footer-date"></span>
   </footer>
 </div>
 
 <script>
-const ICON_LIVE = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg>`;
-const ICON_REPO = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>`;
+const ACCESS_CODE = "3110";
+
+function checkAccess(){
+  const hash = window.location.hash.replace('#','');
+  if(hash === ACCESS_CODE){
+    document.getElementById('lock').classList.add('hidden');
+    document.getElementById('dashboard').classList.remove('hidden');
+    return true;
+  }
+  return false;
+}
+
+document.getElementById('lock-form').addEventListener('submit', function(e){
+  e.preventDefault();
+  const val = document.getElementById('code-input').value.trim();
+  if(val === ACCESS_CODE){
+    window.location.hash = val;
+    checkAccess();
+  } else {
+    document.getElementById('lock-error').textContent = "Code incorrect.";
+    document.getElementById('code-input').value = '';
+  }
+});
+
+window.addEventListener('hashchange', checkAccess);
 
 const projects = [
-  // OUTILS ADMINISTRATIFS
-  {name:"Jury École — Langues", repo:"jury-ecole", desc:"Planification des jurys de fin d'année : onglets Planning, Étudiants, Synthèse, export PDF/XLS.", cat:"admin", updated:"2026-07-03", priv:false, live:"https://jury-ecole.vercel.app"},
-  {name:"KwikTOEIC", repo:"toeic-vision-api-", desc:"Correction d'examens TOEIC par CSV, clés de correction pour 12 sessions, exports ZG 0/1, ZG EP, OMR.", cat:"admin", updated:"2026-07-03", priv:true, live:"https://toeic-vision-api.vercel.app"},
-  {name:"Calendrier TOEIC", repo:"toeic-dates", desc:"Page d'information des sessions TOEIC officielles, panneau admin protégé, stockage via API GitHub.", cat:"admin", updated:"2026-07-02", priv:false, live:"https://toeic-dates.vercel.app"},
-  {name:"TOEIC Officiel", repo:"toeic-officiel", desc:"Gestion et présentation animée des scores TOEIC officiels, projetable en salle d'examen.", cat:"admin", updated:"2026-07-01", priv:false, live:"https://toeic-officiel.vercel.app"},
-  {name:"Surveillance TOEIC", repo:"toeic-surveillance", desc:"Suivi des sessions et affectations de surveillants sur trois amphithéâtres pour Messaoud.", cat:"admin", updated:"2026-06-30", priv:true, live:"https://toeic-surveillance.vercel.app"},
-  {name:"TOEIC Forms Hub", repo:"toeic-forms-hub", desc:"Hub d'envoi d'exercices Google Forms, suivi par groupe, envoi WhatsApp, tableau de bord.", cat:"admin", updated:"2026-06-29", priv:true, live:"https://toeic-forms-hub.vercel.app"},
-  {name:"Polytech Admin", repo:"polytech-admin", desc:"Suivi académique : présences, scores TOEIC, contrôles continus, compatible DeepFreeze.", cat:"admin", updated:"2026-06-24", priv:true, live:"https://polytech-admin.vercel.app"},
-  {name:"TOEIC Correction", repo:"TOEIC-correction", desc:"Application de correction d'examens TOEIC à partir des feuilles de réponses.", cat:"admin", updated:"2026-06-09", priv:false, live:"https://toeic-correction.vercel.app"},
-  {name:"TOEIC Groups Manager", repo:"toeic-groups-manager", desc:"Formation de groupes par niveau et affectation des enseignants — v2.0.", cat:"admin", updated:"2026-07-03", priv:false, live:"https://toeic-groups-manager.vercel.app"},
-
-  // TESTS INTERACTIFS
-  {name:"TOEIC Part 2", repo:"toeic-part-2", desc:"Entraînement interactif — Questions-Réponses (Listening).", cat:"tests", updated:"2026-05-29", priv:false, live:"https://toeic-part-2.vercel.app"},
-  {name:"TOEIC Part 3", repo:"toeic-part-3", desc:"Entraînement interactif — Conversations (Listening).", cat:"tests", updated:"2026-05-25", priv:false, live:"https://toeic-part-3.vercel.app"},
-  {name:"TOEIC Part 4", repo:"toeic-part-4", desc:"Entraînement interactif — Exposés courts (Listening).", cat:"tests", updated:"2026-05-25", priv:false, live:"https://toeic-part-4.vercel.app"},
-  {name:"TOEIC Part 5", repo:"TOEIC-Part-5", desc:"Entraînement interactif — Phrases à trous (Reading, grammaire/vocabulaire).", cat:"tests", updated:"2026-05-28", priv:false, live:"https://toeic-part-5.vercel.app"},
-  {name:"TOEIC Part 6", repo:"toeic-part-6", desc:"Entraînement interactif — Textes à trous (Reading).", cat:"tests", updated:"2026-05-29", priv:false, live:"https://toeic-part-6.vercel.app"},
-  {name:"TOEIC Part 7", repo:"toeic-part-7", desc:"Entraînement interactif — Compréhension de textes, mise en page double-panneau.", cat:"tests", updated:"2026-05-30", priv:false, live:"https://toeic-part-7.vercel.app"},
-  {name:"TOEIC Mini-Tests", repo:"toeic-mini-tests", desc:"Série de mini-tests TOEIC pour entraînement rapide, toutes parties confondues.", cat:"tests", updated:"2026-05-31", priv:false, live:"https://toeic-mini-tests.vercel.app"},
-  {name:"TOEIC Full Reading", repo:"TOEIC-full-reading", desc:"Test complet de compréhension écrite, conditions d'examen chronométrées.", cat:"tests", updated:"2026-05-25", priv:false, live:"https://toeic-full-reading.vercel.app"},
-  {name:"Irregular Verbs PEIP2", repo:"irregular-verbs-peip2", desc:"Quiz de verbes irréguliers par lot, remédiation grammaticale PEIP2.", cat:"tests", updated:"2026-05-20", priv:false, live:"https://irregular-verbs-peip2.vercel.app"},
-
-  // AUTRES
-  {name:"Bornes Polytech", repo:"bornes-polytech", desc:"Tableau de bord des bornes de recharge du parking Polytech.", cat:"autre", updated:"2026-06-05", priv:false, live:"https://bornes-polytech.vercel.app"},
+  {name:"Jury École — Langues", desc:"Planification des jurys de fin d'année : onglets Planning, Étudiants, Synthèse, export PDF/XLS.", cat:"admin", updated:"2026-07-03", priv:false, live:"https://jury-ecole.vercel.app"},
+  {name:"KwikTOEIC", desc:"Correction d'examens TOEIC par CSV, clés de correction pour 12 sessions, exports ZG 0/1, ZG EP, OMR.", cat:"admin", updated:"2026-07-03", priv:true, live:"https://toeic-vision-api.vercel.app"},
+  {name:"Calendrier TOEIC", desc:"Page d'information des sessions TOEIC officielles, panneau admin protégé.", cat:"admin", updated:"2026-07-02", priv:false, live:"https://toeic-dates.vercel.app"},
+  {name:"TOEIC Officiel", desc:"Gestion et présentation animée des scores TOEIC officiels, projetable en salle d'examen.", cat:"admin", updated:"2026-07-01", priv:false, live:"https://toeic-officiel.vercel.app"},
+  {name:"Surveillance TOEIC", desc:"Suivi des sessions et affectations de surveillants sur plusieurs amphithéâtres.", cat:"admin", updated:"2026-06-30", priv:true, live:"https://toeic-surveillance.vercel.app"},
+  {name:"TOEIC Forms Hub", desc:"Hub d'envoi d'exercices Google Forms, suivi par groupe, envoi WhatsApp, tableau de bord.", cat:"admin", updated:"2026-06-29", priv:true, live:"https://toeic-forms-hub.vercel.app"},
+  {name:"Polytech Admin", desc:"Suivi académique : présences, scores TOEIC, contrôles continus.", cat:"admin", updated:"2026-06-24", priv:true, live:"https://polytech-admin.vercel.app"},
+  {name:"TOEIC Correction", desc:"Application de correction d'examens TOEIC à partir des feuilles de réponses.", cat:"admin", updated:"2026-06-09", priv:false, live:"https://toeic-correction.vercel.app"},
+  {name:"TOEIC Groups Manager", desc:"Formation de groupes par niveau et affectation des enseignants — v2.0.", cat:"admin", updated:"2026-07-03", priv:false, live:"https://toeic-groups-manager.vercel.app"},
+  {name:"Bornes Polytech", desc:"Tableau de bord des bornes de recharge du parking Polytech.", cat:"autre", updated:"2026-06-05", priv:false, live:"https://bornes-polytech.vercel.app"},
 ];
 
-const sectionLabels = {admin:"Outils administratifs", tests:"Tests interactifs TOEIC", autre:"Autres outils"};
-const order = ["admin","tests","autre"];
-const GH = "https://github.com/marcvasseurpolytech-dot/";
+const sectionLabels = {admin:"Outils administratifs", autre:"Autres outils"};
+const order = ["admin","autre"];
 
 function fmtDate(d){
   const dt = new Date(d+"T00:00:00");
   return dt.toLocaleDateString('fr-FR', {day:'2-digit', month:'short', year:'numeric'});
 }
 
-function render(filter, query){
+function renderStats(){
+  document.getElementById('s-total').textContent = projects.length;
+  document.getElementById('s-pub').textContent = projects.filter(p=>!p.priv).length;
+  document.getElementById('s-priv').textContent = projects.filter(p=>p.priv).length;
+  document.getElementById('s-vercel').textContent = projects.length;
+  document.getElementById('proj-count').textContent = projects.length;
+}
+
+function render(query){
   const container = document.getElementById('sections');
   container.innerHTML = "";
+  const q = query.trim().toLowerCase();
+
   order.forEach(cat=>{
     const items = projects.filter(p=>{
-      const matchCat = filter==='all' || p.cat===filter;
-      const q = query.trim().toLowerCase();
-      const matchQ = !q || p.name.toLowerCase().includes(q) || p.repo.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q);
-      return matchCat && matchQ && p.cat===cat;
+      const matchQ = !q || p.name.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q);
+      return p.cat===cat && matchQ;
     });
     if(items.length===0) return;
 
@@ -385,21 +390,20 @@ function render(filter, query){
     const grid = document.createElement('div');
     grid.className = 'grid';
     items.forEach(p=>{
-      const card = document.createElement('div');
+      const card = document.createElement('a');
       card.className = 'card';
+      card.href = p.live;
+      card.target = '_blank';
+      card.rel = 'noopener';
       card.innerHTML = `
         <div class="card-top">
           <h3>${p.name}</h3>
-          <span class="status-dot ${p.priv?'priv':''}" title="${p.priv?'Dépôt privé':'Dépôt public'}"></span>
+          <span class="status-dot ${p.priv?'priv':''}" title="${p.priv?'Accès restreint':'Accès libre'}"></span>
         </div>
         <p class="desc">${p.desc}</p>
         <div class="meta">
-          <span class="tag ${p.priv?'priv':'pub'}">${p.priv?'Privé':'Public'}</span>
+          <span class="tag ${p.priv?'priv':'pub'}">${p.priv?'Restreint':'Public'}</span>
           <span>MAJ ${fmtDate(p.updated)}</span>
-        </div>
-        <div class="card-links">
-          <a href="${p.live}" target="_blank" rel="noopener">${ICON_LIVE} Site live</a>
-          <a href="${GH}${p.repo}" target="_blank" rel="noopener">${ICON_REPO} Dépôt</a>
         </div>
       `;
       grid.appendChild(card);
@@ -409,30 +413,19 @@ function render(filter, query){
   });
 
   if(container.innerHTML === ""){
-    container.innerHTML = `<p style="font-family:'JetBrains Mono',monospace;color:var(--cream-faint);font-size:13px;padding:40px 0;">Aucun projet ne correspond à cette recherche.</p>`;
+    container.innerHTML = `<p style="font-family:'JetBrains Mono',monospace;color:var(--cream-faint);font-size:13px;padding:40px 0;">Aucun outil ne correspond à cette recherche.</p>`;
   }
 }
 
-let currentFilter = 'all';
-let currentQuery = '';
+document.getElementById('search').addEventListener('input', (e)=> render(e.target.value));
 
-document.querySelectorAll('.chip').forEach(chip=>{
-  chip.addEventListener('click', ()=>{
-    document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
-    chip.classList.add('active');
-    currentFilter = chip.dataset.filter;
-    render(currentFilter, currentQuery);
-  });
-});
+renderStats();
+render('');
+const now = new Date().toLocaleDateString('fr-FR', {day:'2-digit', month:'long', year:'numeric'});
+document.getElementById('last-updated').textContent = 'Mis à jour ' + now;
+document.getElementById('footer-date').textContent = now;
 
-document.getElementById('search').addEventListener('input', (e)=>{
-  currentQuery = e.target.value;
-  render(currentFilter, currentQuery);
-});
-
-document.getElementById('last-updated').textContent = 'Mis à jour ' + new Date().toLocaleDateString('fr-FR', {day:'2-digit', month:'long', year:'numeric'});
-
-render('all','');
+checkAccess();
 </script>
 </body>
 </html>
