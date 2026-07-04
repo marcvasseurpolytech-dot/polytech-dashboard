@@ -262,6 +262,8 @@
     .stats{grid-template-columns:repeat(2,1fr);}
     .stat:nth-child(2){border-right:none;}
   }
+  .hidden{display:none !important;}
+
   @media (prefers-reduced-motion: reduce){*{transition:none !important;}}
 </style>
 </head>
@@ -316,11 +318,15 @@
 <script>
 const ACCESS_CODE = "311073";
 
+function unlock(){
+  document.getElementById('lock').classList.add('hidden');
+  document.getElementById('dashboard').classList.remove('hidden');
+}
+
 function checkAccess(){
   const hash = window.location.hash.replace('#','').replace(/\/+$/,'');
   if(hash === ACCESS_CODE){
-    document.getElementById('lock').classList.add('hidden');
-    document.getElementById('dashboard').classList.remove('hidden');
+    unlock();
     return true;
   }
   return false;
@@ -330,8 +336,7 @@ document.getElementById('lock-form').addEventListener('submit', function(e){
   e.preventDefault();
   const val = document.getElementById('code-input').value.trim().replace(/\/+$/,'');
   if(val === ACCESS_CODE){
-    window.location.hash = val;
-    checkAccess();
+    unlock();
   } else {
     document.getElementById('lock-error').textContent = "Code incorrect.";
     document.getElementById('code-input').value = '';
