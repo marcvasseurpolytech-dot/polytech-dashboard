@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashbord — Polytech Lille</title>
+<title>Dashboard — Polytech Lille</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -273,7 +273,7 @@
   <div class="lock-box">
     <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="11" width="14" height="10" rx="1"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
     <p class="eyebrow">Accès restreint</p>
-    <h2>Dashbord</h2>
+    <h2>Dashboard</h2>
     <p>Ce tableau de bord est réservé. Saisissez le code d'accès.</p>
     <form class="lock-form" id="lock-form" autocomplete="off">
       <input id="code-input" type="password" inputmode="numeric" maxlength="12" placeholder="••••">
@@ -288,20 +288,9 @@
   <header>
     <div>
       <p class="eyebrow">Polytech Lille · Département Langues</p>
-      <h1>Dash<em>bord</em></h1>
-    </div>
-    <div class="header-meta">
-      <div><strong id="proj-count">—</strong> outils actifs</div>
-      <div id="last-updated">Mis à jour —</div>
+      <h1>Dashboard</h1>
     </div>
   </header>
-
-  <div class="stats">
-    <div class="stat"><div class="n" id="s-total">—</div><div class="l">Outils au total</div></div>
-    <div class="stat"><div class="n" id="s-pub">—</div><div class="l">Publics</div></div>
-    <div class="stat"><div class="n" id="s-priv">—</div><div class="l">Privés</div></div>
-    <div class="stat"><div class="n" id="s-vercel">—</div><div class="l">Déployés sur Vercel</div></div>
-  </div>
 
   <div class="controls">
     <input class="search" id="search" type="text" placeholder="Rechercher un outil… (ex. jury, forms, correction)">
@@ -366,14 +355,6 @@ function fmtDate(d){
   return dt.toLocaleDateString('fr-FR', {day:'2-digit', month:'short', year:'numeric'});
 }
 
-function renderStats(){
-  document.getElementById('s-total').textContent = projects.length;
-  document.getElementById('s-pub').textContent = projects.filter(p=>!p.priv).length;
-  document.getElementById('s-priv').textContent = projects.filter(p=>p.priv).length;
-  document.getElementById('s-vercel').textContent = projects.length;
-  document.getElementById('proj-count').textContent = projects.length;
-}
-
 function render(query){
   const container = document.getElementById('sections');
   container.innerHTML = "";
@@ -424,10 +405,8 @@ function render(query){
 
 document.getElementById('search').addEventListener('input', (e)=> render(e.target.value));
 
-renderStats();
 render('');
 const now = new Date().toLocaleDateString('fr-FR', {day:'2-digit', month:'long', year:'numeric'});
-document.getElementById('last-updated').textContent = 'Mis à jour ' + now;
 document.getElementById('footer-date').textContent = now;
 
 checkAccess();
