@@ -345,10 +345,11 @@ const projects = [
   {name:"TOEIC Correction", desc:"Application de correction d'examens TOEIC à partir des feuilles de réponses.", cat:"admin", updated:"2026-06-09", priv:false, live:"https://toeic-correction.vercel.app"},
   {name:"TOEIC Groups Manager", desc:"Formation de groupes par niveau et affectation des enseignants — v2.0.", cat:"admin", updated:"2026-07-03", priv:false, live:"https://toeic-groups-manager.vercel.app"},
   {name:"Bornes Polytech", desc:"Tableau de bord des bornes de recharge du parking Polytech.", cat:"autre", updated:"2026-06-05", priv:false, live:"https://bornes-polytech.vercel.app"},
+  {name:"PEIP2 — Hub Anglais", desc:"Hub de cours d'anglais PEIP2 : grammaire G01-G21, vocabulaire, verbes irreguliers, WH Questions, exercices supplementaires avec corriges et rappels grammaticaux projetables.", cat:"cours", updated:"2026-07-07", priv:false, live:"https://marcvasseurpolytech-dot.github.io/peip2-hub"},
 ];
 
-const sectionLabels = {admin:"Outils administratifs", autre:"Autres outils"};
-const order = ["admin","autre"];
+const sectionLabels = {admin:"Outils administratifs", cours:"Supports de cours", autre:"Autres outils"};
+const order = ["admin","cours","autre"];
 
 function fmtDate(d){
   const dt = new Date(d+"T00:00:00");
