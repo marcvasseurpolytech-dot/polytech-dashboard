@@ -48,6 +48,13 @@
       "departement": "IOT4",
       "codeHash": "8742da12785603740b63323eeee1263c6e09260db66c2a9700615a5e84d96b1b",
       "sessions": []
+    },
+    "amiar__ilhame__booster-4a": {
+      "nom": "AMIAR",
+      "prenom": "Ilhame",
+      "departement": "Booster 4A",
+      "codeHash": "3b47492744946d5a188be73c702fb2e3cd1b635433f841381ae8d2e0ed67b45f",
+      "sessions": []
     }
   }
 }
