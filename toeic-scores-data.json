@@ -69,6 +69,13 @@
       "departement": "GC",
       "codeHash": "0f70422e0f7cb2e5887b8e901eeba1b212031be53bec3d2891ef341e419ca66d",
       "sessions": []
+    },
+    "adamou__salim__booster-4a": {
+      "nom": "ADAMOU",
+      "prenom": "Salim",
+      "departement": "Booster 4A",
+      "codeHash": "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
+      "sessions": []
     }
   }
 }
