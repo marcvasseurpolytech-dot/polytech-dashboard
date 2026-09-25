@@ -74,6 +74,11 @@
   @media (max-width:700px){.part-grid{grid-template-columns:repeat(4,1fr);}}
   .part-field label{font-size:11px;margin:0 0 3px;}
   .part-field .max{color:#a5966c;font-weight:400;}
+  .entry-row{display:grid;grid-template-columns:1fr 100px 32px;gap:8px;align-items:center;margin-top:8px;}
+  .entry-row select{padding:9px 10px;border:1px solid var(--border);border-radius:4px;background:var(--cream);color:var(--text);font-family:'Source Serif 4',serif;font-size:14px;}
+  .entry-row input[type=number]{padding:9px 10px;}
+  .entry-row button{background:transparent;border:1px solid var(--border);border-radius:4px;color:var(--red);cursor:pointer;height:38px;}
+  .part-tag{display:inline-block;background:var(--cream-dark);border:1px solid var(--border);border-radius:10px;padding:1px 7px;font-family:var(--mono);font-size:11px;margin:1px 2px 1px 0;white-space:nowrap;}
 
   #admin-search{max-width:260px;}
   .badge-priv{font-family:var(--mono);font-size:10px;background:var(--gold-light);color:var(--navy-deep);padding:2px 6px;border-radius:8px;}
@@ -172,7 +177,9 @@
         <div><label for="n-label">Intitulé</label><input type="text" id="n-label" placeholder="Test blanc 3"></div>
       </div>
       <div id="n-parts-block">
-        <div class="part-grid" id="n-parts"></div>
+        <p class="hint">Ajoute une ligne par partie faite. Tu peux en retirer (pratique partielle) ou en ajouter plusieurs pour la même partie (plusieurs entraînements sur la même partie dans une séance).</p>
+        <div id="n-entries"></div>
+        <button class="ghost" type="button" onclick="addEntryRow()" style="margin-top:8px;">+ Ajouter une partie</button>
       </div>
       <div id="n-official-block" class="hidden">
         <div class="field-row">
@@ -225,12 +232,7 @@
       <input type="text" id="admin-search" oninput="renderAdminTable()">
       <div class="table-wrap" style="margin-top:16px;">
         <table id="admin-table">
-          <thead>
-            <tr>
-              <th>Nom</th><th>Prénom</th><th>Dépt</th><th>Séances</th>
-              <th>Listening /495</th><th>Reading /495</th><th>Total /990</th><th>Niveau</th><th></th>
-            </tr>
-          </thead>
+          <thead></thead>
           <tbody></tbody>
         </table>
       </div>
@@ -324,13 +326,26 @@ function cecrlForTable(score, table){
   return '< A1';
 }
 
+function partById(id){ return PARTS.find(p=>p.id===id); }
+
+function normalizeEntries(s){
+  if(s.entries) return s.entries;
+  if(s.scores) return PARTS.filter(p=>typeof s.scores[p.id]==='number').map(p=>({part:p.id, score:s.scores[p.id]}));
+  return [];
+}
+
 function sessionScores(s){
   if(s.type === 'official'){
-    return {lScore: s.listening, rScore: s.reading};
+    return {lScore: s.listening, rScore: s.reading, complete:true};
   }
-  const lRaw = PARTS.filter(p=>p.section==='L').reduce((sum,p)=>sum+(s.scores[p.id]||0),0);
-  const rRaw = PARTS.filter(p=>p.section==='R').reduce((sum,p)=>sum+(s.scores[p.id]||0),0);
-  return {lScore: lookup(LISTENING_TABLE, lRaw), rScore: lookup(READING_TABLE, rRaw)};
+  const entries = normalizeEntries(s);
+  const counts = {};
+  entries.forEach(e=>{ counts[e.part] = (counts[e.part]||0)+1; });
+  const complete = entries.length === PARTS.length && PARTS.every(p=>counts[p.id]===1);
+  if(!complete) return {lScore:null, rScore:null, complete:false};
+  const lRaw = entries.filter(e=>partById(e.part).section==='L').reduce((sum,e)=>sum+e.score,0);
+  const rRaw = entries.filter(e=>partById(e.part).section==='R').reduce((sum,e)=>sum+e.score,0);
+  return {lScore: lookup(LISTENING_TABLE, lRaw), rScore: lookup(READING_TABLE, rRaw), complete:true};
 }
 
 function computeAverages(student){
@@ -338,16 +353,17 @@ function computeAverages(student){
   const avg = {};
   const rawSessions = sessions.filter(s=>s.type !== 'official');
   PARTS.forEach(p=>{
-    const vals = rawSessions.map(s=>s.scores && typeof s.scores[p.id]==='number' ? s.scores[p.id] : null).filter(v=>v!==null);
+    const vals = [];
+    rawSessions.forEach(s=> normalizeEntries(s).forEach(e=>{ if(e.part===p.id) vals.push(e.score); }));
     avg[p.id] = vals.length ? vals.reduce((a,b)=>a+b,0)/vals.length : 0;
   });
+  const scored = sessions.map(sessionScores).filter(c=>c.complete);
   let lScore = 0, rScore = 0;
-  if(sessions.length){
-    const perSession = sessions.map(sessionScores);
-    lScore = Math.round(perSession.reduce((sum,c)=>sum+c.lScore,0)/perSession.length);
-    rScore = Math.round(perSession.reduce((sum,c)=>sum+c.rScore,0)/perSession.length);
+  if(scored.length){
+    lScore = Math.round(scored.reduce((sum,c)=>sum+c.lScore,0)/scored.length);
+    rScore = Math.round(scored.reduce((sum,c)=>sum+c.rScore,0)/scored.length);
   }
-  return {avg, lScore, rScore, total: lScore+rScore, nbSessions: sessions.length, nbRawSessions: rawSessions.length};
+  return {avg, lScore, rScore, total: lScore+rScore, nbSessions: sessions.length, nbScored: scored.length};
 }
 
 /* ---------- STUDENT ---------- */
@@ -359,18 +375,29 @@ document.getElementById('sl-nom').addEventListener('input', function(){
   this.value = this.value.toUpperCase();
 });
 
-function buildPartInputs(){
-  const wrap = document.getElementById('n-parts');
-  wrap.innerHTML = '';
-  PARTS.forEach(p=>{
-    const div = document.createElement('div');
-    div.className = 'part-field';
-    div.innerHTML = `<label>${p.label} <span class="max">/${p.max}</span></label>
-      <input type="number" id="pf-${p.id}" min="0" max="${p.max}" value="0">`;
-    wrap.appendChild(div);
-  });
+function partOptionsHtml(selected){
+  return PARTS.map(p=>`<option value="${p.id}" ${p.id===selected?'selected':''}>${p.label} (/${p.max})</option>`).join('');
 }
-buildPartInputs();
+
+function addEntryRow(partId, score){
+  const wrap = document.getElementById('n-entries');
+  const row = document.createElement('div');
+  row.className = 'entry-row';
+  const pid = partId || PARTS[wrap.children.length % PARTS.length].id;
+  row.innerHTML = `<select class="entry-part">${partOptionsHtml(pid)}</select>
+    <input type="number" class="entry-score" min="0" max="${partById(pid).max}" value="${score!=null?score:0}">
+    <button type="button" onclick="this.parentElement.remove()">✕</button>`;
+  const sel = row.querySelector('.entry-part');
+  const inp = row.querySelector('.entry-score');
+  sel.addEventListener('change', ()=>{ inp.max = partById(sel.value).max; });
+  wrap.appendChild(row);
+}
+
+function buildEntryRows(){
+  document.getElementById('n-entries').innerHTML = '';
+  PARTS.forEach(p=>addEntryRow(p.id, 0));
+}
+buildEntryRows();
 
 function onTypeChange(){
   const t = document.getElementById('n-type').value;
@@ -469,32 +496,33 @@ function openStudentDash(student){
 
 function renderStudentStats(student){
   const c = computeAverages(student);
-  document.getElementById('s-avg-l').textContent = c.nbSessions ? c.lScore : '—';
-  document.getElementById('s-avg-r').textContent = c.nbSessions ? c.rScore : '—';
-  document.getElementById('s-avg-t').textContent = c.nbSessions ? c.total : '—';
-  document.getElementById('s-lvl-l').textContent = c.nbSessions ? cecrlForTable(c.lScore, CECRL_LISTENING) : '—';
-  document.getElementById('s-lvl-r').textContent = c.nbSessions ? cecrlForTable(c.rScore, CECRL_READING) : '—';
-  document.getElementById('s-lvl-t').textContent = c.nbSessions ? cecrlFor(c.total) : '—';
+  document.getElementById('s-avg-l').textContent = c.nbScored ? c.lScore : '—';
+  document.getElementById('s-avg-r').textContent = c.nbScored ? c.rScore : '—';
+  document.getElementById('s-avg-t').textContent = c.nbScored ? c.total : '—';
+  document.getElementById('s-lvl-l').textContent = c.nbScored ? cecrlForTable(c.lScore, CECRL_LISTENING) : '—';
+  document.getElementById('s-lvl-r').textContent = c.nbScored ? cecrlForTable(c.rScore, CECRL_READING) : '—';
+  document.getElementById('s-lvl-t').textContent = c.nbScored ? cecrlFor(c.total) : '—';
+}
+
+function entriesHtml(s){
+  if(s.type === 'official') return '<span style="color:#a5966c;">—</span>';
+  return normalizeEntries(s).map(e=>`<span class="part-tag">${partById(e.part).label} ${e.score}/${partById(e.part).max}</span>`).join(' ') || '<span style="color:#a5966c;">—</span>';
 }
 
 function renderStudentHistory(student){
   const thead = document.querySelector('#s-history-table thead');
   const tbody = document.querySelector('#s-history-table tbody');
-  thead.innerHTML = '<tr><th>Date</th><th>Séance</th>'+PARTS.map(p=>`<th>${p.label}</th>`).join('')+'<th>L /495</th><th>R /495</th><th>Total</th><th></th></tr>';
+  thead.innerHTML = '<tr><th>Date</th><th>Séance</th><th>Détail parties</th><th>L /495</th><th>R /495</th><th>Total</th><th></th></tr>';
   const sessions = (student.sessions||[]).slice().sort((a,b)=> (a.date<b.date?1:-1));
   if(!sessions.length){
-    tbody.innerHTML = `<tr><td colspan="${PARTS.length+6}" style="text-align:center;color:#a5966c;">Aucune séance enregistrée pour l'instant.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;color:#a5966c;">Aucune séance enregistrée pour l'instant.</td></tr>`;
     return;
   }
   tbody.innerHTML = sessions.map((s,i)=>{
-    const {lScore, rScore} = sessionScores(s);
-    const partsCells = s.type === 'official'
-      ? PARTS.map(()=>`<td style="color:#a5966c;">—</td>`).join('')
-      : PARTS.map(p=>`<td>${s.scores[p.id]}</td>`).join('');
+    const {lScore, rScore, complete} = sessionScores(s);
     const labelText = (s.label||'—') + (s.type==='official' ? ' <span class="badge-priv">Officiel</span>' : '');
-    return `<tr><td>${s.date}</td><td>${labelText}</td>`+
-      partsCells+
-      `<td>${lScore}</td><td>${rScore}</td><td>${lScore+rScore}</td>`+
+    return `<tr><td>${s.date}</td><td>${labelText}</td><td>${entriesHtml(s)}</td>`+
+      `<td>${complete?lScore:'—'}</td><td>${complete?rScore:'—'}</td><td>${complete?(lScore+rScore):'—'}</td>`+
       `<td><button class="danger" onclick="deleteMySession(${sessions.length-1-i})">Effacer</button></td></tr>`;
   }).join('');
 }
@@ -535,16 +563,23 @@ async function addSession(){
     }
     session = {date, label, type:'official', listening:l, reading:r};
   } else {
-    const scores = {};
-    for(const p of PARTS){
-      const v = parseInt(document.getElementById('pf-'+p.id).value, 10);
+    const rows = Array.from(document.querySelectorAll('#n-entries .entry-row'));
+    if(!rows.length){
+      msgEl.innerHTML = '<div class="error-msg">Ajoute au moins une partie.</div>';
+      return;
+    }
+    const entries = [];
+    for(const row of rows){
+      const partId = row.querySelector('.entry-part').value;
+      const p = partById(partId);
+      const v = parseInt(row.querySelector('.entry-score').value, 10);
       if(isNaN(v) || v<0 || v>p.max){
         msgEl.innerHTML = `<div class="error-msg">${p.label} doit être compris entre 0 et ${p.max}.</div>`;
         return;
       }
-      scores[p.id] = v;
+      entries.push({part:partId, score:v});
     }
-    session = {date, label, type:'raw', scores};
+    session = {date, label, type:'raw', entries};
   }
 
   const student = cachedData.students[currentKey];
@@ -556,7 +591,7 @@ async function addSession(){
     msgEl.innerHTML = '<div class="ok-msg">Séance enregistrée.</div>';
     renderStudentStats(student);
     renderStudentHistory(student);
-    buildPartInputs();
+    buildEntryRows();
     document.getElementById('n-off-l').value = 0;
     document.getElementById('n-off-r').value = 0;
     document.getElementById('n-label').value = '';
@@ -589,7 +624,12 @@ async function adminLogin(){
 
 function renderAdminTable(){
   const q = (document.getElementById('admin-search').value||'').trim().toLowerCase();
+  const thead = document.querySelector('#admin-table thead');
   const tbody = document.querySelector('#admin-table tbody');
+  const colCount = 4 + PARTS.length + 4;
+  thead.innerHTML = '<tr><th>Nom</th><th>Prénom</th><th>Dépt</th><th>Séances</th>'+
+    PARTS.map(p=>`<th>Moy ${p.label}</th>`).join('')+
+    '<th>Listening /495</th><th>Reading /495</th><th>Total /990</th><th>Niveau</th><th></th></tr>';
   const entries = Object.entries(cachedData.students).filter(([key,st])=>{
     if(!q) return true;
     return (st.nom+' '+st.prenom+' '+st.departement).toLowerCase().includes(q);
@@ -598,7 +638,7 @@ function renderAdminTable(){
   document.getElementById('a-count').textContent = Object.keys(cachedData.students).length;
 
   if(!entries.length){
-    tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;color:#a5966c;">Aucun étudiant.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="${colCount}" style="text-align:center;color:#a5966c;">Aucun étudiant.</td></tr>`;
     return;
   }
 
@@ -607,8 +647,9 @@ function renderAdminTable(){
     return `<tr style="cursor:pointer;" onclick="showDetail('${key}')">
       <td>${st.nom}</td><td>${st.prenom}</td><td>${st.departement}</td>
       <td>${c.nbSessions}</td>
-      <td>${c.nbSessions?c.lScore:'—'}</td><td>${c.nbSessions?c.rScore:'—'}</td><td>${c.nbSessions?c.total:'—'}</td>
-      <td>${c.nbSessions?cecrlFor(c.total):'—'}</td>
+      ${PARTS.map(p=>`<td>${c.avg[p.id]?c.avg[p.id].toFixed(1):'—'}</td>`).join('')}
+      <td>${c.nbScored?c.lScore:'—'}</td><td>${c.nbScored?c.rScore:'—'}</td><td>${c.nbScored?c.total:'—'}</td>
+      <td>${c.nbScored?cecrlFor(c.total):'—'}</td>
       <td><button class="danger" onclick="event.stopPropagation();deleteStudent('${key}')">Supprimer</button></td>
     </tr>`;
   }).join('');
@@ -621,17 +662,14 @@ function showDetail(key){
   el.innerHTML = `<div class="panel">
     <h2>${st.nom} ${st.prenom} — ${st.departement}</h2>
     <div class="table-wrap">
-      <table><thead><tr><th>Date</th><th>Séance</th>${PARTS.map(p=>`<th>${p.label}</th>`).join('')}<th>L /495</th><th>R /495</th><th></th></tr></thead>
+      <table><thead><tr><th>Date</th><th>Séance</th><th>Détail parties</th><th>L /495</th><th>R /495</th><th></th></tr></thead>
       <tbody>${sessions.map((s,i)=>{
-        const {lScore, rScore} = sessionScores(s);
-        const partsCells = s.type === 'official'
-          ? PARTS.map(()=>`<td style="color:#a5966c;">—</td>`).join('')
-          : PARTS.map(p=>`<td>${s.scores[p.id]}</td>`).join('');
+        const {lScore, rScore, complete} = sessionScores(s);
         const labelText = (s.label||'—') + (s.type==='official' ? ' <span class="badge-priv">Officiel</span>' : '');
         return `<tr>
         <td>${s.date}</td><td>${labelText}</td>
-        ${partsCells}
-        <td>${lScore}</td><td>${rScore}</td>
+        <td>${entriesHtml(s)}</td>
+        <td>${complete?lScore:'—'}</td><td>${complete?rScore:'—'}</td>
         <td><button class="danger" onclick="deleteSession('${key}', ${sessions.length-1-i})">✕</button></td>
       </tr>`;
       }).join('')}</tbody></table>
@@ -678,8 +716,8 @@ function exportCsv(){
     const c = computeAverages(st);
     rows.push([st.nom, st.prenom, st.departement, c.nbSessions,
       ...PARTS.map(p=>c.avg[p.id].toFixed(1)),
-      c.nbSessions?c.lScore:'', c.nbSessions?c.rScore:'', c.nbSessions?c.total:'',
-      c.nbSessions?cecrlFor(c.total):'']);
+      c.nbScored?c.lScore:'', c.nbScored?c.rScore:'', c.nbScored?c.total:'',
+      c.nbScored?cecrlFor(c.total):'']);
   });
   downloadCsv(rows, 'toeic-scores-'+new Date().toISOString().slice(0,10)+'.csv');
 }
@@ -687,18 +725,17 @@ function exportCsv(){
 function exportMyCsv(){
   const student = cachedData.students[currentKey];
   const sessions = (student.sessions||[]).slice().sort((a,b)=>(a.date<b.date?1:-1));
-  const rows = [['Date','Séance','Type', ...PARTS.map(p=>p.label+' /'+p.max), 'Listening /495','Reading /495','Total /990']];
+  const rows = [['Date','Séance','Type','Détail parties','Listening /495','Reading /495','Total /990']];
   sessions.forEach(s=>{
-    const {lScore, rScore} = sessionScores(s);
-    rows.push([s.date, s.label||'', s.type==='official'?'Officiel':'Entraînement',
-      ...PARTS.map(p=> s.type==='official' ? '' : s.scores[p.id]),
-      lScore, rScore, lScore+rScore]);
+    const {lScore, rScore, complete} = sessionScores(s);
+    const detail = s.type==='official' ? '' : normalizeEntries(s).map(e=>`${partById(e.part).label}:${e.score}`).join(', ');
+    rows.push([s.date, s.label||'', s.type==='official'?'Officiel':'Entraînement', detail,
+      complete?lScore:'', complete?rScore:'', complete?(lScore+rScore):'']);
   });
   const c = computeAverages(student);
   rows.push([]);
-  rows.push(['Moyennes', '', '',
-    ...PARTS.map(p=>c.avg[p.id].toFixed(1)),
-    c.nbSessions?c.lScore:'', c.nbSessions?c.rScore:'', c.nbSessions?c.total:'']);
+  rows.push(['Moyennes', '', '', PARTS.map(p=>p.label+': '+c.avg[p.id].toFixed(1)).join(' | '),
+    c.nbScored?c.lScore:'', c.nbScored?c.rScore:'', c.nbScored?c.total:'']);
   downloadCsv(rows, 'toeic-'+slug(student.nom)+'-'+slug(student.prenom)+'-'+new Date().toISOString().slice(0,10)+'.csv');
 }
 
