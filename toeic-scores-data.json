@@ -63,22 +63,7 @@
       "prenom": "Salomé",
       "departement": "BOOSTER 4A",
       "codeHash": "41c8fa7d060badc5618a28326dc00cf07e1ce22a79a94a1fed94f271d3127447",
-      "sessions": [
-        {
-          "date": "2026-09-25",
-          "label": "",
-          "type": "raw",
-          "scores": {
-            "p1": 0,
-            "p2": 0,
-            "p3": 0,
-            "p4": 0,
-            "p5": 18,
-            "p6": 0,
-            "p7": 0
-          }
-        }
-      ]
+      "sessions": []
     },
     "samake__el-hadji-hamed__iot4": {
       "nom": "SAMAKE",
