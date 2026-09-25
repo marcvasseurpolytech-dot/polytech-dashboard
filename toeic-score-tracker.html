@@ -277,6 +277,17 @@ const CECRL_READING = [
   {min:115, label:'A2'}, {min:60, label:'A1'}, {min:0, label:'< A1'}
 ];
 
+// Scores minimums par partie (objectif Listening total >= 420/495 : p1+p2+p3+p4 >= 79 brut).
+// p3/p4 pas encore fixés précisément par l'enseignant : répartis proportionnellement au nombre
+// de questions de chaque partie pour atteindre ce total (marge de 8 erreurs Part3, 7 erreurs Part4).
+const MIN_SCORES = {p1:5, p2:20, p3:31, p4:23, p5:25, p6:12, p7:null};
+
+function minScoreStyle(partId, avgValue, count){
+  const min = MIN_SCORES[partId];
+  if(min == null || !count) return '';
+  return avgValue >= min ? ' style="background:var(--green-bg);color:var(--green);font-weight:600;"' : ' style="background:var(--red-bg);color:var(--red);font-weight:600;"';
+}
+
 let cachedData = null;
 let currentKey = null;
 let currentCodeHash = null;
@@ -336,34 +347,32 @@ function normalizeEntries(s){
 
 function sessionScores(s){
   if(s.type === 'official'){
-    return {lScore: s.listening, rScore: s.reading, complete:true};
+    return {lScore: s.listening, rScore: s.reading};
   }
   const entries = normalizeEntries(s);
-  const counts = {};
-  entries.forEach(e=>{ counts[e.part] = (counts[e.part]||0)+1; });
-  const complete = entries.length === PARTS.length && PARTS.every(p=>counts[p.id]===1);
-  if(!complete) return {lScore:null, rScore:null, complete:false};
   const lRaw = entries.filter(e=>partById(e.part).section==='L').reduce((sum,e)=>sum+e.score,0);
   const rRaw = entries.filter(e=>partById(e.part).section==='R').reduce((sum,e)=>sum+e.score,0);
-  return {lScore: lookup(LISTENING_TABLE, lRaw), rScore: lookup(READING_TABLE, rRaw), complete:true};
+  return {lScore: lookup(LISTENING_TABLE, lRaw), rScore: lookup(READING_TABLE, rRaw)};
 }
 
 function computeAverages(student){
   const sessions = student.sessions || [];
   const avg = {};
+  const cnt = {};
   const rawSessions = sessions.filter(s=>s.type !== 'official');
   PARTS.forEach(p=>{
     const vals = [];
     rawSessions.forEach(s=> normalizeEntries(s).forEach(e=>{ if(e.part===p.id) vals.push(e.score); }));
     avg[p.id] = vals.length ? vals.reduce((a,b)=>a+b,0)/vals.length : 0;
+    cnt[p.id] = vals.length;
   });
-  const scored = sessions.map(sessionScores).filter(c=>c.complete);
   let lScore = 0, rScore = 0;
-  if(scored.length){
-    lScore = Math.round(scored.reduce((sum,c)=>sum+c.lScore,0)/scored.length);
-    rScore = Math.round(scored.reduce((sum,c)=>sum+c.rScore,0)/scored.length);
+  if(sessions.length){
+    const perSession = sessions.map(sessionScores);
+    lScore = Math.round(perSession.reduce((sum,c)=>sum+c.lScore,0)/perSession.length);
+    rScore = Math.round(perSession.reduce((sum,c)=>sum+c.rScore,0)/perSession.length);
   }
-  return {avg, lScore, rScore, total: lScore+rScore, nbSessions: sessions.length, nbScored: scored.length};
+  return {avg, cnt, lScore, rScore, total: lScore+rScore, nbSessions: sessions.length};
 }
 
 /* ---------- STUDENT ---------- */
@@ -496,12 +505,12 @@ function openStudentDash(student){
 
 function renderStudentStats(student){
   const c = computeAverages(student);
-  document.getElementById('s-avg-l').textContent = c.nbScored ? c.lScore : '—';
-  document.getElementById('s-avg-r').textContent = c.nbScored ? c.rScore : '—';
-  document.getElementById('s-avg-t').textContent = c.nbScored ? c.total : '—';
-  document.getElementById('s-lvl-l').textContent = c.nbScored ? cecrlForTable(c.lScore, CECRL_LISTENING) : '—';
-  document.getElementById('s-lvl-r').textContent = c.nbScored ? cecrlForTable(c.rScore, CECRL_READING) : '—';
-  document.getElementById('s-lvl-t').textContent = c.nbScored ? cecrlFor(c.total) : '—';
+  document.getElementById('s-avg-l').textContent = c.nbSessions ? c.lScore : '—';
+  document.getElementById('s-avg-r').textContent = c.nbSessions ? c.rScore : '—';
+  document.getElementById('s-avg-t').textContent = c.nbSessions ? c.total : '—';
+  document.getElementById('s-lvl-l').textContent = c.nbSessions ? cecrlForTable(c.lScore, CECRL_LISTENING) : '—';
+  document.getElementById('s-lvl-r').textContent = c.nbSessions ? cecrlForTable(c.rScore, CECRL_READING) : '—';
+  document.getElementById('s-lvl-t').textContent = c.nbSessions ? cecrlFor(c.total) : '—';
 }
 
 function entriesHtml(s){
@@ -519,10 +528,10 @@ function renderStudentHistory(student){
     return;
   }
   tbody.innerHTML = sessions.map((s,i)=>{
-    const {lScore, rScore, complete} = sessionScores(s);
+    const {lScore, rScore} = sessionScores(s);
     const labelText = (s.label||'—') + (s.type==='official' ? ' <span class="badge-priv">Officiel</span>' : '');
     return `<tr><td>${s.date}</td><td>${labelText}</td><td>${entriesHtml(s)}</td>`+
-      `<td>${complete?lScore:'—'}</td><td>${complete?rScore:'—'}</td><td>${complete?(lScore+rScore):'—'}</td>`+
+      `<td>${lScore}</td><td>${rScore}</td><td>${lScore+rScore}</td>`+
       `<td><button class="danger" onclick="deleteMySession(${sessions.length-1-i})">Effacer</button></td></tr>`;
   }).join('');
 }
@@ -628,7 +637,7 @@ function renderAdminTable(){
   const tbody = document.querySelector('#admin-table tbody');
   const colCount = 4 + PARTS.length + 4;
   thead.innerHTML = '<tr><th>Nom</th><th>Prénom</th><th>Dépt</th><th>Séances</th>'+
-    PARTS.map(p=>`<th>Moy ${p.label}</th>`).join('')+
+    PARTS.map(p=>`<th>Moy ${p.label}${MIN_SCORES[p.id]!=null?` <br>(min ${MIN_SCORES[p.id]})`:''}</th>`).join('')+
     '<th>Listening /495</th><th>Reading /495</th><th>Total /990</th><th>Niveau</th><th></th></tr>';
   const entries = Object.entries(cachedData.students).filter(([key,st])=>{
     if(!q) return true;
@@ -647,9 +656,9 @@ function renderAdminTable(){
     return `<tr style="cursor:pointer;" onclick="showDetail('${key}')">
       <td>${st.nom}</td><td>${st.prenom}</td><td>${st.departement}</td>
       <td>${c.nbSessions}</td>
-      ${PARTS.map(p=>`<td>${c.avg[p.id]?c.avg[p.id].toFixed(1):'—'}</td>`).join('')}
-      <td>${c.nbScored?c.lScore:'—'}</td><td>${c.nbScored?c.rScore:'—'}</td><td>${c.nbScored?c.total:'—'}</td>
-      <td>${c.nbScored?cecrlFor(c.total):'—'}</td>
+      ${PARTS.map(p=>`<td${minScoreStyle(p.id, c.avg[p.id], c.cnt[p.id])}>${c.cnt[p.id]?c.avg[p.id].toFixed(1):'—'}</td>`).join('')}
+      <td>${c.nbSessions?c.lScore:'—'}</td><td>${c.nbSessions?c.rScore:'—'}</td><td>${c.nbSessions?c.total:'—'}</td>
+      <td>${c.nbSessions?cecrlFor(c.total):'—'}</td>
       <td><button class="danger" onclick="event.stopPropagation();deleteStudent('${key}')">Supprimer</button></td>
     </tr>`;
   }).join('');
@@ -664,12 +673,12 @@ function showDetail(key){
     <div class="table-wrap">
       <table><thead><tr><th>Date</th><th>Séance</th><th>Détail parties</th><th>L /495</th><th>R /495</th><th></th></tr></thead>
       <tbody>${sessions.map((s,i)=>{
-        const {lScore, rScore, complete} = sessionScores(s);
+        const {lScore, rScore} = sessionScores(s);
         const labelText = (s.label||'—') + (s.type==='official' ? ' <span class="badge-priv">Officiel</span>' : '');
         return `<tr>
         <td>${s.date}</td><td>${labelText}</td>
         <td>${entriesHtml(s)}</td>
-        <td>${complete?lScore:'—'}</td><td>${complete?rScore:'—'}</td>
+        <td>${lScore}</td><td>${rScore}</td>
         <td><button class="danger" onclick="deleteSession('${key}', ${sessions.length-1-i})">✕</button></td>
       </tr>`;
       }).join('')}</tbody></table>
@@ -716,8 +725,8 @@ function exportCsv(){
     const c = computeAverages(st);
     rows.push([st.nom, st.prenom, st.departement, c.nbSessions,
       ...PARTS.map(p=>c.avg[p.id].toFixed(1)),
-      c.nbScored?c.lScore:'', c.nbScored?c.rScore:'', c.nbScored?c.total:'',
-      c.nbScored?cecrlFor(c.total):'']);
+      c.nbSessions?c.lScore:'', c.nbSessions?c.rScore:'', c.nbSessions?c.total:'',
+      c.nbSessions?cecrlFor(c.total):'']);
   });
   downloadCsv(rows, 'toeic-scores-'+new Date().toISOString().slice(0,10)+'.csv');
 }
@@ -727,15 +736,15 @@ function exportMyCsv(){
   const sessions = (student.sessions||[]).slice().sort((a,b)=>(a.date<b.date?1:-1));
   const rows = [['Date','Séance','Type','Détail parties','Listening /495','Reading /495','Total /990']];
   sessions.forEach(s=>{
-    const {lScore, rScore, complete} = sessionScores(s);
+    const {lScore, rScore} = sessionScores(s);
     const detail = s.type==='official' ? '' : normalizeEntries(s).map(e=>`${partById(e.part).label}:${e.score}`).join(', ');
     rows.push([s.date, s.label||'', s.type==='official'?'Officiel':'Entraînement', detail,
-      complete?lScore:'', complete?rScore:'', complete?(lScore+rScore):'']);
+      lScore, rScore, lScore+rScore]);
   });
   const c = computeAverages(student);
   rows.push([]);
   rows.push(['Moyennes', '', '', PARTS.map(p=>p.label+': '+c.avg[p.id].toFixed(1)).join(' | '),
-    c.nbScored?c.lScore:'', c.nbScored?c.rScore:'', c.nbScored?c.total:'']);
+    c.nbSessions?c.lScore:'', c.nbSessions?c.rScore:'', c.nbSessions?c.total:'']);
   downloadCsv(rows, 'toeic-'+slug(student.nom)+'-'+slug(student.prenom)+'-'+new Date().toISOString().slice(0,10)+'.csv');
 }
 
