@@ -6,6 +6,13 @@
       "departement": "ggg",
       "codeHash": "524beeec873cb78924f03e60f2b9a7313873df5881f0654eaead2d581336e643",
       "sessions": []
+    },
+    "vanlande__lea__booster4a": {
+      "nom": "VANLANDE",
+      "prenom": "Léa",
+      "departement": "Booster4A",
+      "codeHash": "bcb1ac2aaaf1d367b9fd960eb0cee5709a3fd9d0c99a53b19795a32588353c3b",
+      "sessions": []
     }
   }
 }
