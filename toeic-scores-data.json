@@ -351,7 +351,31 @@
       "prenom": "Lola",
       "departement": "GC",
       "codeHash": "0f70422e0f7cb2e5887b8e901eeba1b212031be53bec3d2891ef341e419ca66d",
-      "sessions": []
+      "sessions": [
+        {
+          "date": "2026-09-25",
+          "label": "",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p4",
+              "score": 17
+            },
+            {
+              "part": "p2",
+              "score": 19
+            },
+            {
+              "part": "p6",
+              "score": 9
+            },
+            {
+              "part": "p2",
+              "score": 22
+            }
+          ]
+        }
+      ]
     },
     "adamou__salim__booster-4a": {
       "nom": "ADAMOU",
