@@ -55,6 +55,13 @@
       "departement": "Booster 4A",
       "codeHash": "3b47492744946d5a188be73c702fb2e3cd1b635433f841381ae8d2e0ed67b45f",
       "sessions": []
+    },
+    "bournand__arthur__booster-4a": {
+      "nom": "BOURNAND",
+      "prenom": "Arthur",
+      "departement": "BOOSTER 4A",
+      "codeHash": "d20bdc364b3d7dfdcd81be5a3fd192d0f513fa79e92463bf0ed9efd2f46c243b",
+      "sessions": []
     }
   }
 }
