@@ -34,6 +34,13 @@
       "departement": "booster4A",
       "codeHash": "483029d526219f816e8e8f6a9de07b422633dba180ffc26faac22862a017519f",
       "sessions": []
+    },
+    "carre__salome__booster-4a": {
+      "nom": "CARRE",
+      "prenom": "Salomé",
+      "departement": "BOOSTER 4A",
+      "codeHash": "41c8fa7d060badc5618a28326dc00cf07e1ce22a79a94a1fed94f271d3127447",
+      "sessions": []
     }
   }
 }
