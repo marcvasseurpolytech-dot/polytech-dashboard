@@ -5,22 +5,7 @@
       "prenom": "Léa",
       "departement": "Booster4A",
       "codeHash": "bcb1ac2aaaf1d367b9fd960eb0cee5709a3fd9d0c99a53b19795a32588353c3b",
-      "sessions": [
-        {
-          "date": "2026-09-25",
-          "label": "",
-          "type": "raw",
-          "scores": {
-            "p1": 0,
-            "p2": 0,
-            "p3": 0,
-            "p4": 16,
-            "p5": 0,
-            "p6": 0,
-            "p7": 0
-          }
-        }
-      ]
+      "sessions": []
     },
     "carpentier__gabin__booster-4a": {
       "nom": "CARPENTIER",
