@@ -41,6 +41,13 @@
       "departement": "BOOSTER 4A",
       "codeHash": "41c8fa7d060badc5618a28326dc00cf07e1ce22a79a94a1fed94f271d3127447",
       "sessions": []
+    },
+    "samake__el-hadji-hamed__iot4": {
+      "nom": "SAMAKE",
+      "prenom": "El Hadji Hamed",
+      "departement": "IOT4",
+      "codeHash": "8742da12785603740b63323eeee1263c6e09260db66c2a9700615a5e84d96b1b",
+      "sessions": []
     }
   }
 }
