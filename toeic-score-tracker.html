@@ -144,17 +144,34 @@
 
     <div class="panel">
       <h2>Ajouter une séance</h2>
+      <label for="n-type">Type de séance</label>
+      <select id="n-type" onchange="onTypeChange()" style="width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:4px;font-family:'Source Serif 4',serif;font-size:15px;background:var(--cream);color:var(--text);">
+        <option value="raw">Entraînement — scores par partie (1 à 7)</option>
+        <option value="official">TOEIC officiel complet passé en classe — score déjà calculé</option>
+      </select>
       <div class="field-row">
         <div><label for="n-date">Date</label><input type="date" id="n-date"></div>
         <div><label for="n-label">Intitulé</label><input type="text" id="n-label" placeholder="Test blanc 3"></div>
       </div>
-      <div class="part-grid" id="n-parts"></div>
+      <div id="n-parts-block">
+        <div class="part-grid" id="n-parts"></div>
+      </div>
+      <div id="n-official-block" class="hidden">
+        <div class="field-row">
+          <div><label for="n-off-l">Score Listening (/495)</label><input type="number" id="n-off-l" min="0" max="495" value="0"></div>
+          <div><label for="n-off-r">Score Reading (/495)</label><input type="number" id="n-off-r" min="0" max="495" value="0"></div>
+        </div>
+        <p class="hint">Pour un vrai TOEIC officiel passé en classe : indique directement les deux scores figurant sur ton relevé, sans détail par partie.</p>
+      </div>
       <button class="primary" onclick="addSession()">Enregistrer la séance</button>
       <div id="s-add-msg"></div>
     </div>
 
     <div class="panel">
-      <h2>Historique</h2>
+      <div class="topbar" style="margin-bottom:10px;">
+        <h2 style="margin:0;">Historique</h2>
+        <button class="ghost" onclick="exportMyCsv()">Exporter mon suivi (Excel/CSV)</button>
+      </div>
       <div class="table-wrap">
         <table id="s-history-table">
           <thead></thead>
@@ -289,18 +306,30 @@ function cecrlForTable(score, table){
   return '< A1';
 }
 
+function sessionScores(s){
+  if(s.type === 'official'){
+    return {lScore: s.listening, rScore: s.reading};
+  }
+  const lRaw = PARTS.filter(p=>p.section==='L').reduce((sum,p)=>sum+(s.scores[p.id]||0),0);
+  const rRaw = PARTS.filter(p=>p.section==='R').reduce((sum,p)=>sum+(s.scores[p.id]||0),0);
+  return {lScore: lookup(LISTENING_TABLE, lRaw), rScore: lookup(READING_TABLE, rRaw)};
+}
+
 function computeAverages(student){
   const sessions = student.sessions || [];
   const avg = {};
+  const rawSessions = sessions.filter(s=>s.type !== 'official');
   PARTS.forEach(p=>{
-    const vals = sessions.map(s=>s.scores && typeof s.scores[p.id]==='number' ? s.scores[p.id] : null).filter(v=>v!==null);
+    const vals = rawSessions.map(s=>s.scores && typeof s.scores[p.id]==='number' ? s.scores[p.id] : null).filter(v=>v!==null);
     avg[p.id] = vals.length ? vals.reduce((a,b)=>a+b,0)/vals.length : 0;
   });
-  const lRaw = PARTS.filter(p=>p.section==='L').reduce((sum,p)=>sum+avg[p.id],0);
-  const rRaw = PARTS.filter(p=>p.section==='R').reduce((sum,p)=>sum+avg[p.id],0);
-  const lScore = sessions.length ? lookup(LISTENING_TABLE, lRaw) : 0;
-  const rScore = sessions.length ? lookup(READING_TABLE, rRaw) : 0;
-  return {avg, lRaw, rRaw, lScore, rScore, total: lScore+rScore, nbSessions: sessions.length};
+  let lScore = 0, rScore = 0;
+  if(sessions.length){
+    const perSession = sessions.map(sessionScores);
+    lScore = Math.round(perSession.reduce((sum,c)=>sum+c.lScore,0)/perSession.length);
+    rScore = Math.round(perSession.reduce((sum,c)=>sum+c.rScore,0)/perSession.length);
+  }
+  return {avg, lScore, rScore, total: lScore+rScore, nbSessions: sessions.length, nbRawSessions: rawSessions.length};
 }
 
 /* ---------- STUDENT ---------- */
@@ -321,6 +350,12 @@ function buildPartInputs(){
   });
 }
 buildPartInputs();
+
+function onTypeChange(){
+  const t = document.getElementById('n-type').value;
+  document.getElementById('n-parts-block').classList.toggle('hidden', t!=='raw');
+  document.getElementById('n-official-block').classList.toggle('hidden', t!=='official');
+}
 
 async function studentLogin(){
   const nom = document.getElementById('s-nom').value.trim().toUpperCase();
@@ -381,20 +416,41 @@ function renderStudentStats(student){
 function renderStudentHistory(student){
   const thead = document.querySelector('#s-history-table thead');
   const tbody = document.querySelector('#s-history-table tbody');
-  thead.innerHTML = '<tr><th>Date</th><th>Séance</th>'+PARTS.map(p=>`<th>${p.label}</th>`).join('')+'<th>L /495</th><th>R /495</th><th>Total</th></tr>';
+  thead.innerHTML = '<tr><th>Date</th><th>Séance</th>'+PARTS.map(p=>`<th>${p.label}</th>`).join('')+'<th>L /495</th><th>R /495</th><th>Total</th><th></th></tr>';
   const sessions = (student.sessions||[]).slice().sort((a,b)=> (a.date<b.date?1:-1));
   if(!sessions.length){
-    tbody.innerHTML = `<tr><td colspan="${PARTS.length+5}" style="text-align:center;color:#a5966c;">Aucune séance enregistrée pour l'instant.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="${PARTS.length+6}" style="text-align:center;color:#a5966c;">Aucune séance enregistrée pour l'instant.</td></tr>`;
     return;
   }
-  tbody.innerHTML = sessions.map(s=>{
-    const lRaw = PARTS.filter(p=>p.section==='L').reduce((sum,p)=>sum+(s.scores[p.id]||0),0);
-    const rRaw = PARTS.filter(p=>p.section==='R').reduce((sum,p)=>sum+(s.scores[p.id]||0),0);
-    const lS = lookup(LISTENING_TABLE, lRaw), rS = lookup(READING_TABLE, rRaw);
-    return `<tr><td>${s.date}</td><td>${s.label||'—'}</td>`+
-      PARTS.map(p=>`<td>${s.scores[p.id]}</td>`).join('')+
-      `<td>${lS}</td><td>${rS}</td><td>${lS+rS}</td></tr>`;
+  tbody.innerHTML = sessions.map((s,i)=>{
+    const {lScore, rScore} = sessionScores(s);
+    const partsCells = s.type === 'official'
+      ? PARTS.map(()=>`<td style="color:#a5966c;">—</td>`).join('')
+      : PARTS.map(p=>`<td>${s.scores[p.id]}</td>`).join('');
+    const labelText = (s.label||'—') + (s.type==='official' ? ' <span class="badge-priv">Officiel</span>' : '');
+    return `<tr><td>${s.date}</td><td>${labelText}</td>`+
+      partsCells+
+      `<td>${lScore}</td><td>${rScore}</td><td>${lScore+rScore}</td>`+
+      `<td><button class="danger" onclick="deleteMySession(${sessions.length-1-i})">Effacer</button></td></tr>`;
   }).join('');
+}
+
+async function deleteMySession(sortedIndexFromEnd){
+  if(!confirm('Effacer cette séance ? Cette action est définitive.')) return;
+  const student = cachedData.students[currentKey];
+  const sorted = student.sessions.slice().sort((a,b)=>(a.date<b.date?1:-1));
+  const target = sorted[sorted.length-1-sortedIndexFromEnd];
+  const realIndex = student.sessions.indexOf(target);
+  if(realIndex === -1) return;
+  const removed = student.sessions.splice(realIndex,1)[0];
+  try{
+    await apiPost({action:'upsert', key:currentKey, codeHash:currentCodeHash, student});
+    renderStudentStats(student);
+    renderStudentHistory(student);
+  } catch(e){
+    student.sessions.splice(realIndex,0,removed);
+    alert(e.message);
+  }
 }
 
 async function addSession(){
@@ -402,21 +458,34 @@ async function addSession(){
   msgEl.innerHTML = '';
   const date = document.getElementById('n-date').value;
   const label = document.getElementById('n-label').value.trim();
+  const type = document.getElementById('n-type').value;
   if(!date){ msgEl.innerHTML = "<div class=\"error-msg\">Merci d'indiquer une date.</div>"; return; }
 
-  const scores = {};
-  for(const p of PARTS){
-    const v = parseInt(document.getElementById('pf-'+p.id).value, 10);
-    if(isNaN(v) || v<0 || v>p.max){
-      msgEl.innerHTML = `<div class="error-msg">${p.label} doit être compris entre 0 et ${p.max}.</div>`;
+  let session;
+  if(type === 'official'){
+    const l = parseInt(document.getElementById('n-off-l').value, 10);
+    const r = parseInt(document.getElementById('n-off-r').value, 10);
+    if(isNaN(l) || l<0 || l>495 || isNaN(r) || r<0 || r>495){
+      msgEl.innerHTML = '<div class="error-msg">Les scores Listening et Reading doivent être compris entre 0 et 495.</div>';
       return;
     }
-    scores[p.id] = v;
+    session = {date, label, type:'official', listening:l, reading:r};
+  } else {
+    const scores = {};
+    for(const p of PARTS){
+      const v = parseInt(document.getElementById('pf-'+p.id).value, 10);
+      if(isNaN(v) || v<0 || v>p.max){
+        msgEl.innerHTML = `<div class="error-msg">${p.label} doit être compris entre 0 et ${p.max}.</div>`;
+        return;
+      }
+      scores[p.id] = v;
+    }
+    session = {date, label, type:'raw', scores};
   }
 
   const student = cachedData.students[currentKey];
   student.sessions = student.sessions || [];
-  student.sessions.push({date, label, scores});
+  student.sessions.push(session);
 
   try{
     await apiPost({action:'upsert', key:currentKey, codeHash:currentCodeHash, student});
@@ -424,6 +493,8 @@ async function addSession(){
     renderStudentStats(student);
     renderStudentHistory(student);
     buildPartInputs();
+    document.getElementById('n-off-l').value = 0;
+    document.getElementById('n-off-r').value = 0;
     document.getElementById('n-label').value = '';
   } catch(e){
     student.sessions.pop();
@@ -486,12 +557,20 @@ function showDetail(key){
   el.innerHTML = `<div class="panel">
     <h2>${st.nom} ${st.prenom} — ${st.departement}</h2>
     <div class="table-wrap">
-      <table><thead><tr><th>Date</th><th>Séance</th>${PARTS.map(p=>`<th>${p.label}</th>`).join('')}<th></th></tr></thead>
-      <tbody>${sessions.map((s,i)=>`<tr>
-        <td>${s.date}</td><td>${s.label||'—'}</td>
-        ${PARTS.map(p=>`<td>${s.scores[p.id]}</td>`).join('')}
+      <table><thead><tr><th>Date</th><th>Séance</th>${PARTS.map(p=>`<th>${p.label}</th>`).join('')}<th>L /495</th><th>R /495</th><th></th></tr></thead>
+      <tbody>${sessions.map((s,i)=>{
+        const {lScore, rScore} = sessionScores(s);
+        const partsCells = s.type === 'official'
+          ? PARTS.map(()=>`<td style="color:#a5966c;">—</td>`).join('')
+          : PARTS.map(p=>`<td>${s.scores[p.id]}</td>`).join('');
+        const labelText = (s.label||'—') + (s.type==='official' ? ' <span class="badge-priv">Officiel</span>' : '');
+        return `<tr>
+        <td>${s.date}</td><td>${labelText}</td>
+        ${partsCells}
+        <td>${lScore}</td><td>${rScore}</td>
         <td><button class="danger" onclick="deleteSession('${key}', ${sessions.length-1-i})">✕</button></td>
-      </tr>`).join('')}</tbody></table>
+      </tr>`;
+      }).join('')}</tbody></table>
     </div>
   </div>`;
 }
@@ -520,6 +599,15 @@ async function deleteSession(key, sortedIndexFromEnd){
   } catch(e){ alert(e.message); }
 }
 
+function downloadCsv(rows, filename){
+  const csv = rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(';')).join('\n');
+  const blob = new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8;'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+}
+
 function exportCsv(){
   const rows = [['Nom','Prenom','Departement','Nb seances', ...PARTS.map(p=>'Moy '+p.label), 'Listening /495','Reading /495','Total /990','Niveau']];
   Object.values(cachedData.students).forEach(st=>{
@@ -529,12 +617,25 @@ function exportCsv(){
       c.nbSessions?c.lScore:'', c.nbSessions?c.rScore:'', c.nbSessions?c.total:'',
       c.nbSessions?cecrlFor(c.total):'']);
   });
-  const csv = rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(';')).join('\n');
-  const blob = new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8;'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'toeic-scores-'+new Date().toISOString().slice(0,10)+'.csv';
-  a.click();
+  downloadCsv(rows, 'toeic-scores-'+new Date().toISOString().slice(0,10)+'.csv');
+}
+
+function exportMyCsv(){
+  const student = cachedData.students[currentKey];
+  const sessions = (student.sessions||[]).slice().sort((a,b)=>(a.date<b.date?1:-1));
+  const rows = [['Date','Séance','Type', ...PARTS.map(p=>p.label+' /'+p.max), 'Listening /495','Reading /495','Total /990']];
+  sessions.forEach(s=>{
+    const {lScore, rScore} = sessionScores(s);
+    rows.push([s.date, s.label||'', s.type==='official'?'Officiel':'Entraînement',
+      ...PARTS.map(p=> s.type==='official' ? '' : s.scores[p.id]),
+      lScore, rScore, lScore+rScore]);
+  });
+  const c = computeAverages(student);
+  rows.push([]);
+  rows.push(['Moyennes', '', '',
+    ...PARTS.map(p=>c.avg[p.id].toFixed(1)),
+    c.nbSessions?c.lScore:'', c.nbSessions?c.rScore:'', c.nbSessions?c.total:'']);
+  downloadCsv(rows, 'toeic-'+slug(student.nom)+'-'+slug(student.prenom)+'-'+new Date().toISOString().slice(0,10)+'.csv');
 }
 
 function logout(){
