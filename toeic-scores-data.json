@@ -5,7 +5,36 @@
       "prenom": "Léa",
       "departement": "Booster4A",
       "codeHash": "bcb1ac2aaaf1d367b9fd960eb0cee5709a3fd9d0c99a53b19795a32588353c3b",
-      "sessions": []
+      "sessions": [
+        {
+          "date": "2026-09-25",
+          "label": "test 2 grammaire",
+          "type": "raw",
+          "scores": {
+            "p1": 0,
+            "p2": 0,
+            "p3": 0,
+            "p4": 0,
+            "p5": 16,
+            "p6": 0,
+            "p7": 0
+          }
+        },
+        {
+          "date": "2026-09-25",
+          "label": "test 2 grammaire",
+          "type": "raw",
+          "scores": {
+            "p1": 0,
+            "p2": 0,
+            "p3": 0,
+            "p4": 0,
+            "p5": 16,
+            "p6": 0,
+            "p7": 0
+          }
+        }
+      ]
     },
     "carpentier__gabin__booster-4a": {
       "nom": "CARPENTIER",
