@@ -62,6 +62,13 @@
       "departement": "BOOSTER 4A",
       "codeHash": "d20bdc364b3d7dfdcd81be5a3fd192d0f513fa79e92463bf0ed9efd2f46c243b",
       "sessions": []
+    },
+    "lescalier__lola__gc": {
+      "nom": "LESCALIER",
+      "prenom": "Lola",
+      "departement": "GC",
+      "codeHash": "0f70422e0f7cb2e5887b8e901eeba1b212031be53bec3d2891ef341e419ca66d",
+      "sessions": []
     }
   }
 }
