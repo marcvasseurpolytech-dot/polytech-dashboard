@@ -12,7 +12,22 @@
       "prenom": "Gabin",
       "departement": "booster 4A",
       "codeHash": "5dec2555aa54ac568f403b140af7d6fcd39f041a3b7f2b69e283fd7d29a73a1c",
-      "sessions": []
+      "sessions": [
+        {
+          "date": "2026-09-25",
+          "label": "test 2 grammaire",
+          "type": "raw",
+          "scores": {
+            "p1": 0,
+            "p2": 0,
+            "p3": 0,
+            "p4": 18,
+            "p5": 0,
+            "p6": 0,
+            "p7": 0
+          }
+        }
+      ]
     },
     "lallement__pierre__booster4a": {
       "nom": "LALLEMENT",
