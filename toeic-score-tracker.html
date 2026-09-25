@@ -93,7 +93,7 @@
   <!-- HOME -->
   <div id="view-home">
     <div class="choice-grid">
-      <div class="choice-card" onclick="goto('student-auth')">
+      <div class="choice-card" onclick="goto('student-login')">
         <div class="icon">🎓</div>
         <h3>Espace étudiant</h3>
         <p>Saisir tes scores par partie et suivre ta progression, séance après séance.</p>
@@ -106,10 +106,27 @@
     </div>
   </div>
 
-  <!-- STUDENT AUTH -->
-  <div id="view-student-auth" class="hidden">
+  <!-- STUDENT LOGIN (retour) -->
+  <div id="view-student-login" class="hidden">
     <div class="panel" style="max-width:480px;margin:0 auto;">
-      <h2>Identification étudiant</h2>
+      <h2>Connexion étudiant</h2>
+      <label for="sl-nom">Nom (MAJUSCULES)</label>
+      <input type="text" id="sl-nom" autocomplete="off" placeholder="DUPONT">
+      <label for="sl-code">Code secret (4 chiffres)</label>
+      <input type="tel" id="sl-code" maxlength="4" inputmode="numeric" pattern="[0-9]{4}" placeholder="••••">
+      <button class="primary" onclick="studentLoginSimple()">Me connecter</button>
+      <div id="sl-msg"></div>
+      <p style="margin-top:18px;">
+        <button class="ghost" onclick="goto('student-create')">Pas encore de profil ? Créer mon profil</button>
+      </p>
+      <p><button class="ghost" onclick="goto('home')">← Retour</button></p>
+    </div>
+  </div>
+
+  <!-- STUDENT CREATE (première visite) -->
+  <div id="view-student-create" class="hidden">
+    <div class="panel" style="max-width:480px;margin:0 auto;">
+      <h2>Créer mon profil</h2>
       <label for="s-nom">Nom (MAJUSCULES)</label>
       <input type="text" id="s-nom" autocomplete="off" placeholder="DUPONT">
       <label for="s-prenom">Prénom</label>
@@ -118,12 +135,13 @@
       <input type="text" id="s-dept" autocomplete="off" placeholder="TC3 Gr4">
       <label for="s-code">Code secret (4 chiffres)</label>
       <input type="tel" id="s-code" maxlength="4" inputmode="numeric" pattern="[0-9]{4}" placeholder="••••">
-      <p class="hint">Première visite : choisis un code à 4 chiffres, il servira à retrouver ton profil ensuite. Ne le partage pas.</p>
-      <button class="primary" onclick="studentLogin()">Continuer</button>
+      <p class="hint">Choisis un code à 4 chiffres et retiens-le : avec ton nom, il te permettra de te reconnecter ensuite. Ne le partage pas. Vérifie bien l'orthographe, tu la retaperas à l'identique à chaque connexion.</p>
+      <button class="primary" onclick="studentCreate()">Créer mon profil</button>
       <div id="s-auth-msg"></div>
-      <p style="margin-top:18px;"><button class="ghost" onclick="goto('home')">← Retour</button></p>
+      <p style="margin-top:18px;"><button class="ghost" onclick="goto('student-login')">← Déjà un profil ? Se connecter</button></p>
     </div>
   </div>
+
 
   <!-- STUDENT DASHBOARD -->
   <div id="view-student-dash" class="hidden">
@@ -262,7 +280,7 @@ let currentKey = null;
 let currentCodeHash = null;
 
 function goto(view){
-  ['home','student-auth','student-dash','admin-auth','admin-dash'].forEach(v=>{
+  ['home','student-login','student-create','student-dash','admin-auth','admin-dash'].forEach(v=>{
     document.getElementById('view-'+v).classList.toggle('hidden', v!==view);
   });
 }
@@ -337,6 +355,9 @@ function computeAverages(student){
 document.getElementById('s-nom').addEventListener('input', function(){
   this.value = this.value.toUpperCase();
 });
+document.getElementById('sl-nom').addEventListener('input', function(){
+  this.value = this.value.toUpperCase();
+});
 
 function buildPartInputs(){
   const wrap = document.getElementById('n-parts');
@@ -357,7 +378,50 @@ function onTypeChange(){
   document.getElementById('n-official-block').classList.toggle('hidden', t!=='official');
 }
 
-async function studentLogin(){
+async function studentLoginSimple(){
+  const nom = document.getElementById('sl-nom').value.trim().toUpperCase();
+  const code = document.getElementById('sl-code').value.trim();
+  const msgEl = document.getElementById('sl-msg');
+  msgEl.innerHTML = '';
+
+  if(!nom || !/^[0-9]{4}$/.test(code)){
+    msgEl.innerHTML = '<div class="error-msg">Merci de saisir ton nom et ton code à 4 chiffres.</div>';
+    return;
+  }
+  const codeHash = await sha256Hex(code);
+
+  try{
+    await apiGet();
+    const matches = Object.entries(cachedData.students).filter(([key,st])=>
+      (st.nom||'').trim().toUpperCase() === nom && st.codeHash === codeHash
+    );
+    if(matches.length === 0){
+      msgEl.innerHTML = '<div class="error-msg">Aucun profil ne correspond à ce nom et ce code. Vérifie l\u2019orthographe et le code, ou crée ton profil si c\u2019est ta première visite.</div>';
+      return;
+    }
+    if(matches.length === 1){
+      const [key, st] = matches[0];
+      currentKey = key; currentCodeHash = codeHash;
+      openStudentDash(st);
+      return;
+    }
+    // Plusieurs profils partagent ce nom + ce code (rare) : on laisse choisir.
+    msgEl.innerHTML = '<div class="ok-msg">Plusieurs profils correspondent, choisis le tien :</div>'+
+      matches.map(([key,st])=>`<button class="ghost" style="display:block;width:100%;margin-top:8px;text-align:left;" onclick='selectMatch(${JSON.stringify(key)})'>${st.prenom} — ${st.departement}</button>`).join('');
+    window.__loginMatches = matches;
+  } catch(e){
+    msgEl.innerHTML = '<div class="error-msg">'+e.message+'</div>';
+  }
+}
+
+function selectMatch(key){
+  const st = cachedData.students[key];
+  currentKey = key;
+  currentCodeHash = st.codeHash;
+  openStudentDash(st);
+}
+
+async function studentCreate(){
   const nom = document.getElementById('s-nom').value.trim().toUpperCase();
   const prenom = document.getElementById('s-prenom').value.trim();
   const dept = document.getElementById('s-dept').value.trim();
@@ -377,7 +441,7 @@ async function studentLogin(){
     const existing = cachedData.students[key];
     if(existing){
       if(existing.codeHash !== codeHash){
-        msgEl.innerHTML = "<div class=\"error-msg\">Code incorrect pour ce profil. Vérifie l'orthographe de ton nom/prénom/département ou ton code.</div>";
+        msgEl.innerHTML = "<div class=\"error-msg\">Un profil existe déjà avec ce nom/prénom/département mais un autre code. Utilise plutôt l'écran de connexion, ou vérifie l'orthographe.</div>";
         return;
       }
       currentKey = key; currentCodeHash = codeHash;
@@ -387,7 +451,7 @@ async function studentLogin(){
       await apiPost({action:'upsert', key, codeHash, student});
       cachedData.students[key] = student;
       currentKey = key; currentCodeHash = codeHash;
-      msgEl.innerHTML = '<div class="ok-msg">Profil créé. Retiens bien ton code !</div>';
+      msgEl.innerHTML = '<div class="ok-msg">Profil créé. Retiens bien ton nom et ton code !</div>';
       openStudentDash(student);
     }
   } catch(e){
@@ -642,6 +706,9 @@ function logout(){
   currentKey = null; currentCodeHash = null;
   document.getElementById('a-code').value = '';
   document.getElementById('s-code').value = '';
+  document.getElementById('sl-code').value = '';
+  document.getElementById('sl-nom').value = '';
+  document.getElementById('sl-msg').innerHTML = '';
   goto('home');
 }
 
