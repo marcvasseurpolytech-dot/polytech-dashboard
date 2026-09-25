@@ -194,6 +194,53 @@
               "score": 18
             }
           ]
+        },
+        {
+          "date": "2026-09-25",
+          "label": "",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p3",
+              "score": 33
+            },
+            {
+              "part": "p5",
+              "score": 24
+            },
+            {
+              "part": "p5",
+              "score": 25
+            },
+            {
+              "part": "p5",
+              "score": 18
+            },
+            {
+              "part": "p5",
+              "score": 19
+            },
+            {
+              "part": "p6",
+              "score": 11
+            },
+            {
+              "part": "p2",
+              "score": 19
+            },
+            {
+              "part": "p1",
+              "score": 5
+            },
+            {
+              "part": "p6",
+              "score": 14
+            },
+            {
+              "part": "p6",
+              "score": 10
+            }
+          ]
         }
       ]
     },
