@@ -13,6 +13,13 @@
       "departement": "Booster4A",
       "codeHash": "bcb1ac2aaaf1d367b9fd960eb0cee5709a3fd9d0c99a53b19795a32588353c3b",
       "sessions": []
+    },
+    "carpentier__gabin__booster-4a": {
+      "nom": "CARPENTIER",
+      "prenom": "Gabin",
+      "departement": "booster 4A",
+      "codeHash": "5dec2555aa54ac568f403b140af7d6fcd39f041a3b7f2b69e283fd7d29a73a1c",
+      "sessions": []
     }
   }
 }
