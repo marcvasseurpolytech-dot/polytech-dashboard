@@ -34,7 +34,22 @@
       "prenom": "Pierre",
       "departement": "Booster4A",
       "codeHash": "8c93cd35d2c753657eb0a18984001dba9f3c0409dcac98a381290d9e1ed151f4",
-      "sessions": []
+      "sessions": [
+        {
+          "date": "2026-09-25",
+          "label": "Test2 Grammar",
+          "type": "raw",
+          "scores": {
+            "p1": 0,
+            "p2": 0,
+            "p3": 0,
+            "p4": 0,
+            "p5": 17,
+            "p6": 0,
+            "p7": 0
+          }
+        }
+      ]
     },
     "gastinel__yann__booster4a": {
       "nom": "GASTINEL",
