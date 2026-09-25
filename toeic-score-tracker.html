@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Suivi des scores TOEIC — Polytech Lille</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#1A2B4A; --navy-deep:#101a33; --gold:#C9A020; --gold-light:#E8C84A;
+    --cream:#FAF6ED; --cream-dark:#F0E8D5; --text:#2C2416; --border:#D4C9A8;
+    --green:#1B6B3A; --green-bg:#E6F4EC; --red:#B91C1C; --red-bg:#FEF2F2;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--cream);color:var(--text);font-family:'Source Serif 4',Georgia,serif;line-height:1.55;padding-bottom:60px;}
+  a{color:inherit;}
+  header{background:var(--navy);color:var(--cream);padding:26px 24px 20px;}
+  header .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.04em;color:var(--gold-light);margin:0 0 6px;}
+  header h1{font-family:'Playfair Display',serif;font-size:23px;margin:0;font-weight:700;}
+  main{max-width:920px;margin:0 auto;padding:30px 20px 10px;}
+  .hidden{display:none !important;}
+
+  .panel{background:#fff;border:1px solid var(--border);border-radius:6px;padding:26px 24px;margin-bottom:20px;}
+  .panel h2{font-family:'Playfair Display',serif;font-size:19px;margin:0 0 16px;color:var(--navy);}
+
+  .choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  @media (max-width:600px){.choice-grid{grid-template-columns:1fr;}}
+  .choice-card{background:#fff;border:1px solid var(--border);border-radius:6px;padding:28px 22px;text-align:center;cursor:pointer;transition:.15s;}
+  .choice-card:hover{border-color:var(--gold);box-shadow:0 2px 10px rgba(201,160,32,.15);}
+  .choice-card .icon{font-size:30px;margin-bottom:10px;}
+  .choice-card h3{font-family:'Playfair Display',serif;margin:0 0 6px;color:var(--navy);font-size:18px;}
+  .choice-card p{margin:0;font-size:13.5px;color:#6b5f45;}
+
+  label{display:block;font-size:13px;font-weight:600;color:var(--navy);margin:14px 0 5px;}
+  label:first-child{margin-top:0;}
+  input[type=text], input[type=date], input[type=password], input[type=tel], input[type=number]{
+    width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:4px;
+    font-family:'Source Serif 4',serif;font-size:15px;background:var(--cream);color:var(--text);
+  }
+  input:focus{outline:2px solid var(--gold);outline-offset:1px;}
+  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  @media (max-width:600px){.field-row{grid-template-columns:1fr;}}
+  .hint{font-size:12px;color:#8a7c5c;margin-top:4px;}
+
+  button.primary{background:var(--navy);color:var(--cream);border:none;padding:13px 20px;font-family:'Source Serif 4',serif;font-size:15px;font-weight:600;border-radius:4px;cursor:pointer;margin-top:20px;}
+  button.primary:hover{background:var(--navy-deep);}
+  button.ghost{background:transparent;color:var(--navy);border:1px solid var(--border);padding:8px 14px;font-size:13px;border-radius:4px;cursor:pointer;font-family:var(--mono);}
+  button.ghost:hover{border-color:var(--navy);}
+  button.danger{background:var(--red-bg);color:var(--red);border:1px solid #f2b8b8;padding:6px 10px;font-size:12px;border-radius:4px;cursor:pointer;font-family:var(--mono);}
+
+  .error-msg{background:var(--red-bg);color:var(--red);border:1px solid #f2b8b8;padding:10px 12px;border-radius:4px;font-size:13.5px;margin-top:14px;}
+  .ok-msg{background:var(--green-bg);color:var(--green);border:1px solid #b7ddc3;padding:10px 12px;border-radius:4px;font-size:13.5px;margin-top:14px;}
+
+  .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px;}
+  .who{font-family:var(--mono);font-size:13px;color:#6b5f45;}
+  .who b{color:var(--navy);}
+
+  .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:6px;}
+  @media (max-width:640px){.stats-grid{grid-template-columns:1fr 1fr;}}
+  .stat-box{background:var(--cream-dark);border:1px solid var(--border);border-radius:6px;padding:16px;text-align:center;}
+  .stat-box .val{font-family:var(--mono);font-weight:600;font-size:22px;color:var(--navy);}
+  .stat-box .lbl{font-size:11.5px;color:#8a7c5c;text-transform:uppercase;letter-spacing:.03em;margin-top:4px;}
+  .stat-box .lvl{display:inline-block;margin-top:6px;font-family:var(--mono);font-size:12px;padding:2px 8px;border-radius:10px;background:var(--gold-light);color:var(--navy-deep);}
+
+  table{width:100%;border-collapse:collapse;font-size:13.5px;}
+  th,td{padding:8px 9px;text-align:center;border-bottom:1px solid var(--border);}
+  th{background:var(--navy);color:var(--cream);font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.02em;}
+  td:first-child,th:first-child{text-align:left;}
+  tr:hover td{background:var(--cream-dark);}
+  .table-wrap{overflow-x:auto;}
+  .part-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-top:8px;}
+  @media (max-width:700px){.part-grid{grid-template-columns:repeat(4,1fr);}}
+  .part-field label{font-size:11px;margin:0 0 3px;}
+  .part-field .max{color:#a5966c;font-weight:400;}
+
+  #admin-search{max-width:260px;}
+  .badge-priv{font-family:var(--mono);font-size:10px;background:var(--gold-light);color:var(--navy-deep);padding:2px 6px;border-radius:8px;}
+
+  footer{max-width:920px;margin:30px auto 0;padding:0 20px;font-family:var(--mono);font-size:11.5px;color:#a5966c;display:flex;justify-content:space-between;}
+</style>
+</head>
+<body>
+
+<header>
+  <p class="eyebrow">POLYTECH LILLE — PLATEFORME LANGUES</p>
+  <h1>Suivi des scores TOEIC</h1>
+</header>
+
+<main>
+
+  <!-- HOME -->
+  <div id="view-home">
+    <div class="choice-grid">
+      <div class="choice-card" onclick="goto('student-auth')">
+        <div class="icon">🎓</div>
+        <h3>Espace étudiant</h3>
+        <p>Saisir tes scores par partie et suivre ta progression, séance après séance.</p>
+      </div>
+      <div class="choice-card" onclick="goto('admin-auth')">
+        <div class="icon">🔑</div>
+        <h3>Administration</h3>
+        <p>Vue d'ensemble de tous les étudiants et de leurs scores.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- STUDENT AUTH -->
+  <div id="view-student-auth" class="hidden">
+    <div class="panel" style="max-width:480px;margin:0 auto;">
+      <h2>Identification étudiant</h2>
+      <label for="s-nom">Nom (MAJUSCULES)</label>
+      <input type="text" id="s-nom" autocomplete="off" placeholder="DUPONT">
+      <label for="s-prenom">Prénom</label>
+      <input type="text" id="s-prenom" autocomplete="off" placeholder="Jean">
+      <label for="s-dept">Département / groupe</label>
+      <input type="text" id="s-dept" autocomplete="off" placeholder="TC3 Gr4">
+      <label for="s-code">Code secret (4 chiffres)</label>
+      <input type="tel" id="s-code" maxlength="4" inputmode="numeric" pattern="[0-9]{4}" placeholder="••••">
+      <p class="hint">Première visite : choisis un code à 4 chiffres, il servira à retrouver ton profil ensuite. Ne le partage pas.</p>
+      <button class="primary" onclick="studentLogin()">Continuer</button>
+      <div id="s-auth-msg"></div>
+      <p style="margin-top:18px;"><button class="ghost" onclick="goto('home')">← Retour</button></p>
+    </div>
+  </div>
+
+  <!-- STUDENT DASHBOARD -->
+  <div id="view-student-dash" class="hidden">
+    <div class="topbar">
+      <div class="who">Connecté : <b id="s-who"></b></div>
+      <button class="ghost" onclick="logout()">Se déconnecter</button>
+    </div>
+
+    <div class="panel">
+      <h2>Ma progression</h2>
+      <div class="stats-grid">
+        <div class="stat-box"><div class="val" id="s-avg-l">—</div><div class="lbl">Listening /495</div><div class="lvl" id="s-lvl-l">—</div></div>
+        <div class="stat-box"><div class="val" id="s-avg-r">—</div><div class="lbl">Reading /495</div><div class="lvl" id="s-lvl-r">—</div></div>
+        <div class="stat-box"><div class="val" id="s-avg-t">—</div><div class="lbl">Total /990</div><div class="lvl" id="s-lvl-t">—</div></div>
+      </div>
+      <p class="hint" style="margin-top:10px;">Moyennes calculées sur toutes les séances saisies, converties via la grille de score TOEIC (estimation, ETS ne publie pas de grille fixe officielle).</p>
+    </div>
+
+    <div class="panel">
+      <h2>Ajouter une séance</h2>
+      <div class="field-row">
+        <div><label for="n-date">Date</label><input type="date" id="n-date"></div>
+        <div><label for="n-label">Intitulé</label><input type="text" id="n-label" placeholder="Test blanc 3"></div>
+      </div>
+      <div class="part-grid" id="n-parts"></div>
+      <button class="primary" onclick="addSession()">Enregistrer la séance</button>
+      <div id="s-add-msg"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Historique</h2>
+      <div class="table-wrap">
+        <table id="s-history-table">
+          <thead></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN AUTH -->
+  <div id="view-admin-auth" class="hidden">
+    <div class="panel" style="max-width:400px;margin:0 auto;">
+      <h2>Accès administration</h2>
+      <label for="a-code">Code administrateur</label>
+      <input type="password" id="a-code" autocomplete="off">
+      <button class="primary" onclick="adminLogin()">Entrer</button>
+      <div id="a-auth-msg"></div>
+      <p style="margin-top:18px;"><button class="ghost" onclick="goto('home')">← Retour</button></p>
+    </div>
+  </div>
+
+  <!-- ADMIN DASHBOARD -->
+  <div id="view-admin-dash" class="hidden">
+    <div class="topbar">
+      <div class="who"><b id="a-count">0</b> étudiant(s) enregistré(s)</div>
+      <div style="display:flex;gap:10px;">
+        <button class="ghost" onclick="exportCsv()">Exporter CSV</button>
+        <button class="ghost" onclick="logout()">Se déconnecter</button>
+      </div>
+    </div>
+    <div class="panel">
+      <label for="admin-search">Rechercher (nom / département)</label>
+      <input type="text" id="admin-search" oninput="renderAdminTable()">
+      <div class="table-wrap" style="margin-top:16px;">
+        <table id="admin-table">
+          <thead>
+            <tr>
+              <th>Nom</th><th>Prénom</th><th>Dépt</th><th>Séances</th>
+              <th>Listening /495</th><th>Reading /495</th><th>Total /990</th><th>Niveau</th><th></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <div id="admin-detail"></div>
+  </div>
+
+</main>
+
+<footer>
+  <span>Marc Vasseur — marc.vasseur@polytech-lille.fr</span>
+  <span>Suivi des scores TOEIC</span>
+</footer>
+
+<script>
+const API_URL = '/api/toeic-scores';
+const ADMIN_HASH = "f7ff32b790557d7601029bc0b296115f82e18d799b6e27ba0c6202fdbd1f2a08";
+
+const PARTS = [
+  {id:'p1', label:'Part 1', section:'L', max:6},
+  {id:'p2', label:'Part 2', section:'L', max:25},
+  {id:'p3', label:'Part 3', section:'L', max:39},
+  {id:'p4', label:'Part 4', section:'L', max:30},
+  {id:'p5', label:'Part 5', section:'R', max:30},
+  {id:'p6', label:'Part 6', section:'R', max:16},
+  {id:'p7', label:'Part 7', section:'R', max:54},
+];
+
+const LISTENING_TABLE = [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 70, 80, 85, 90, 95, 100, 105, 115, 125, 135, 140, 150, 160, 170, 175, 180, 190, 200, 205, 215, 220, 225, 230, 235, 245, 255, 260, 265, 275, 285, 290, 295, 300, 310, 320, 325, 330, 335, 340, 345, 350, 355, 360, 365, 370, 375, 385, 395, 400, 405, 415, 420, 425, 430, 435, 440, 445, 450, 455, 460, 465, 475, 480, 485, 490, 495, 495, 495, 495, 495, 495, 495, 495];
+const READING_TABLE = [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 10, 15, 20, 25, 30, 35, 40, 45, 55, 60, 65, 70, 75, 80, 85, 90, 95, 105, 115, 120, 125, 130, 135, 140, 145, 155, 160, 170, 175, 185, 195, 205, 210, 215, 220, 230, 240, 245, 250, 255, 260, 270, 275, 280, 285, 290, 295, 295, 300, 310, 315, 320, 325, 330, 335, 340, 345, 355, 360, 370, 375, 385, 390, 395, 400, 405, 415, 420, 425, 435, 440, 450, 455, 460, 470, 475, 485, 485, 490, 495];
+
+const CECRL_TOTAL = [
+  {min:945, label:'C1'}, {min:785, label:'B2'}, {min:550, label:'B1'},
+  {min:225, label:'A2'}, {min:120, label:'A1'}, {min:0, label:'< A1'}
+];
+const CECRL_LISTENING = [
+  {min:490, label:'C1'}, {min:400, label:'B2'}, {min:275, label:'B1'},
+  {min:110, label:'A2'}, {min:60, label:'A1'}, {min:0, label:'< A1'}
+];
+const CECRL_READING = [
+  {min:455, label:'C1'}, {min:385, label:'B2'}, {min:275, label:'B1'},
+  {min:115, label:'A2'}, {min:60, label:'A1'}, {min:0, label:'< A1'}
+];
+
+let cachedData = null;
+let currentKey = null;
+let currentCodeHash = null;
+
+function goto(view){
+  ['home','student-auth','student-dash','admin-auth','admin-dash'].forEach(v=>{
+    document.getElementById('view-'+v).classList.toggle('hidden', v!==view);
+  });
+}
+
+async function sha256Hex(str){
+  const enc = new TextEncoder().encode(str);
+  const buf = await crypto.subtle.digest('SHA-256', enc);
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+
+function slug(s){
+  return (s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+}
+
+async function apiGet(){
+  const r = await fetch(API_URL);
+  if(!r.ok) throw new Error('Chargement impossible ('+r.status+')');
+  cachedData = await r.json();
+  if(!cachedData.students) cachedData.students = {};
+  return cachedData;
+}
+
+async function apiPost(body){
+  const r = await fetch(API_URL, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)});
+  const j = await r.json();
+  if(!r.ok) throw new Error(j.error || ('Erreur '+r.status));
+  return j;
+}
+
+function lookup(table, raw){
+  const r = Math.max(0, Math.min(100, Math.round(raw)));
+  return table[r];
+}
+
+function cecrlFor(total){
+  for(const b of CECRL_TOTAL) if(total >= b.min) return b.label;
+  return '< A1';
+}
+function cecrlForTable(score, table){
+  for(const b of table) if(score >= b.min) return b.label;
+  return '< A1';
+}
+
+function computeAverages(student){
+  const sessions = student.sessions || [];
+  const avg = {};
+  PARTS.forEach(p=>{
+    const vals = sessions.map(s=>s.scores && typeof s.scores[p.id]==='number' ? s.scores[p.id] : null).filter(v=>v!==null);
+    avg[p.id] = vals.length ? vals.reduce((a,b)=>a+b,0)/vals.length : 0;
+  });
+  const lRaw = PARTS.filter(p=>p.section==='L').reduce((sum,p)=>sum+avg[p.id],0);
+  const rRaw = PARTS.filter(p=>p.section==='R').reduce((sum,p)=>sum+avg[p.id],0);
+  const lScore = sessions.length ? lookup(LISTENING_TABLE, lRaw) : 0;
+  const rScore = sessions.length ? lookup(READING_TABLE, rRaw) : 0;
+  return {avg, lRaw, rRaw, lScore, rScore, total: lScore+rScore, nbSessions: sessions.length};
+}
+
+/* ---------- STUDENT ---------- */
+
+document.getElementById('s-nom').addEventListener('input', function(){
+  this.value = this.value.toUpperCase();
+});
+
+function buildPartInputs(){
+  const wrap = document.getElementById('n-parts');
+  wrap.innerHTML = '';
+  PARTS.forEach(p=>{
+    const div = document.createElement('div');
+    div.className = 'part-field';
+    div.innerHTML = `<label>${p.label} <span class="max">/${p.max}</span></label>
+      <input type="number" id="pf-${p.id}" min="0" max="${p.max}" value="0">`;
+    wrap.appendChild(div);
+  });
+}
+buildPartInputs();
+
+async function studentLogin(){
+  const nom = document.getElementById('s-nom').value.trim().toUpperCase();
+  const prenom = document.getElementById('s-prenom').value.trim();
+  const dept = document.getElementById('s-dept').value.trim();
+  const code = document.getElementById('s-code').value.trim();
+  const msgEl = document.getElementById('s-auth-msg');
+  msgEl.innerHTML = '';
+
+  if(!nom || !prenom || !dept || !/^[0-9]{4}$/.test(code)){
+    msgEl.innerHTML = '<div class="error-msg">Merci de remplir nom, prénom, département et un code à 4 chiffres.</div>';
+    return;
+  }
+  const key = slug(nom)+'__'+slug(prenom)+'__'+slug(dept);
+  const codeHash = await sha256Hex(code);
+
+  try{
+    await apiGet();
+    const existing = cachedData.students[key];
+    if(existing){
+      if(existing.codeHash !== codeHash){
+        msgEl.innerHTML = "<div class=\"error-msg\">Code incorrect pour ce profil. Vérifie l'orthographe de ton nom/prénom/département ou ton code.</div>";
+        return;
+      }
+      currentKey = key; currentCodeHash = codeHash;
+      openStudentDash(existing);
+    } else {
+      const student = {nom, prenom, departement:dept, codeHash, sessions:[]};
+      await apiPost({action:'upsert', key, codeHash, student});
+      cachedData.students[key] = student;
+      currentKey = key; currentCodeHash = codeHash;
+      msgEl.innerHTML = '<div class="ok-msg">Profil créé. Retiens bien ton code !</div>';
+      openStudentDash(student);
+    }
+  } catch(e){
+    msgEl.innerHTML = '<div class="error-msg">'+e.message+'</div>';
+  }
+}
+
+function openStudentDash(student){
+  document.getElementById('s-who').textContent = `${student.nom} ${student.prenom} — ${student.departement}`;
+  document.getElementById('n-date').value = new Date().toISOString().slice(0,10);
+  renderStudentStats(student);
+  renderStudentHistory(student);
+  goto('student-dash');
+}
+
+function renderStudentStats(student){
+  const c = computeAverages(student);
+  document.getElementById('s-avg-l').textContent = c.nbSessions ? c.lScore : '—';
+  document.getElementById('s-avg-r').textContent = c.nbSessions ? c.rScore : '—';
+  document.getElementById('s-avg-t').textContent = c.nbSessions ? c.total : '—';
+  document.getElementById('s-lvl-l').textContent = c.nbSessions ? cecrlForTable(c.lScore, CECRL_LISTENING) : '—';
+  document.getElementById('s-lvl-r').textContent = c.nbSessions ? cecrlForTable(c.rScore, CECRL_READING) : '—';
+  document.getElementById('s-lvl-t').textContent = c.nbSessions ? cecrlFor(c.total) : '—';
+}
+
+function renderStudentHistory(student){
+  const thead = document.querySelector('#s-history-table thead');
+  const tbody = document.querySelector('#s-history-table tbody');
+  thead.innerHTML = '<tr><th>Date</th><th>Séance</th>'+PARTS.map(p=>`<th>${p.label}</th>`).join('')+'<th>L /495</th><th>R /495</th><th>Total</th></tr>';
+  const sessions = (student.sessions||[]).slice().sort((a,b)=> (a.date<b.date?1:-1));
+  if(!sessions.length){
+    tbody.innerHTML = `<tr><td colspan="${PARTS.length+5}" style="text-align:center;color:#a5966c;">Aucune séance enregistrée pour l'instant.</td></tr>`;
+    return;
+  }
+  tbody.innerHTML = sessions.map(s=>{
+    const lRaw = PARTS.filter(p=>p.section==='L').reduce((sum,p)=>sum+(s.scores[p.id]||0),0);
+    const rRaw = PARTS.filter(p=>p.section==='R').reduce((sum,p)=>sum+(s.scores[p.id]||0),0);
+    const lS = lookup(LISTENING_TABLE, lRaw), rS = lookup(READING_TABLE, rRaw);
+    return `<tr><td>${s.date}</td><td>${s.label||'—'}</td>`+
+      PARTS.map(p=>`<td>${s.scores[p.id]}</td>`).join('')+
+      `<td>${lS}</td><td>${rS}</td><td>${lS+rS}</td></tr>`;
+  }).join('');
+}
+
+async function addSession(){
+  const msgEl = document.getElementById('s-add-msg');
+  msgEl.innerHTML = '';
+  const date = document.getElementById('n-date').value;
+  const label = document.getElementById('n-label').value.trim();
+  if(!date){ msgEl.innerHTML = "<div class=\"error-msg\">Merci d'indiquer une date.</div>"; return; }
+
+  const scores = {};
+  for(const p of PARTS){
+    const v = parseInt(document.getElementById('pf-'+p.id).value, 10);
+    if(isNaN(v) || v<0 || v>p.max){
+      msgEl.innerHTML = `<div class="error-msg">${p.label} doit être compris entre 0 et ${p.max}.</div>`;
+      return;
+    }
+    scores[p.id] = v;
+  }
+
+  const student = cachedData.students[currentKey];
+  student.sessions = student.sessions || [];
+  student.sessions.push({date, label, scores});
+
+  try{
+    await apiPost({action:'upsert', key:currentKey, codeHash:currentCodeHash, student});
+    msgEl.innerHTML = '<div class="ok-msg">Séance enregistrée.</div>';
+    renderStudentStats(student);
+    renderStudentHistory(student);
+    buildPartInputs();
+    document.getElementById('n-label').value = '';
+  } catch(e){
+    student.sessions.pop();
+    msgEl.innerHTML = '<div class="error-msg">'+e.message+'</div>';
+  }
+}
+
+/* ---------- ADMIN ---------- */
+
+async function adminLogin(){
+  const code = document.getElementById('a-code').value;
+  const msgEl = document.getElementById('a-auth-msg');
+  msgEl.innerHTML = '';
+  const hash = await sha256Hex(code);
+  if(hash !== ADMIN_HASH){
+    msgEl.innerHTML = '<div class="error-msg">Code incorrect.</div>';
+    return;
+  }
+  currentCodeHash = hash;
+  try{
+    await apiGet();
+    goto('admin-dash');
+    renderAdminTable();
+  } catch(e){
+    msgEl.innerHTML = '<div class="error-msg">'+e.message+'</div>';
+  }
+}
+
+function renderAdminTable(){
+  const q = (document.getElementById('admin-search').value||'').trim().toLowerCase();
+  const tbody = document.querySelector('#admin-table tbody');
+  const entries = Object.entries(cachedData.students).filter(([key,st])=>{
+    if(!q) return true;
+    return (st.nom+' '+st.prenom+' '+st.departement).toLowerCase().includes(q);
+  }).sort((a,b)=> a[1].nom.localeCompare(b[1].nom));
+
+  document.getElementById('a-count').textContent = Object.keys(cachedData.students).length;
+
+  if(!entries.length){
+    tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;color:#a5966c;">Aucun étudiant.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = entries.map(([key,st])=>{
+    const c = computeAverages(st);
+    return `<tr style="cursor:pointer;" onclick="showDetail('${key}')">
+      <td>${st.nom}</td><td>${st.prenom}</td><td>${st.departement}</td>
+      <td>${c.nbSessions}</td>
+      <td>${c.nbSessions?c.lScore:'—'}</td><td>${c.nbSessions?c.rScore:'—'}</td><td>${c.nbSessions?c.total:'—'}</td>
+      <td>${c.nbSessions?cecrlFor(c.total):'—'}</td>
+      <td><button class="danger" onclick="event.stopPropagation();deleteStudent('${key}')">Supprimer</button></td>
+    </tr>`;
+  }).join('');
+}
+
+function showDetail(key){
+  const st = cachedData.students[key];
+  const el = document.getElementById('admin-detail');
+  const sessions = (st.sessions||[]).slice().sort((a,b)=>(a.date<b.date?1:-1));
+  el.innerHTML = `<div class="panel">
+    <h2>${st.nom} ${st.prenom} — ${st.departement}</h2>
+    <div class="table-wrap">
+      <table><thead><tr><th>Date</th><th>Séance</th>${PARTS.map(p=>`<th>${p.label}</th>`).join('')}<th></th></tr></thead>
+      <tbody>${sessions.map((s,i)=>`<tr>
+        <td>${s.date}</td><td>${s.label||'—'}</td>
+        ${PARTS.map(p=>`<td>${s.scores[p.id]}</td>`).join('')}
+        <td><button class="danger" onclick="deleteSession('${key}', ${sessions.length-1-i})">✕</button></td>
+      </tr>`).join('')}</tbody></table>
+    </div>
+  </div>`;
+}
+
+async function deleteStudent(key){
+  if(!confirm('Supprimer définitivement ce profil et toutes ses séances ?')) return;
+  try{
+    await apiPost({action:'adminDelete', key, adminHash: currentCodeHash});
+    delete cachedData.students[key];
+    renderAdminTable();
+    document.getElementById('admin-detail').innerHTML = '';
+  } catch(e){ alert(e.message); }
+}
+
+async function deleteSession(key, sortedIndexFromEnd){
+  const st = cachedData.students[key];
+  const sessions = st.sessions.slice().sort((a,b)=>(a.date<b.date?1:-1));
+  const target = sessions[sessions.length-1-sortedIndexFromEnd];
+  const realIndex = st.sessions.indexOf(target);
+  if(realIndex === -1) return;
+  st.sessions.splice(realIndex,1);
+  try{
+    await apiPost({action:'adminUpdate', key, adminHash: currentCodeHash, student: st});
+    renderAdminTable();
+    showDetail(key);
+  } catch(e){ alert(e.message); }
+}
+
+function exportCsv(){
+  const rows = [['Nom','Prenom','Departement','Nb seances', ...PARTS.map(p=>'Moy '+p.label), 'Listening /495','Reading /495','Total /990','Niveau']];
+  Object.values(cachedData.students).forEach(st=>{
+    const c = computeAverages(st);
+    rows.push([st.nom, st.prenom, st.departement, c.nbSessions,
+      ...PARTS.map(p=>c.avg[p.id].toFixed(1)),
+      c.nbSessions?c.lScore:'', c.nbSessions?c.rScore:'', c.nbSessions?c.total:'',
+      c.nbSessions?cecrlFor(c.total):'']);
+  });
+  const csv = rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(';')).join('\n');
+  const blob = new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8;'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'toeic-scores-'+new Date().toISOString().slice(0,10)+'.csv';
+  a.click();
+}
+
+function logout(){
+  currentKey = null; currentCodeHash = null;
+  document.getElementById('a-code').value = '';
+  document.getElementById('s-code').value = '';
+  goto('home');
+}
+
+goto('home');
+</script>
+</body>
+</html>
