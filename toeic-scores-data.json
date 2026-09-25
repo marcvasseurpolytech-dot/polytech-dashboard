@@ -22,20 +22,6 @@
         },
         {
           "date": "2026-09-25",
-          "label": "test 2 grammaire",
-          "type": "raw",
-          "scores": {
-            "p1": 0,
-            "p2": 0,
-            "p3": 0,
-            "p4": 0,
-            "p5": 16,
-            "p6": 0,
-            "p7": 0
-          }
-        },
-        {
-          "date": "2026-09-25",
           "label": "",
           "type": "raw",
           "entries": [
