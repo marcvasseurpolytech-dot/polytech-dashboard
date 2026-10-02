@@ -701,6 +701,37 @@
               "score": 14
             }
           ]
+        },
+        {
+          "date": "2026-10-02",
+          "label": "",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p1",
+              "score": 6
+            },
+            {
+              "part": "p3",
+              "score": 37
+            },
+            {
+              "part": "p5",
+              "score": 21
+            },
+            {
+              "part": "p2",
+              "score": 21
+            },
+            {
+              "part": "p5",
+              "score": 19
+            },
+            {
+              "part": "p6",
+              "score": 14
+            }
+          ]
         }
       ]
     },
