@@ -842,7 +842,43 @@
       "prenom": "Marc",
       "departement": "BC4",
       "codeHash": "524beeec873cb78924f03e60f2b9a7313873df5881f0654eaead2d581336e643",
-      "sessions": []
+      "sessions": [
+        {
+          "date": "2026-10-02",
+          "label": "",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p1",
+              "score": 6
+            },
+            {
+              "part": "p2",
+              "score": 24
+            },
+            {
+              "part": "p3",
+              "score": 35
+            },
+            {
+              "part": "p4",
+              "score": 30
+            },
+            {
+              "part": "p5",
+              "score": 30
+            },
+            {
+              "part": "p6",
+              "score": 15
+            },
+            {
+              "part": "p7",
+              "score": 51
+            }
+          ]
+        }
+      ]
     }
   }
 }
