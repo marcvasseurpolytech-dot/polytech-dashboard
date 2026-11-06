@@ -1,7 +1,8 @@
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 const REPO = "marcvasseurpolytech-dot/polytech-dashboard";
 const FILE_PATH = "toeic-scores-data.json";
-const BRANCH = "main";
+// Dedicated branch: writes must not trigger a production deploy.
+const BRANCH = "data";
 const ADMIN_HASH = "f7ff32b790557d7601029bc0b296115f82e18d799b6e27ba0c6202fdbd1f2a08";
 
 async function ghGet() {
