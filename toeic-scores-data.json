@@ -1,0 +1,1133 @@
+{
+  "students": {
+    "vanlande__lea__booster4a": {
+      "nom": "VANLANDE",
+      "prenom": "Léa",
+      "departement": "Booster4A",
+      "codeHash": "bcb1ac2aaaf1d367b9fd960eb0cee5709a3fd9d0c99a53b19795a32588353c3b",
+      "sessions": [
+        {
+          "date": "2026-09-25",
+          "label": "test 2 grammaire",
+          "type": "raw",
+          "scores": {
+            "p1": 0,
+            "p2": 0,
+            "p3": 0,
+            "p4": 0,
+            "p5": 16,
+            "p6": 0,
+            "p7": 0
+          }
+        },
+        {
+          "date": "2026-09-25",
+          "label": "Test1-listening part 2",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p1",
+              "score": 0
+            },
+            {
+              "part": "p2",
+              "score": 18
+            },
+            {
+              "part": "p3",
+              "score": 0
+            },
+            {
+              "part": "p4",
+              "score": 0
+            },
+            {
+              "part": "p5",
+              "score": 0
+            },
+            {
+              "part": "p6",
+              "score": 0
+            },
+            {
+              "part": "p7",
+              "score": 0
+            }
+          ]
+        },
+        {
+          "date": "2026-09-25",
+          "label": "listening part2",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p1",
+              "score": 0
+            },
+            {
+              "part": "p2",
+              "score": 19
+            },
+            {
+              "part": "p3",
+              "score": 0
+            },
+            {
+              "part": "p4",
+              "score": 0
+            },
+            {
+              "part": "p5",
+              "score": 0
+            },
+            {
+              "part": "p6",
+              "score": 0
+            },
+            {
+              "part": "p7",
+              "score": 0
+            }
+          ]
+        }
+      ]
+    },
+    "carpentier__gabin__booster-4a": {
+      "nom": "CARPENTIER",
+      "prenom": "Gabin",
+      "departement": "booster 4A",
+      "codeHash": "5dec2555aa54ac568f403b140af7d6fcd39f041a3b7f2b69e283fd7d29a73a1c",
+      "sessions": [
+        {
+          "date": "2026-09-25",
+          "label": "test 2 grammaire",
+          "type": "raw",
+          "scores": {
+            "p1": 0,
+            "p2": 0,
+            "p3": 0,
+            "p4": 18,
+            "p5": 0,
+            "p6": 0,
+            "p7": 0
+          }
+        },
+        {
+          "date": "2026-09-25",
+          "label": "test 1 listening",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p1",
+              "score": 0
+            },
+            {
+              "part": "p2",
+              "score": 17
+            },
+            {
+              "part": "p3",
+              "score": 0
+            },
+            {
+              "part": "p4",
+              "score": 0
+            },
+            {
+              "part": "p5",
+              "score": 0
+            },
+            {
+              "part": "p6",
+              "score": 0
+            },
+            {
+              "part": "p7",
+              "score": 0
+            }
+          ]
+        },
+        {
+          "date": "2026-09-25",
+          "label": "test 10",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p1",
+              "score": 0
+            },
+            {
+              "part": "p2",
+              "score": 0
+            },
+            {
+              "part": "p3",
+              "score": 0
+            },
+            {
+              "part": "p4",
+              "score": 0
+            },
+            {
+              "part": "p5",
+              "score": 0
+            },
+            {
+              "part": "p6",
+              "score": 8
+            },
+            {
+              "part": "p7",
+              "score": 0
+            }
+          ]
+        },
+        {
+          "date": "2026-09-25",
+          "label": "test 2 listening",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p1",
+              "score": 0
+            },
+            {
+              "part": "p2",
+              "score": 19
+            },
+            {
+              "part": "p3",
+              "score": 0
+            },
+            {
+              "part": "p4",
+              "score": 0
+            },
+            {
+              "part": "p5",
+              "score": 0
+            },
+            {
+              "part": "p6",
+              "score": 0
+            },
+            {
+              "part": "p7",
+              "score": 0
+            }
+          ]
+        },
+        {
+          "date": "2026-10-02",
+          "label": "vendredi 02 octobre",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p1",
+              "score": 6
+            },
+            {
+              "part": "p2",
+              "score": 21
+            },
+            {
+              "part": "p3",
+              "score": 34
+            },
+            {
+              "part": "p4",
+              "score": 20
+            },
+            {
+              "part": "p5",
+              "score": 0
+            },
+            {
+              "part": "p6",
+              "score": 0
+            }
+          ]
+        }
+      ]
+    },
+    "lallement__pierre__booster4a": {
+      "nom": "LALLEMENT",
+      "prenom": "Pierre",
+      "departement": "Booster4A",
+      "codeHash": "8c93cd35d2c753657eb0a18984001dba9f3c0409dcac98a381290d9e1ed151f4",
+      "sessions": [
+        {
+          "date": "2026-09-25",
+          "label": "Test2 Grammar",
+          "type": "raw",
+          "scores": {
+            "p1": 0,
+            "p2": 0,
+            "p3": 0,
+            "p4": 0,
+            "p5": 17,
+            "p6": 0,
+            "p7": 0
+          }
+        },
+        {
+          "date": "2026-09-25",
+          "label": "Test Part2",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p1",
+              "score": 0
+            },
+            {
+              "part": "p2",
+              "score": 21
+            },
+            {
+              "part": "p3",
+              "score": 0
+            },
+            {
+              "part": "p4",
+              "score": 0
+            },
+            {
+              "part": "p5",
+              "score": 0
+            },
+            {
+              "part": "p6",
+              "score": 0
+            },
+            {
+              "part": "p7",
+              "score": 0
+            }
+          ]
+        },
+        {
+          "date": "2026-09-25",
+          "label": "",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p1",
+              "score": 0
+            },
+            {
+              "part": "p2",
+              "score": 0
+            },
+            {
+              "part": "p3",
+              "score": 0
+            },
+            {
+              "part": "p4",
+              "score": 0
+            },
+            {
+              "part": "p5",
+              "score": 0
+            },
+            {
+              "part": "p6",
+              "score": 11
+            },
+            {
+              "part": "p7",
+              "score": 0
+            }
+          ]
+        },
+        {
+          "date": "2026-09-25",
+          "label": "",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p1",
+              "score": 0
+            },
+            {
+              "part": "p2",
+              "score": 17
+            },
+            {
+              "part": "p3",
+              "score": 0
+            },
+            {
+              "part": "p4",
+              "score": 0
+            },
+            {
+              "part": "p5",
+              "score": 0
+            },
+            {
+              "part": "p6",
+              "score": 0
+            },
+            {
+              "part": "p7",
+              "score": 0
+            }
+          ]
+        },
+        {
+          "date": "2026-09-29",
+          "label": "",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p1",
+              "score": 0
+            },
+            {
+              "part": "p2",
+              "score": 0
+            },
+            {
+              "part": "p3",
+              "score": 0
+            },
+            {
+              "part": "p4",
+              "score": 0
+            },
+            {
+              "part": "p5",
+              "score": 21
+            },
+            {
+              "part": "p6",
+              "score": 0
+            },
+            {
+              "part": "p7",
+              "score": 0
+            }
+          ]
+        }
+      ]
+    },
+    "gastinel__yann__booster4a": {
+      "nom": "GASTINEL",
+      "prenom": "yann",
+      "departement": "booster4A",
+      "codeHash": "483029d526219f816e8e8f6a9de07b422633dba180ffc26faac22862a017519f",
+      "sessions": [
+        {
+          "date": "2026-09-25",
+          "label": "",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p4",
+              "score": 17
+            },
+            {
+              "part": "p2",
+              "score": 20
+            },
+            {
+              "part": "p3",
+              "score": 0
+            },
+            {
+              "part": "p4",
+              "score": 20
+            },
+            {
+              "part": "p5",
+              "score": 0
+            },
+            {
+              "part": "p6",
+              "score": 9
+            },
+            {
+              "part": "p7",
+              "score": 0
+            }
+          ]
+        }
+      ]
+    },
+    "carre__salome__booster-4a": {
+      "nom": "CARRE",
+      "prenom": "Salomé",
+      "departement": "BOOSTER 4A",
+      "codeHash": "41c8fa7d060badc5618a28326dc00cf07e1ce22a79a94a1fed94f271d3127447",
+      "sessions": [
+        {
+          "date": "2026-09-25",
+          "label": "",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p2",
+              "score": 18
+            }
+          ]
+        },
+        {
+          "date": "2026-09-25",
+          "label": "",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p3",
+              "score": 33
+            },
+            {
+              "part": "p5",
+              "score": 24
+            },
+            {
+              "part": "p5",
+              "score": 25
+            },
+            {
+              "part": "p5",
+              "score": 18
+            },
+            {
+              "part": "p5",
+              "score": 19
+            },
+            {
+              "part": "p6",
+              "score": 11
+            },
+            {
+              "part": "p2",
+              "score": 19
+            },
+            {
+              "part": "p1",
+              "score": 5
+            },
+            {
+              "part": "p6",
+              "score": 14
+            },
+            {
+              "part": "p6",
+              "score": 10
+            }
+          ]
+        },
+        {
+          "date": "2026-09-25",
+          "label": "",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p6",
+              "score": 11
+            }
+          ]
+        },
+        {
+          "date": "2026-09-25",
+          "label": "",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p2",
+              "score": 18
+            }
+          ]
+        },
+        {
+          "date": "2026-10-01",
+          "label": "",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p6",
+              "score": 13
+            }
+          ]
+        },
+        {
+          "date": "2026-10-01",
+          "label": "",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p5",
+              "score": 27
+            }
+          ]
+        },
+        {
+          "date": "2026-10-02",
+          "label": "",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p1",
+              "score": 6
+            }
+          ]
+        },
+        {
+          "date": "2026-10-02",
+          "label": "",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p3",
+              "score": 28
+            }
+          ]
+        },
+        {
+          "date": "2026-10-02",
+          "label": "",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p5",
+              "score": 21
+            }
+          ]
+        },
+        {
+          "date": "2026-10-02",
+          "label": "",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p2",
+              "score": 23
+            }
+          ]
+        },
+        {
+          "date": "2026-10-02",
+          "label": "",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p5",
+              "score": 17
+            }
+          ]
+        },
+        {
+          "date": "2026-10-02",
+          "label": "",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p6",
+              "score": 13
+            }
+          ]
+        },
+        {
+          "date": "2026-10-06",
+          "label": "",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p7",
+              "score": 42
+            }
+          ]
+        },
+        {
+          "date": "2026-10-07",
+          "label": "Test TOEIC 1 sur plateforme",
+          "type": "official",
+          "listening": 440,
+          "reading": 345
+        },
+        {
+          "date": "2026-10-16",
+          "label": "",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p5",
+              "score": 24
+            }
+          ]
+        },
+        {
+          "date": "2026-10-26",
+          "label": "",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p5",
+              "score": 23
+            }
+          ]
+        },
+        {
+          "date": "2026-10-26",
+          "label": "",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p5",
+              "score": 18
+            }
+          ]
+        },
+        {
+          "date": "2026-10-26",
+          "label": "",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p5",
+              "score": 29
+            }
+          ]
+        },
+        {
+          "date": "2026-10-26",
+          "label": "",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p6",
+              "score": 16
+            }
+          ]
+        },
+        {
+          "date": "2026-10-26",
+          "label": "",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p6",
+              "score": 11
+            }
+          ]
+        },
+        {
+          "date": "2026-11-05",
+          "label": "",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p5",
+              "score": 24
+            }
+          ]
+        },
+        {
+          "date": "2026-11-05",
+          "label": "",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p5",
+              "score": 26
+            }
+          ]
+        },
+        {
+          "date": "2026-11-05",
+          "label": "",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p5",
+              "score": 23
+            }
+          ]
+        },
+        {
+          "date": "2026-11-05",
+          "label": "",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p5",
+              "score": 25
+            }
+          ]
+        },
+        {
+          "date": "2026-11-05",
+          "label": "",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p5",
+              "score": 27
+            }
+          ]
+        }
+      ]
+    },
+    "samake__el-hadji-hamed__iot4": {
+      "nom": "SAMAKE",
+      "prenom": "El Hadji Hamed",
+      "departement": "IOT4",
+      "codeHash": "8742da12785603740b63323eeee1263c6e09260db66c2a9700615a5e84d96b1b",
+      "sessions": []
+    },
+    "amiar__ilhame__booster-4a": {
+      "nom": "AMIAR",
+      "prenom": "Ilhame",
+      "departement": "Booster 4A",
+      "codeHash": "3b47492744946d5a188be73c702fb2e3cd1b635433f841381ae8d2e0ed67b45f",
+      "sessions": [
+        {
+          "date": "2026-09-25",
+          "label": "",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p2",
+              "score": 18
+            },
+            {
+              "part": "p2",
+              "score": 22
+            },
+            {
+              "part": "p4",
+              "score": 18
+            },
+            {
+              "part": "p6",
+              "score": 11
+            }
+          ]
+        },
+        {
+          "date": "2026-10-02",
+          "label": "",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p1",
+              "score": 6
+            },
+            {
+              "part": "p2",
+              "score": 19
+            },
+            {
+              "part": "p3",
+              "score": 36
+            },
+            {
+              "part": "p4",
+              "score": 19
+            }
+          ]
+        }
+      ]
+    },
+    "bournand__arthur__booster-4a": {
+      "nom": "BOURNAND",
+      "prenom": "Arthur",
+      "departement": "BOOSTER 4A",
+      "codeHash": "d20bdc364b3d7dfdcd81be5a3fd192d0f513fa79e92463bf0ed9efd2f46c243b",
+      "sessions": [
+        {
+          "date": "2026-09-25",
+          "label": "",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p2",
+              "score": 20
+            },
+            {
+              "part": "p5",
+              "score": 22
+            },
+            {
+              "part": "p6",
+              "score": 12
+            },
+            {
+              "part": "p2",
+              "score": 23
+            }
+          ]
+        },
+        {
+          "date": "2026-10-01",
+          "label": "",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p5",
+              "score": 21
+            },
+            {
+              "part": "p6",
+              "score": 14
+            }
+          ]
+        },
+        {
+          "date": "2026-10-02",
+          "label": "",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p1",
+              "score": 6
+            },
+            {
+              "part": "p3",
+              "score": 37
+            },
+            {
+              "part": "p5",
+              "score": 21
+            },
+            {
+              "part": "p2",
+              "score": 21
+            },
+            {
+              "part": "p5",
+              "score": 19
+            },
+            {
+              "part": "p6",
+              "score": 14
+            }
+          ]
+        },
+        {
+          "date": "2026-10-03",
+          "label": "",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p7",
+              "score": 43
+            }
+          ]
+        }
+      ]
+    },
+    "lescalier__lola__gc": {
+      "nom": "LESCALIER",
+      "prenom": "Lola",
+      "departement": "GC",
+      "codeHash": "0f70422e0f7cb2e5887b8e901eeba1b212031be53bec3d2891ef341e419ca66d",
+      "sessions": [
+        {
+          "date": "2026-09-25",
+          "label": "",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p4",
+              "score": 17
+            },
+            {
+              "part": "p2",
+              "score": 19
+            },
+            {
+              "part": "p6",
+              "score": 9
+            },
+            {
+              "part": "p2",
+              "score": 22
+            }
+          ]
+        },
+        {
+          "date": "2026-10-02",
+          "label": "",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p1",
+              "score": 6
+            },
+            {
+              "part": "p2",
+              "score": 19
+            },
+            {
+              "part": "p3",
+              "score": 32
+            },
+            {
+              "part": "p4",
+              "score": 19
+            }
+          ]
+        }
+      ]
+    },
+    "adamou__salim__booster-4a": {
+      "nom": "ADAMOU",
+      "prenom": "Salim",
+      "departement": "Booster 4A",
+      "codeHash": "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
+      "sessions": [
+        {
+          "date": "2026-09-25",
+          "label": "",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p1",
+              "score": 0
+            },
+            {
+              "part": "p2",
+              "score": 18
+            },
+            {
+              "part": "p3",
+              "score": 0
+            },
+            {
+              "part": "p4",
+              "score": 0
+            },
+            {
+              "part": "p5",
+              "score": 0
+            },
+            {
+              "part": "p6",
+              "score": 0
+            },
+            {
+              "part": "p7",
+              "score": 0
+            }
+          ]
+        },
+        {
+          "date": "2026-09-25",
+          "label": "",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p1",
+              "score": 0
+            },
+            {
+              "part": "p2",
+              "score": 18
+            },
+            {
+              "part": "p3",
+              "score": 0
+            },
+            {
+              "part": "p4",
+              "score": 0
+            },
+            {
+              "part": "p5",
+              "score": 0
+            },
+            {
+              "part": "p6",
+              "score": 0
+            },
+            {
+              "part": "p7",
+              "score": 0
+            }
+          ]
+        },
+        {
+          "date": "2026-09-25",
+          "label": "",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p1",
+              "score": 0
+            },
+            {
+              "part": "p2",
+              "score": 0
+            },
+            {
+              "part": "p3",
+              "score": 0
+            },
+            {
+              "part": "p4",
+              "score": 0
+            },
+            {
+              "part": "p5",
+              "score": 0
+            },
+            {
+              "part": "p6",
+              "score": 9
+            },
+            {
+              "part": "p7",
+              "score": 0
+            }
+          ]
+        }
+      ]
+    },
+    "marc__marc__bc4": {
+      "nom": "MARC",
+      "prenom": "Marc",
+      "departement": "BC4",
+      "codeHash": "524beeec873cb78924f03e60f2b9a7313873df5881f0654eaead2d581336e643",
+      "sessions": [
+        {
+          "date": "2026-10-02",
+          "label": "",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p1",
+              "score": 6
+            },
+            {
+              "part": "p2",
+              "score": 24
+            },
+            {
+              "part": "p3",
+              "score": 35
+            },
+            {
+              "part": "p4",
+              "score": 30
+            },
+            {
+              "part": "p5",
+              "score": 30
+            },
+            {
+              "part": "p6",
+              "score": 15
+            },
+            {
+              "part": "p7",
+              "score": 51
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
