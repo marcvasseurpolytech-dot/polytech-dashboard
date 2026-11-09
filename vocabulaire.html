@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#14284B">
+<title>Vocabulaire anglais · Polytech Lille</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Direction: navy band and cream pages, gold for what is active; phone first, bottom tab bar on small screens. */
+:root {
+  --bg: #FBF6E9;
+  --surface: #FFFDF6;
+  --chip: #F1E8CC;
+  --ink: #14284B;
+  --muted: #55627D;
+  --line: #E2D8BC;
+  --band: #14284B;
+  --band-ink: #FBF6E9;
+  --gold: #D9A92B;
+  --gold-text: #7A5800;
+  --accent: #14284B;
+  --accent-ink: #FBF6E9;
+  --good: #1D6F46;
+  --good-bg: #E3F2E8;
+  --bad: #A02D28;
+  --bad-bg: #FBE6E3;
+  --font-display: "Playfair Display", Georgia, "Times New Roman", serif;
+  --font-body: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0C1830;
+    --surface: #14274A;
+    --chip: #1E3560;
+    --ink: #F3EBD4;
+    --muted: #A9B5CE;
+    --line: #2A3F66;
+    --band: #091226;
+    --band-ink: #F3EBD4;
+    --gold: #E2B53F;
+    --gold-text: #E2B53F;
+    --accent: #E2B53F;
+    --accent-ink: #0C1830;
+    --good: #7FD3A0;
+    --good-bg: #123626;
+    --bad: #F4948C;
+    --bad-bg: #421C1A;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0C1830;
+  --surface: #14274A;
+  --chip: #1E3560;
+  --ink: #F3EBD4;
+  --muted: #A9B5CE;
+  --line: #2A3F66;
+  --band: #091226;
+  --band-ink: #F3EBD4;
+  --gold: #E2B53F;
+  --gold-text: #E2B53F;
+  --accent: #E2B53F;
+  --accent-ink: #0C1830;
+  --good: #7FD3A0;
+  --good-bg: #123626;
+  --bad: #F4948C;
+  --bad-bg: #421C1A;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.5;
+}
+button, select, input, a { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+.wrap {
+  max-width: 880px;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left));
+  padding-right: max(16px, env(safe-area-inset-right));
+}
+
+.band { background: var(--band); color: var(--band-ink); padding: calc(env(safe-area-inset-top, 0px) + 28px) 0 0; }
+.band h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.1rem, 8vw, 3.4rem);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+.band .sub { margin: 8px 0 22px; opacity: 0.8; }
+.tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+.tabs a {
+  padding: 10px 22px;
+  border-radius: 10px 10px 0 0;
+  color: var(--band-ink);
+  text-decoration: none;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.08);
+}
+.tabs a:hover { background: rgba(255, 255, 255, 0.16); }
+.tabs a[aria-current="page"] { background: var(--bg); color: var(--ink); }
+.tabs a:focus-visible, .btn:focus-visible, .star:focus-visible, select:focus-visible, input:focus-visible, .card:focus-visible, .opt:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 2px;
+}
+
+main { padding-top: 20px; padding-bottom: 28px; }
+
+.scope { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin-bottom: 14px; }
+.scope label, .tools label, .deckbar label, .row label { font-weight: 600; color: var(--muted); font-size: 0.95rem; }
+select, input[type="search"] {
+  font: inherit;
+  font-size: 16px;
+  min-height: 46px;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 8px 12px;
+}
+.scope select { flex: 1 1 220px; }
+.count-note { color: var(--muted); font-size: 0.95rem; }
+
+.tools {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 10;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px;
+  padding: 8px 0;
+  margin-bottom: 4px;
+  background: var(--bg);
+}
+.tools input[type="search"] { flex: 1 1 100%; min-width: 0; }
+.tools select { flex: 1 1 140px; }
+.info { margin: 0 0 12px; color: var(--muted); font-size: 0.95rem; }
+
+#list { display: flex; flex-direction: column; gap: 12px; }
+.entry {
+  display: flex; flex-direction: column; gap: 6px;
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+.tag { align-self: flex-start; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.04em; color: var(--gold-text); border: 1px solid var(--line); border-radius: 999px; padding: 2px 10px; white-space: nowrap; }
+.entry-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+.entry h3 { margin: 0; font-family: var(--font-display); font-size: 1.35rem; font-weight: 700; line-height: 1.25; overflow-wrap: anywhere; }
+.pron { display: block; margin: 3px 0 0; font-family: var(--font-mono); font-weight: 400; font-size: 0.82rem; line-height: 1.4; color: var(--muted); overflow-wrap: anywhere; }
+.fr { margin: 0; font-size: 1.12rem; overflow-wrap: anywhere; }
+.syn { margin-top: 6px; }
+.k { display: block; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold-text); margin-bottom: 4px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; padding: 0; margin: 0; }
+.chips li { font-size: 0.95rem; padding: 3px 11px; border-radius: 999px; background: var(--chip); }
+.ex { margin: 8px 0 0; padding: 10px 12px; background: var(--chip); border-left: 3px solid var(--gold); border-radius: 0 10px 10px 0; font-size: 1rem; }
+.ex em { display: block; font-style: italic; }
+.ex span { display: block; margin-top: 2px; color: var(--muted); }
+.meta { margin: 8px 0 0; font-size: 0.95rem; color: var(--muted); }
+.meta b { color: var(--gold-text); }
+.star {
+  flex: none;
+  width: 48px; height: 48px;
+  font-size: 1.6rem; line-height: 1;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+.star[aria-pressed="true"] { color: var(--gold-text); background: rgba(217, 169, 43, 0.2); border-color: var(--gold); }
+.empty { padding: 28px 16px; text-align: center; color: var(--muted); background: var(--surface); border: 1px dashed var(--line); border-radius: 14px; }
+
+.btn {
+  font: inherit; font-weight: 600;
+  min-height: 50px;
+  padding: 10px 18px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+}
+.btn:hover { border-color: var(--gold); }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.btn[aria-pressed="true"] { border-color: var(--gold); background: rgba(217, 169, 43, 0.2); color: var(--gold-text); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.deckbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin-bottom: 8px; }
+.deckbar select { flex: 1 1 140px; }
+.card {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 8px;
+  min-height: 240px;
+  padding: 24px 18px;
+  text-align: center;
+  background: var(--surface);
+  border: 2px solid var(--gold);
+  border-radius: 22px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.face-label { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-text); }
+.big { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.9rem, 8vw, 3rem); line-height: 1.15; text-wrap: balance; overflow-wrap: anywhere; }
+.big.fr-side { font-weight: 500; font-size: clamp(1.5rem, 6.5vw, 2.2rem); }
+.card .pron { margin: 0; font-size: 1rem; }
+.card .details { width: 100%; max-width: 560px; text-align: left; margin-top: 6px; }
+.card .hint { margin-top: 10px; font-size: 0.85rem; color: var(--muted); }
+.controls { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+.controls .wide { grid-column: 1 / -1; }
+.controls.single { grid-template-columns: 1fr; }
+
+.panel { padding: 20px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 18px; }
+.panel h2 { margin: 0 0 6px; font-family: var(--font-display); font-size: 1.6rem; }
+.panel > p { margin: 0 0 14px; color: var(--muted); }
+.row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin-bottom: 14px; }
+.row select { flex: 1 1 200px; }
+.qhead { display: flex; justify-content: space-between; gap: 10px; color: var(--muted); font-size: 0.95rem; margin-bottom: 10px; font-variant-numeric: tabular-nums; }
+.prompt { margin: 0 0 16px; font-family: var(--font-display); font-weight: 700; font-size: clamp(1.5rem, 6vw, 2.2rem); line-height: 1.2; overflow-wrap: anywhere; }
+.prompt .pron { margin: 4px 0 0; font-size: 0.95rem; }
+.opts { display: grid; gap: 10px; }
+.opt {
+  font: inherit; font-size: 1.05rem; text-align: left;
+  min-height: 54px;
+  padding: 12px 16px;
+  background: var(--bg);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+.opt:hover:not(:disabled) { border-color: var(--gold); }
+.opt.good { background: var(--good-bg); border-color: var(--good); color: var(--good); font-weight: 600; }
+.opt.bad { background: var(--bad-bg); border-color: var(--bad); color: var(--bad); }
+.opt:disabled { cursor: default; }
+.feedback { margin: 16px 0 6px; font-weight: 700; }
+.feedback.good { color: var(--good); }
+.feedback.bad { color: var(--bad); }
+.score { font-family: var(--font-display); font-size: 3rem; font-weight: 700; margin: 0 0 4px; font-variant-numeric: tabular-nums; }
+.errors { list-style: none; padding: 0; margin: 0 0 16px; display: flex; flex-direction: column; gap: 8px; }
+.errors li { padding: 10px 14px; background: var(--bg); border: 1px solid var(--line); border-radius: 12px; overflow-wrap: anywhere; }
+.errors b { font-family: var(--font-display); }
+
+footer { border-top: 1px solid var(--line); padding: 18px 0 30px; color: var(--muted); font-size: 0.88rem; }
+footer .wrap { display: flex; flex-wrap: wrap; gap: 6px 16px; justify-content: space-between; }
+footer strong { letter-spacing: 0.06em; color: var(--ink); }
+
+@media (min-width: 641px) {
+  .tools input[type="search"] { flex: 1 1 260px; }
+  .controls { max-width: 560px; margin-left: auto; margin-right: auto; }
+  .panel { padding: 24px; }
+}
+@media (max-width: 640px) {
+  .band { padding-bottom: 18px; }
+  .band .sub { margin: 6px 0 0; font-size: 0.95rem; }
+  .tabs {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 0;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    background: var(--band);
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+  }
+  .tabs a { border-radius: 0; background: transparent; text-align: center; padding: 15px 4px; min-height: 54px; font-size: 1.05rem; }
+  .tabs a:hover { background: transparent; }
+  .tabs a[aria-current="page"] { background: transparent; color: var(--gold); box-shadow: inset 0 3px 0 var(--gold); }
+  footer { padding-bottom: calc(86px + env(safe-area-inset-bottom, 0px)); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .opt, .btn, .star { transition: background-color 0.15s, border-color 0.15s; }
+}
+</style>
+</head>
+<body>
+<header class="band">
+  <div class="wrap">
+    <h1>Vocabulaire anglais</h1>
+    <p class="sub" id="count"></p>
+    <nav class="tabs" aria-label="Sections">
+      <a href="#liste" data-tab="liste">Liste</a>
+      <a href="#fiches" data-tab="fiches">Fiches</a>
+      <a href="#quiz" data-tab="quiz">Quiz</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="scope">
+    <label for="scope">Mots concernés</label>
+    <select id="scope"></select>
+    <span class="count-note" id="scopeCount"></span>
+  </div>
+
+  <section id="view-liste" aria-label="Liste du vocabulaire">
+    <div class="tools">
+      <input type="search" id="q" placeholder="Rechercher en anglais ou en français" aria-label="Rechercher un mot" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false">
+      <label for="sort">Tri</label>
+      <select id="sort">
+        <option value="note">Ordre de la note</option>
+        <option value="az">A à Z</option>
+      </select>
+    </div>
+    <p class="info" id="resultInfo" aria-live="polite"></p>
+    <div id="list"></div>
+  </section>
+
+  <section id="view-fiches" aria-label="Fiches à retourner" hidden>
+    <div class="deckbar">
+      <label for="dir">Face visible</label>
+      <select id="dir">
+        <option value="enfr">Anglais</option>
+        <option value="fren">Français</option>
+      </select>
+      <button type="button" class="btn" id="shuffle">Mélanger</button>
+    </div>
+    <p class="info" id="counter" aria-live="polite"></p>
+    <div id="cardbox"></div>
+    <div class="controls">
+      <button type="button" class="btn" id="prev">◀&#xFE0E; Précédent</button>
+      <button type="button" class="btn" id="next">Suivant ▶&#xFE0E;</button>
+      <button type="button" class="btn primary wide" id="flipBtn">Retourner</button>
+      <button type="button" class="btn wide" id="favBtn" aria-pressed="false">☆ À revoir</button>
+    </div>
+  </section>
+
+  <section id="view-quiz" aria-label="Quiz" hidden>
+    <div id="quizbox"></div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span><strong>MARC VASSEUR | POLYTECH LILLE</strong></span>
+    <span>Marc Vasseur, marc.vasseur@polytech-lille.fr</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  var TYPES = { verbe: "Verbe", adj: "Adjectif / adverbe", nom: "Nom", expr: "Expression", argot: "Argot" };
+  var SCOPES = [
+    ["all", "Tout le vocabulaire"],
+    ["verbe", "Verbes"],
+    ["adj", "Adjectifs et adverbes"],
+    ["nom", "Noms"],
+    ["expr", "Expressions"],
+    ["argot", "Argot et familier"],
+    ["fav", "Mes mots à revoir"]
+  ];
+
+  /* g = confusable group: two words sharing g are never offered as wrong answers for each other in the quiz. */
+  var WORDS = [
+    { en: "Irretrievably", pron: "/ˌɪrɪˈtriːvəbli/", type: "adj", fr: "irrémédiablement ; irrévocablement",
+      syn: "irrevocably, permanently, beyond repair",
+      exs: [["The files were irretrievably lost after the crash.", "Les fichiers ont été irrémédiablement perdus après la panne."]] },
+    { en: "Tailgate", pron: "/ˈteɪlɡeɪt/", type: "nom", fr: "hayon (d’une voiture)",
+      syn: "rear door, liftgate",
+      exs: [["Open the tailgate and load the boxes.", "Ouvre le hayon et charge les cartons."], ["He was tailgating me on the motorway.", "Il me collait de trop près sur l’autoroute."]],
+      note: "Le verbe to tailgate signifie rouler trop près du véhicule qui précède. Le pare-chocs se dit bumper." },
+    { en: "To be privy to something", pron: "/tə biː ˈprɪvi tə ˈsʌmθɪŋ/", type: "verbe", fr: "être au courant de quelque chose ; être dans la confidence",
+      syn: "to be aware of, to be informed about, to be in the know",
+      exs: [["Only a few employees were privy to the merger plans.", "Seuls quelques employés étaient au courant du projet de fusion."]],
+      note: "Surtout pour une information confidentielle." },
+    { en: "You’re cracked, pal!", pron: "/jɔː krækt pæl/", type: "expr", fr: "T’as craqué, mec ! ; t’es fêlé, mon pote !",
+      syn: "you’re crazy, you’re nuts, you’ve lost it",
+      exs: [["You want to swim in November? You’re cracked, pal!", "Tu veux nager en novembre ? T’es fêlé, mon pote !"]],
+      note: "Familier : cracked signifie fou, dingue." },
+    { en: "It’s beyond my ken", pron: "/ɪts bɪˈjɒnd maɪ ken/", type: "expr", g: "depth", fr: "cela dépasse mon entendement",
+      syn: "it’s beyond my understanding, it’s over my head",
+      exs: [["Quantum physics is beyond my ken.", "La physique quantique dépasse mon entendement."]],
+      note: "Ken : champ des connaissances, compréhension." },
+    { en: "To be on the cusp of doing something", pron: "/tə biː ɒn ðə kʌsp əv ˈduːɪŋ ˈsʌmθɪŋ/", type: "verbe", alt: "On the cusp of", fr: "être sur le point de faire quelque chose ; (on the cusp of) à deux doigts de",
+      syn: "to be on the verge of, to be on the brink of, to be about to",
+      exs: [["The company is on the cusp of a major breakthrough.", "L’entreprise est sur le point de réaliser une percée majeure."], ["The team stands on the cusp of victory.", "L’équipe est à deux doigts de la victoire."]] },
+    { en: "To wager", pron: "/tə ˈweɪdʒə/", type: "verbe", fr: "parier",
+      syn: "to bet, to gamble",
+      exs: [["I wager he will be late again.", "Je parie qu’il sera encore en retard."], ["They wagered a week’s salary on the match.", "Ils ont parié une semaine de salaire sur le match."]] },
+    { en: "Inordinately", pron: "/ɪnˈɔːdɪnətli/", type: "adj", fr: "extrêmement ; démesurément",
+      syn: "excessively, unduly, disproportionately",
+      exs: [["She was inordinately proud of her garden.", "Elle était démesurément fière de son jardin."]] },
+    { en: "To pry something open", pron: "/tə praɪ ˈsʌmθɪŋ ˈəʊpən/", type: "verbe", fr: "ouvrir quelque chose en faisant levier",
+      syn: "to prise open, to lever open, to force open",
+      exs: [["He pried the lid open with a screwdriver.", "Il a ouvert le couvercle en faisant levier avec un tournevis."]] },
+    { en: "Gingerly", pron: "/ˈdʒɪndʒəli/", type: "adj", fr: "avec précaution",
+      syn: "cautiously, carefully, warily, delicately",
+      exs: [["She gingerly stepped onto the frozen lake.", "Elle s’avança avec précaution sur le lac gelé."]] },
+    { en: "Unflappable", pron: "/ʌnˈflæpəbl/", type: "adj", g: "calm", fr: "imperturbable",
+      syn: "calm, composed, cool-headed, unruffled",
+      exs: [["Our pilot stayed unflappable throughout the turbulence.", "Notre pilote est resté imperturbable pendant toute la turbulence."]] },
+    { en: "Egress", pron: "/ˈiːɡres/", type: "nom", fr: "sortie",
+      syn: "exit, way out",
+      exs: [["Fire doors must never block egress.", "Les portes coupe-feu ne doivent jamais bloquer la sortie."]],
+      note: "Terme formel." },
+    { en: "Steadfast", pron: "/ˈstedfɑːst/", type: "adj", fr: "dévoué, résolu, tenace ; ferme, fiable",
+      syn: "firm, reliable, resolute, unwavering, loyal",
+      exs: [["He remained steadfast in his support for the project.", "Il est resté inébranlable dans son soutien au projet."], ["She is a steadfast friend.", "C’est une amie fidèle."]] },
+    { en: "Steadfastness", pron: "/ˈstedfɑːstnəs/", type: "nom", fr: "ténacité ; fermeté",
+      syn: "determination, constancy, perseverance",
+      exs: [["We admired her steadfastness in the face of adversity.", "Nous admirions sa ténacité face à l’adversité."]] },
+    { en: "Second-hand smoke", pron: "/ˌsekənd hænd ˈsməʊk/", type: "nom", fr: "tabagisme passif",
+      syn: "passive smoking, environmental tobacco smoke",
+      exs: [["Second-hand smoke is harmful, especially for children.", "Le tabagisme passif est nocif, surtout pour les enfants."]] },
+    { en: "To brook no delays", pron: "/tə brʊk nəʊ dɪˈleɪz/", type: "verbe", fr: "ne tolérer aucun retard",
+      syn: "to tolerate no delay, not to stand for delays",
+      exs: [["The director brooks no delays on this project.", "Le directeur ne tolère aucun retard sur ce projet."]] },
+    { en: "To shirk a problem / responsibilities", pron: "/tə ʃɜːk ə ˈprɒbləm, rɪˌspɒnsəˈbɪlətiz/", type: "verbe", fr: "éluder un problème ; fuir ses responsabilités",
+      syn: "to evade, to dodge, to avoid, to neglect",
+      exs: [["A good manager never shirks his responsibilities.", "Un bon manager ne fuit jamais ses responsabilités."]] },
+    { en: "Underling", pron: "/ˈʌndəlɪŋ/", type: "nom", fr: "subordonné ; sous-fifre (péjoratif)",
+      syn: "subordinate, junior, minion",
+      exs: [["He leaves the dull tasks to his underlings.", "Il laisse les tâches ingrates à ses subordonnés."]] },
+    { en: "By turns", pron: "/baɪ ˈtɜːnz/", type: "adj", fr: "tour à tour ; alternativement",
+      syn: "alternately, one after the other",
+      exs: [["She was by turns angry and amused.", "Elle était tour à tour en colère et amusée."]],
+      note: "Pour « chacun son tour », on dit plutôt in turn ou to take turns." },
+    { en: "A sea change", pron: "/ə ˈsiː tʃeɪndʒ/", type: "nom", fr: "changement radical ; rupture",
+      syn: "radical shift, transformation, upheaval",
+      exs: [["The internet brought about a sea change in publishing.", "Internet a provoqué un changement radical dans l’édition."]] },
+    { en: "Erratic", pron: "/ɪˈrætɪk/", type: "adj", g: "unsteady", fr: "imprévisible ; irrégulier",
+      syn: "unpredictable, irregular, inconsistent",
+      exs: [["His erratic behaviour worried his colleagues.", "Son comportement imprévisible inquiétait ses collègues."]] },
+    { en: "Purported", pron: "/pəˈpɔːtɪd/", type: "adj", fr: "prétendu ; supposé",
+      syn: "alleged, supposed, claimed",
+      exs: [["The purported author of the letter denies writing it.", "Le prétendu auteur de la lettre nie l’avoir écrite."]] },
+    { en: "To upend", pron: "/tə ʌpˈend/", type: "verbe", fr: "bouleverser ; retourner ; vaincre (to defeat)",
+      syn: "to overturn, to upset, to disrupt, to topple",
+      exs: [["The new law upended the whole industry.", "La nouvelle loi a bouleversé tout le secteur."], ["The underdog upended the champions in the final.", "L’outsider a battu les champions en finale."]] },
+    { en: "Hectic", pron: "/ˈhektɪk/", type: "adj", g: "unsteady", fr: "mouvementé ; trépidant (plein d’action)",
+      syn: "frantic, busy, frenzied, chaotic",
+      exs: [["I’ve had a hectic week at work.", "J’ai eu une semaine mouvementée au travail."]] },
+    { en: "To square up a bill", pron: "/tə skweə ʌp ə bɪl/", type: "verbe", fr: "régler une note (une addition)",
+      syn: "to pay, to settle a bill, to settle up",
+      exs: [["Let’s square up the bill before we leave.", "Réglons l’addition avant de partir."]] },
+    { en: "To root for somebody", pron: "/tə ruːt fə ˈsʌmbədi/", type: "verbe", fr: "encourager, soutenir quelqu’un",
+      syn: "to cheer for, to support, to back",
+      def: "to express support for the success of someone",
+      exs: [["Everyone in the stadium was rooting for the home team.", "Tout le stade encourageait l’équipe locale."]] },
+    { en: "Disingenuous", pron: "/ˌdɪsɪnˈdʒenjuəs/", type: "adj", fr: "peu sincère ; faussement naïf",
+      syn: "insincere, dishonest, cynical",
+      exs: [["It would be disingenuous to pretend we did not know.", "Il serait peu sincère de prétendre que nous ne savions pas."]] },
+    { en: "To relent", pron: "/tə rɪˈlent/", type: "verbe", fr: "plier, fléchir ; céder",
+      syn: "to give in, to yield, to soften",
+      exs: [["After hours of pleading, her father finally relented.", "Après des heures de supplications, son père a fini par céder."]] },
+    { en: "To stave off", pron: "/tə steɪv ɒf/", type: "verbe", fr: "contrer, parer (une menace) ; repousser",
+      syn: "to fend off, to ward off, to avert",
+      exs: [["The government cut spending to stave off bankruptcy.", "Le gouvernement a réduit les dépenses pour repousser la faillite."]] },
+    { en: "It has not escaped you that…", pron: "/ɪt həz nɒt ɪˈskeɪpt juː ðæt/", type: "expr", fr: "vous n’êtes pas sans savoir que…",
+      syn: "as you are well aware, as you know",
+      exs: [["It has not escaped you that prices are rising.", "Vous n’êtes pas sans savoir que les prix augmentent."]] },
+    { en: "To curtail", pron: "/tə kɜːˈteɪl/", type: "verbe", fr: "réduire ; écourter",
+      syn: "to cut short, to reduce, to restrict",
+      exs: [["Bad weather forced us to curtail our visit.", "Le mauvais temps nous a obligés à écourter notre visite."]] },
+    { en: "A smattering of Russian", pron: "/ə ˈsmætərɪŋ əv ˈrʌʃən/", type: "expr", alt: "A smattering of + langue", fr: "quelques rudiments de russe",
+      syn: "a little, a few basic words, a basic knowledge",
+      exs: [["I have a smattering of Russian from my school days.", "J’ai quelques rudiments de russe depuis l’école."]],
+      note: "A smattering of : quelques notions de." },
+    { en: "Meaningful", pron: "/ˈmiːnɪŋfəl/", type: "adj", fr: "significatif, important ; qui compte",
+      syn: "significant, important, worthwhile",
+      exs: [["That was a meaningful event for many people.", "C’était un événement important pour beaucoup de gens."], ["I want a meaningful job, not just a salary.", "Je veux un travail qui ait du sens, pas seulement un salaire."]] },
+    { en: "In droves", pron: "/ɪn drəʊvz/", type: "expr", fr: "en masse",
+      syn: "in large numbers, in crowds",
+      exs: [["Tourists flock to the island in droves every summer.", "Les touristes affluent en masse sur l’île chaque été."]] },
+    { en: "To scrimp on something", pron: "/tə skrɪmp ɒn ˈsʌmθɪŋ/", type: "verbe", fr: "lésiner sur, rogner sur ; économiser sur",
+      syn: "to skimp on, to economise on, to cut corners",
+      exs: [["Never scrimp on safety equipment.", "Ne lésinez jamais sur l’équipement de sécurité."]] },
+    { en: "Ultimately", pron: "/ˈʌltɪmətli/", type: "adj", g: "overall", fr: "en fin de compte",
+      syn: "in the end, eventually, at the end of the day",
+      exs: [["Ultimately, the decision is yours.", "En fin de compte, la décision vous appartient."]] },
+    { en: "Galling", pron: "/ˈɡɔːlɪŋ/", type: "adj", fr: "vexant ; exaspérant",
+      syn: "irritating, infuriating, humiliating",
+      exs: [["It was galling to see him take all the credit.", "C’était exaspérant de le voir s’attribuer tout le mérite."]] },
+    { en: "Portent / Omen", pron: "/ˈpɔːtent/, /ˈəʊmən/", type: "nom", fr: "présage",
+      syn: "sign, warning, harbinger",
+      exs: [["Many saw the eclipse as a bad omen.", "Beaucoup ont vu dans l’éclipse un mauvais présage."], ["The sudden resignation was a portent of trouble ahead.", "Cette démission soudaine était le présage de difficultés à venir."]] },
+    { en: "To be in a quandary", pron: "/tə biː ɪn ə ˈkwɒndri/", type: "expr", fr: "être face à un dilemme",
+      syn: "to be in a dilemma, to be in a predicament",
+      exs: [["I’m in a quandary: should I accept the job or stay?", "Je suis face à un dilemme : dois-je accepter le poste ou rester ?"]] },
+    { en: "To bandy words with somebody", pron: "/tə ˈbændi wɜːdz wɪð ˈsʌmbədi/", type: "verbe", g: "quarrel", fr: "se disputer, ergoter avec quelqu’un",
+      syn: "to argue with, to squabble with, to trade words",
+      exs: [["I’m not going to bandy words with you!", "Je ne vais pas ergoter avec toi !"]] },
+    { en: "That’s another kettle of fish!", pron: "/ðæts əˈnʌðə ˈketl əv fɪʃ/", type: "expr", alt: "That’s a whole different ballgame", fr: "c’est une autre paire de manches",
+      syn: "that’s a different matter, that’s a different story",
+      exs: [["Teaching adults is a whole different ballgame from teaching teenagers.", "Enseigner à des adultes, c’est une autre paire de manches que d’enseigner à des adolescents."]] },
+    { en: "I’m out of my depth", pron: "/aɪm aʊt əv maɪ depθ/", type: "expr", g: "depth", fr: "je suis dépassé ; je suis largué",
+      syn: "I’m out of my league, I’m in over my head",
+      exs: [["In advanced maths, I’m completely out of my depth.", "En mathématiques avancées, je suis complètement dépassé."]] },
+    { en: "It’s right up my street", pron: "/ɪts raɪt ʌp maɪ striːt/", type: "expr", fr: "c’est dans mes cordes ; c’est tout à fait mon truc",
+      syn: "it’s right up my alley, it’s just my thing",
+      exs: [["A job in renewable energy? That’s right up my street.", "Un poste dans les énergies renouvelables ? C’est tout à fait dans mes cordes."]] },
+    { en: "To get a head start on something", pron: "/tə ɡet ə hed stɑːt ɒn ˈsʌmθɪŋ/", type: "verbe", fr: "commencer quelque chose en avance ; prendre de l’avance",
+      syn: "to get an early start, to get a lead",
+      exs: [["I started revising in October to get a head start on the exams.", "J’ai commencé à réviser en octobre pour prendre de l’avance sur les examens."]] },
+    { en: "A vat", pron: "/ə væt/", type: "nom", fr: "une cuve",
+      syn: "tank, tub, large container",
+      exs: [["A wine vat", "Une cuve à vin"], ["The grapes are fermented in large oak vats.", "Le raisin fermente dans de grandes cuves en chêne."]] },
+    { en: "As luck would have it", pron: "/əz lʌk wʊd hæv ɪt/", type: "expr", fr: "le hasard fait bien les choses ; le hasard a voulu que",
+      syn: "by chance, as it happened",
+      exs: [["As luck would have it, a taxi was passing just then.", "Par un heureux hasard, un taxi passait à ce moment-là."], ["As luck would have it, the train was cancelled.", "Le sort a voulu que le train soit supprimé."]],
+      note: "Peut annoncer une bonne ou une mauvaise surprise." },
+    { en: "Offhand", pron: "/ˌɒfˈhænd/", type: "adj", fr: "comme ça, au pied levé ; sur-le-champ",
+      syn: "off the top of my head, without preparation",
+      exs: [["I can’t tell you offhand.", "Comme ça, au pied levé, je ne peux pas te le dire."], ["I don’t know the exact figure offhand.", "Je ne connais pas le chiffre exact de tête."]] },
+    { en: "To be hauled over the coals", pron: "/tə biː hɔːld ˈəʊvə ðə kəʊlz/", type: "expr", fr: "en prendre pour son grade ; se faire passer un savon",
+      syn: "to be reprimanded, to be told off",
+      exs: [["He was hauled over the coals for missing the deadline.", "Il s’est fait passer un savon pour avoir manqué l’échéance."]] },
+    { en: "Harrowing", pron: "/ˈhærəʊɪŋ/", type: "adj", fr: "atroce ; éprouvant",
+      syn: "distressing, traumatic, agonising, gruelling",
+      exs: [["A harrowing story", "Une histoire atroce"], ["It was a harrowing experience for the whole family.", "Ce fut une épreuve atroce pour toute la famille."]] },
+    { en: "Conspicuous", pron: "/kənˈspɪkjuəs/", type: "adj", fr: "voyant, flagrant ; visible",
+      syn: "noticeable, obvious, prominent, glaring",
+      exs: [["She was conspicuous by her absence.", "Elle brillait par son absence."], ["It was a conspicuous mistake.", "C’était une erreur flagrante."]] },
+    { en: "Unbeknown to me", pron: "/ˌʌnbɪˈnəʊn tə miː/", type: "expr", alt: "Unbeknownst to me", fr: "à mon insu",
+      syn: "without my knowledge, unknown to me",
+      exs: [["Unbeknown to me, she had already left.", "À mon insu, elle était déjà partie."]] },
+    { en: "Lack thereof", pron: "/læk ðeəˈrɒv/", type: "expr", fr: "le manque de cela ; son absence",
+      syn: "absence of it, shortage of it",
+      exs: [["Everyone is talking about his talent, or lack thereof.", "Tout le monde parle de son talent, ou de son absence."]],
+      note: "S’emploie après le nom, souvent sous la forme or lack thereof (ou son absence)." },
+    { en: "Outcast", pron: "/ˈaʊtkɑːst/", type: "nom", g: "outsider", fr: "paria",
+      syn: "pariah, misfit, exile, loner",
+      exs: [["After the scandal, he was treated as a social outcast.", "Après le scandale, il a été traité en paria."]] },
+    { en: "Underdog", pron: "/ˈʌndədɒɡ/", type: "nom", g: "outsider", fr: "outsider ; celui qu’on donne perdant ; (the underdogs) les opprimés",
+      syn: "outsider, long shot, the weaker side",
+      exs: [["Everyone loves to root for the underdog.", "Tout le monde aime encourager l’outsider."]] },
+    { en: "Scathing", pron: "/ˈskeɪðɪŋ/", type: "adj", fr: "cinglant",
+      syn: "harsh, withering, caustic, savage",
+      exs: [["The critic wrote a scathing review of the film.", "Le critique a écrit une critique cinglante du film."]] },
+    { en: "Unremittingly", pron: "/ˌʌnrɪˈmɪtɪŋli/", type: "adj", fr: "inlassablement ; sans relâche",
+      syn: "relentlessly, ceaselessly, constantly",
+      exs: [["It rained unremittingly for three days.", "Il a plu sans relâche pendant trois jours."]] },
+    { en: "If wishes were horses, beggars would ride", pron: "/ɪf ˈwɪʃɪz wɜː ˈhɔːsɪz, ˈbeɡəz wʊd raɪd/", type: "expr", fr: "avec des si on mettrait Paris en bouteille",
+      syn: "wishing doesn’t make it so, you can’t get things just by wishing",
+      exs: [["I wish I were rich, but if wishes were horses, beggars would ride.", "J’aimerais être riche, mais avec des si on mettrait Paris en bouteille."]] },
+    { en: "Hallmark", pron: "/ˈhɔːlmɑːk/", type: "nom", fr: "caractéristique ; marque de fabrique",
+      syn: "trademark, distinguishing feature, signature",
+      exs: [["To be the hallmark of something", "Être typique de quelque chose ou de quelqu’un"], ["Attention to detail is the hallmark of a good engineer.", "Le souci du détail est la marque d’un bon ingénieur."]] },
+    { en: "A cue", pron: "/ə kjuː/", type: "nom", fr: "un signal ; (théâtre) une réplique",
+      syn: "signal, prompt, hint",
+      exs: [["The actor missed his cue and walked on late.", "L’acteur a raté son entrée et est arrivé en scène en retard."]] },
+    { en: "As if on cue", pron: "/əz ɪf ɒn kjuː/", type: "expr", fr: "comme par hasard ; pile au bon moment",
+      syn: "at exactly the right moment, right on time",
+      exs: [["As if on cue, the phone rang.", "Comme par hasard, le téléphone a sonné."]] },
+    { en: "Undaunted", pron: "/ʌnˈdɔːntɪd/", type: "adj", g: "calm", fr: "impavide, intrépide ; que rien ne décourage",
+      syn: "fearless, undeterred, intrepid",
+      exs: [["Undaunted by the failure, she tried again.", "Sans se laisser décourager par l’échec, elle a réessayé."]] },
+    { en: "On balance", pron: "/ɒn ˈbæləns/", type: "expr", g: "overall", fr: "tout compte fait ; tout bien considéré",
+      syn: "all things considered, all in all, overall",
+      exs: [["On balance, I think the second option is better.", "Tout bien considéré, je pense que la deuxième option est meilleure."]] },
+    { en: "I see it coming a mile off", pron: "/aɪ siː ɪt ˈkʌmɪŋ ə maɪl ɒf/", type: "expr", fr: "je le vois venir à des kilomètres ; je le vois gros comme une maison",
+      syn: "I can see it coming from far away, it’s totally predictable",
+      exs: [["Their divorce? I saw it coming a mile off.", "Leur divorce ? Je le voyais venir à des kilomètres."]] },
+    { en: "To be met with", pron: "/tə biː met wɪð/", type: "verbe", fr: "être accueilli par ; se heurter à",
+      syn: "to be greeted with, to be received with, to be faced with",
+      exs: [["The proposal was met with skepticism.", "La proposition a été accueillie avec scepticisme."]] },
+    { en: "It reflects both push and pull", pron: "/ɪt rɪˈflekts bəʊθ pʊʃ ənd pʊl/", type: "expr", fr: "cela reflète une double réalité (forces d’attraction et de répulsion)",
+      syn: "opposing forces, push and pull factors",
+      exs: [["Migration reflects both push and pull factors.", "Les migrations reflètent à la fois des facteurs de répulsion et d’attraction."]] },
+    { en: "One-sided", pron: "/ˌwʌn ˈsaɪdɪd/", type: "adj", fr: "à sens unique ; unilatéral, partial",
+      syn: "biased, partial, unilateral, lopsided",
+      exs: [["It was a one-sided match: the home team scored five goals.", "Ce fut un match à sens unique : l’équipe locale a marqué cinq buts."], ["He gave a one-sided account of the events.", "Il a donné un récit partial des événements."]] },
+    { en: "A spat", pron: "/ə spæt/", type: "nom", g: "quarrel", fr: "une querelle ; une prise de bec",
+      syn: "a quarrel, a tiff, a squabble, a row",
+      exs: [["They had a spat over who should pay.", "Ils ont eu une prise de bec pour savoir qui devait payer."]] },
+    { en: "Wholeheartedly", pron: "/ˌhəʊlˈhɑːtɪdli/", type: "adj", fr: "de tout cœur ; sans réserve",
+      syn: "completely, fully, sincerely",
+      exs: [["I wholeheartedly agree with you.", "Je suis entièrement d’accord avec vous."]] },
+    { en: "To underpin", pron: "/tə ˌʌndəˈpɪn/", type: "verbe", fr: "être à la base de ; sous-tendre",
+      syn: "to support, to underlie, to form the basis of",
+      exs: [["Solid research underpins our conclusions.", "Des recherches solides sous-tendent nos conclusions."]] },
+    { en: "Every bit", pron: "/ˈevri bɪt/", type: "expr", alt: "Every bit as … as", fr: "ni plus ni moins ; tout aussi … que",
+      syn: "just as, equally, entirely",
+      exs: [["It’s every bit a bad idea.", "C’est ni plus ni moins une mauvaise idée."], ["On the table lay dishes, each one every bit as delicious as the next.", "Sur la table il y avait des mets, tous aussi délicieux les uns que les autres."]] },
+    { en: "Slipshod", pron: "/ˈslɪpʃɒd/", type: "adj", g: "bad", fr: "bâclé ; négligé",
+      syn: "sloppy, careless, shoddy",
+      exs: [["It’s a slipshod job.", "C’est du travail bâclé."]],
+      note: "Expression française voisine : c’est ni fait ni à faire." },
+    { en: "Half-baked", pron: "/ˌhɑːf ˈbeɪkt/", type: "adj", g: "bad", fr: "mal ficelé ; pas assez réfléchi",
+      syn: "ill-conceived, poorly thought out, unrealistic",
+      exs: [["It’s a half-baked idea.", "C’est une idée mal ficelée."]] },
+    { en: "The fact remains that…", pron: "/ðə fækt rɪˈmeɪnz ðæt/", type: "expr", fr: "force est de constater que… ; il n’en reste pas moins que…",
+      syn: "nevertheless, the truth is still that, all the same",
+      exs: [["He apologised, but the fact remains that he lied.", "Il s’est excusé, mais il n’en reste pas moins qu’il a menti."]] },
+    /* ---- Argot et familier (ajoutés après la note) ---- */
+    { en: "It blows my mind", pron: "/ɪt bləʊz maɪ maɪnd/", type: "argot", g: "depth", fr: "ça me dépasse ; c’est dingue ; ça me bluffe",
+      syn: "it’s mind-blowing, I can’t believe it, it amazes me",
+      exs: [["It blows my mind that he built the whole app in a weekend.", "Ça me dépasse qu’il ait construit toute l’appli en un week-end."]] },
+    { en: "I can’t wrap my head around it", pron: "/aɪ kɑːnt ræp maɪ hed əˈraʊnd ɪt/", type: "argot", g: "depth", fr: "je n’arrive pas à comprendre (à concevoir) ; ça me dépasse",
+      syn: "I can’t get my head around it, I can’t make sense of it",
+      exs: [["I just can’t wrap my head around how expensive rent has become.", "Je n’arrive pas à concevoir à quel point les loyers sont devenus chers."]] },
+    { en: "It boggles the mind", pron: "/ɪt ˈbɒɡlz ðə maɪnd/", type: "argot", g: "depth", fr: "c’est hallucinant ; ça dépasse l’imagination",
+      syn: "it’s staggering, it’s unbelievable, it’s mind-boggling",
+      exs: [["The size of the universe boggles the mind.", "L’immensité de l’univers dépasse l’imagination."]] },
+    { en: "That’s insane!", alt: "That’s crazy!", pron: "/ðæts ɪnˈseɪn/", type: "argot", g: "depth", fr: "c’est dingue ! ; c’est de la folie !",
+      syn: "that’s crazy, that’s wild, that’s unreal",
+      exs: [["Fifty euros for a coffee? That’s insane!", "Cinquante euros pour un café ? C’est de la folie !"]] },
+    { en: "That’s bonkers!", alt: "That’s nuts! / That’s bananas!", pron: "/ðæts ˈbɒŋkəz/", type: "argot", g: "depth", reg: "britannique", fr: "c’est complètement dingue !",
+      syn: "that’s mad, that’s nuts, that’s barmy",
+      exs: [["They want us to finish by tomorrow? That’s bonkers!", "Ils veulent qu’on ait fini pour demain ? C’est complètement dingue !"]] },
+    { en: "No way!", alt: "Get out of here! (américain)", pron: "/nəʊ ˈweɪ/", type: "argot", g: "depth", fr: "pas possible ! ; sans blague ! ; non !",
+      syn: "you’re kidding, seriously, no kidding",
+      exs: [["You met him in person? No way!", "Tu l’as rencontré en vrai ? Pas possible !"]] },
+    { en: "You’re pulling my leg!", alt: "You’re kidding (me)!", pron: "/jɔː ˈpʊlɪŋ maɪ leɡ/", type: "argot", fr: "tu me fais marcher ! ; tu plaisantes !",
+      syn: "you’re joking, you’re having me on (britannique), you’re teasing me",
+      exs: [["He quit? You’re pulling my leg!", "Il a démissionné ? Tu me fais marcher !"]] },
+    { en: "I’m gobsmacked", pron: "/aɪm ˈɡɒbsmækt/", type: "argot", g: "depth", reg: "britannique", fr: "j’en reste bouche bée ; je suis sidéré",
+      syn: "flabbergasted, astonished, speechless",
+      exs: [["I was gobsmacked when I saw the bill.", "J’en suis resté bouche bée en voyant l’addition."]] },
+    { en: "That’s a bit much!", pron: "/ðæts ə bɪt mʌtʃ/", type: "argot", fr: "c’est un peu fort ! ; c’est limite !",
+      syn: "that’s going too far, that’s over the top",
+      exs: [["Charging us for tap water? That’s a bit much.", "Nous faire payer l’eau du robinet ? C’est un peu fort."]] },
+    { en: "That takes the biscuit!", alt: "That takes the cake! (américain)", pron: "/ðæt teɪks ðə ˈbɪskɪt/", type: "argot", reg: "britannique", fr: "c’est le comble ! ; ça dépasse les bornes !",
+      syn: "that beats everything, that’s the limit, that’s the last straw",
+      exs: [["He blamed me for his own mistake? That takes the biscuit!", "Il m’a reproché sa propre erreur ? C’est le comble !"]] },
+    { en: "I’m fed up", pron: "/aɪm fed ʌp/", type: "argot", g: "mood", fr: "j’en ai marre ; j’en ai ras-le-bol",
+      syn: "I’m sick of it, I’ve had enough, I’m sick and tired of it",
+      exs: [["I’m fed up with waiting for the train.", "J’en ai marre d’attendre le train."]],
+      note: "Se construit avec with ou of : I’m fed up with / of something." },
+    { en: "I’m knackered", pron: "/aɪm ˈnækəd/", type: "argot", reg: "britannique", fr: "je suis crevé ; je suis claqué",
+      syn: "I’m exhausted, I’m shattered, I’m worn out",
+      exs: [["I’ve been up since five. I’m knackered.", "Je suis debout depuis cinq heures. Je suis crevé."]] },
+    { en: "I’m gutted", pron: "/aɪm ˈɡʌtɪd/", type: "argot", g: "mood", reg: "britannique", fr: "je suis dégoûté ; je suis effondré",
+      syn: "I’m devastated, I’m really disappointed",
+      exs: [["I’m gutted I missed the concert.", "Je suis dégoûté d’avoir raté le concert."]] },
+    { en: "To be over the moon", pron: "/tə biː ˈəʊvə ðə muːn/", type: "argot", fr: "être aux anges ; être comblé",
+      syn: "to be thrilled, to be delighted, to be on cloud nine",
+      exs: [["She was over the moon about her promotion.", "Elle était aux anges à cause de sa promotion."]] },
+    { en: "To freak out", pron: "/tə friːk aʊt/", type: "argot", fr: "paniquer ; flipper ; péter un câble",
+      syn: "to panic, to lose it, to go to pieces",
+      exs: [["Don’t freak out, it’s only a small scratch.", "Ne panique pas, ce n’est qu’une petite rayure."]] },
+    { en: "To bug somebody", pron: "/tə bʌɡ ˈsʌmbədi/", type: "argot", fr: "embêter, agacer quelqu’un ; énerver",
+      syn: "to annoy, to irritate, to get on someone’s nerves",
+      exs: [["It really bugs me when people talk during films.", "Ça m’énerve vraiment quand les gens parlent pendant les films."]] },
+    { en: "To chill out", pron: "/tə tʃɪl aʊt/", type: "argot", g: "hang", fr: "se détendre ; se poser ; décompresser",
+      syn: "to relax, to unwind, to take it easy",
+      exs: [["Let’s just chill out at home tonight.", "Posons-nous simplement à la maison ce soir."]] },
+    { en: "A piece of cake", alt: "A doddle (britannique)", pron: "/ə piːs əv keɪk/", type: "argot", g: "easy", fr: "c’est du gâteau ; c’est fastoche",
+      syn: "a breeze, easy-peasy, child’s play",
+      exs: [["The exam was a piece of cake.", "L’examen, c’était du gâteau."]] },
+    { en: "No big deal", alt: "No biggie", pron: "/nəʊ bɪɡ ˈdiːl/", type: "argot", fr: "pas grave ; pas de souci ; ce n’est pas la mer à boire",
+      syn: "no problem, never mind, don’t worry about it",
+      exs: [["“Sorry I’m late.” “No big deal.”", "« Désolé d’être en retard. » « Pas grave. »"]] },
+    { en: "It’s a no-brainer", pron: "/ɪts ə ˌnəʊ ˈbreɪnə/", type: "argot", g: "easy", fr: "ça ne se discute même pas ; c’est évident",
+      syn: "it’s obvious, it’s a given, it’s an easy decision",
+      exs: [["At that price, buying it is a no-brainer.", "À ce prix-là, l’acheter ne se discute même pas."]] },
+    { en: "To nail it", pron: "/tə neɪl ɪt/", type: "argot", fr: "assurer ; réussir à la perfection",
+      syn: "to ace it, to get it spot on, to smash it",
+      exs: [["You totally nailed that presentation.", "Tu as complètement assuré pendant cette présentation."]] },
+    { en: "To mess up", pron: "/tə mes ʌp/", type: "argot", fr: "foirer ; tout gâcher ; se planter",
+      syn: "to screw up, to blow it, to botch",
+      exs: [["I messed up the interview.", "J’ai foiré l’entretien."]] },
+    { en: "To bail on somebody", pron: "/tə beɪl ɒn ˈsʌmbədi/", type: "argot", reg: "américain", fr: "faire faux bond à quelqu’un ; se défiler",
+      syn: "to back out, to cancel at the last minute, to stand someone up",
+      exs: [["He bailed on us at the last minute.", "Il nous a fait faux bond à la dernière minute."]] },
+    { en: "To hang out", pron: "/tə hæŋ aʊt/", type: "argot", g: "hang", fr: "traîner ensemble ; passer du temps entre amis",
+      syn: "to spend time together, to meet up, to kick back",
+      exs: [["We usually hang out at the café after class.", "On traîne généralement au café après les cours."]] },
+    { en: "To give somebody a heads-up", pron: "/tə ɡɪv ˈsʌmbədi ə ˈhedz ʌp/", type: "argot", fr: "prévenir quelqu’un (à l’avance) ; passer l’info",
+      syn: "to warn, to tip off, to let someone know in advance",
+      exs: [["Give me a heads-up before you arrive.", "Préviens-moi avant d’arriver."]] },
+    { en: "To crack up", pron: "/tə kræk ʌp/", type: "argot", fr: "éclater de rire ; se marrer",
+      syn: "to burst out laughing, to be in stitches",
+      exs: [["The whole class cracked up when he fell off his chair.", "Toute la classe a éclaté de rire quand il est tombé de sa chaise."]],
+      note: "Attention : to crack up peut aussi signifier craquer nerveusement." },
+    { en: "To pull an all-nighter", pron: "/tə pʊl ən ˈɔːl naɪtə/", type: "argot", fr: "faire une nuit blanche (pour réviser ou travailler)",
+      syn: "to stay up all night, to burn the midnight oil",
+      exs: [["I pulled an all-nighter to finish my report.", "J’ai fait une nuit blanche pour finir mon rapport."]] },
+    { en: "To be swamped", pron: "/tə biː swɒmpt/", type: "argot", fr: "être débordé ; être submergé de travail",
+      syn: "to be snowed under, to be overwhelmed, to be up to one’s neck in work",
+      exs: [["I can’t come, I’m swamped with work.", "Je ne peux pas venir, je suis débordé de travail."]] },
+    { en: "To be hooked on", pron: "/tə biː hʊkt ɒn/", type: "argot", fr: "être accro à",
+      syn: "to be addicted to, to be obsessed with",
+      exs: [["I’m hooked on this series.", "Je suis accro à cette série."]] },
+    { en: "Fishy", pron: "/ˈfɪʃi/", type: "argot", g: "dodgy", fr: "louche ; suspect",
+      syn: "suspicious, dodgy, shady",
+      exs: [["There’s something fishy about this offer.", "Il y a quelque chose de louche dans cette offre."]] },
+    { en: "Pricey", pron: "/ˈpraɪsi/", type: "argot", fr: "cher ; salé",
+      syn: "expensive, steep, costly",
+      exs: [["The restaurant was nice but pretty pricey.", "Le restaurant était sympa mais plutôt cher."]] },
+    { en: "A rip-off", pron: "/ə ˈrɪp ɒf/", type: "argot", g: "dodgy", fr: "une arnaque ; un prix exorbitant",
+      syn: "a scam, a con, daylight robbery",
+      exs: [["Eight euros for a bottle of water? What a rip-off!", "Huit euros la bouteille d’eau ? Quelle arnaque !"]],
+      note: "Le verbe est to rip somebody off : arnaquer quelqu’un." },
+    { en: "Loaded", pron: "/ˈləʊdɪd/", type: "argot", fr: "plein aux as ; blindé",
+      syn: "rich, wealthy, rolling in it, filthy rich",
+      exs: [["His parents are loaded.", "Ses parents sont pleins aux as."]] },
+    { en: "Broke", pron: "/brəʊk/", type: "argot", fr: "fauché ; sans un sou",
+      syn: "penniless, skint (britannique), strapped for cash",
+      exs: [["I can’t come, I’m broke until payday.", "Je ne peux pas venir, je suis fauché jusqu’à la paie."]] },
+    { en: "A bloke", pron: "/ə bləʊk/", type: "argot", g: "pal", reg: "britannique", fr: "un mec ; un type",
+      syn: "a guy, a chap, a fellow",
+      exs: [["He’s a nice bloke, I like him.", "C’est un mec sympa, je l’aime bien."]] },
+    { en: "Mate", pron: "/meɪt/", type: "argot", g: "pal", reg: "britannique", fr: "mon pote ; mec",
+      syn: "buddy, pal, dude (américain)",
+      exs: [["Cheers, mate!", "Merci, mon pote !"]],
+      note: "Très courant en Grande-Bretagne et en Australie." },
+    { en: "I’m not gonna lie", pron: "/aɪm nɒt ˈɡɒnə laɪ/", type: "argot", fr: "franchement ; je ne vais pas te mentir",
+      syn: "honestly, to be honest, frankly",
+      exs: [["I’m not gonna lie, I didn’t understand a word.", "Franchement, je n’ai pas compris un mot."]],
+      note: "Gonna est la forme orale de going to. Surtout à l’oral, en anglais américain." }
+  ];
+
+  function norm(s) {
+    return String(s).normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[’‘]/g, "'").toLowerCase();
+  }
+  WORDS.forEach(function (w) {
+    w.hay = norm([w.en, w.alt || "", w.fr, w.syn || ""].join(" "));
+    w.sortKey = norm(w.en).replace(/^(to be |to |a |an |the )/, "");
+  });
+
+  var $ = function (s) { return document.querySelector(s); };
+  function esc(s) {
+    return String(s).replace(/[&<>"]/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
+    });
+  }
+  function shuffle(a) {
+    a = a.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+
+  /* favourites (words to review), kept in this browser only */
+  var KEY = "vocabulaire-anglais-a-revoir";
+  var favs = new Set();
+  try {
+    var raw = localStorage.getItem(KEY);
+    if (raw) {
+      var arr = JSON.parse(raw);
+      if (Array.isArray(arr)) favs = new Set(arr);
+    }
+  } catch (e) { /* storage unavailable */ }
+  function saveFavs() {
+    try { localStorage.setItem(KEY, JSON.stringify(Array.from(favs))); } catch (e) { /* ignore */ }
+  }
+
+  var state = { tab: "liste", scope: "all", query: "", sort: "note" };
+  var card = { deck: [], i: 0, flipped: false, dir: "enfr" };
+  var quiz = { phase: "setup", dir: "enfr", n: "10", qs: [], i: 0, answered: false, picked: -1, score: 0, wrong: [] };
+
+  function scopeList() {
+    if (state.scope === "all") return WORDS.slice();
+    if (state.scope === "fav") return WORDS.filter(function (w) { return favs.has(w.en); });
+    return WORDS.filter(function (w) { return w.type === state.scope; });
+  }
+
+  function details(w) {
+    var h = "";
+    if (w.syn) {
+      h += '<div class="syn"><span class="k">Synonymes</span><ul class="chips">' +
+        w.syn.split(/,\s*/).map(function (s) { return "<li>" + esc(s) + "</li>"; }).join("") + "</ul></div>";
+    }
+    (w.exs || []).forEach(function (p) {
+      h += '<p class="ex"><em>' + esc(p[0]) + "</em><span>" + esc(p[1]) + "</span></p>";
+    });
+    if (w.def) h += '<p class="meta"><b>Définition</b> : ' + esc(w.def) + "</p>";
+    if (w.alt) h += '<p class="meta"><b>Variante</b> : ' + esc(w.alt) + "</p>";
+    if (w.note) h += '<p class="meta">' + esc(w.note) + "</p>";
+    return h;
+  }
+
+  function tagLabel(w) {
+    return TYPES[w.type] + (w.reg ? " · " + w.reg : "");
+  }
+
+  function emptyMessage() {
+    if (state.scope === "fav") {
+      return '<div class="empty">Aucun mot à revoir pour l’instant. Touche l’étoile à côté d’un mot pour l’ajouter ici.</div>';
+    }
+    return '<div class="empty">Aucun mot ne correspond.</div>';
+  }
+
+  /* ---------- Liste ---------- */
+  function renderList() {
+    var q = norm(state.query.trim());
+    var items = scopeList().filter(function (w) { return !q || w.hay.indexOf(q) !== -1; });
+    if (state.sort === "az") {
+      items.sort(function (a, b) { return a.sortKey.localeCompare(b.sortKey); });
+    }
+    $("#resultInfo").textContent = items.length + (items.length > 1 ? " mots affichés" : " mot affiché");
+    if (!items.length) { $("#list").innerHTML = emptyMessage(); return; }
+    $("#list").innerHTML = items.map(function (w) {
+      var on = favs.has(w.en);
+      return '<article class="entry"><span class="tag">' + tagLabel(w) + "</span>" +
+        '<div class="entry-top"><h3>' + esc(w.en) + (w.pron ? '<span class="pron">' + esc(w.pron) + "</span>" : "") + "</h3>" +
+        '<button type="button" class="star" data-fav="' + esc(w.en) + '" aria-pressed="' + on + '" aria-label="À revoir : ' + esc(w.en) + '">' + (on ? "★" : "☆") + "</button></div>" +
+        '<p class="fr">' + esc(w.fr) + "</p>" + details(w) + "</article>";
+    }).join("");
+  }
+
+  /* ---------- Fiches ---------- */
+  function rebuildDeck(keepIndex, doShuffle) {
+    var list = scopeList();
+    card.deck = doShuffle ? shuffle(list) : list;
+    card.i = keepIndex ? Math.min(card.i, Math.max(card.deck.length - 1, 0)) : 0;
+    card.flipped = false;
+  }
+  function renderCard(refocus) {
+    var box = $("#cardbox");
+    var has = card.deck.length > 0;
+    $("#prev").disabled = !has; $("#next").disabled = !has;
+    $("#flipBtn").disabled = !has; $("#favBtn").disabled = !has;
+    if (!has) {
+      box.innerHTML = emptyMessage();
+      $("#counter").textContent = "";
+      return;
+    }
+    var w = card.deck[card.i];
+    var enFront = card.dir === "enfr";
+    var html;
+    if (!card.flipped) {
+      html = enFront
+        ? '<span class="face-label">Anglais</span><span class="big">' + esc(w.en) + "</span>" + (w.pron ? '<span class="pron">' + esc(w.pron) + "</span>" : "")
+        : '<span class="face-label">Français</span><span class="big fr-side">' + esc(w.fr) + "</span>";
+      html += '<span class="hint">Touche la fiche pour la retourner. Glisse pour changer de fiche.</span>';
+    } else {
+      html = enFront
+        ? '<span class="face-label">Français</span><span class="big fr-side">' + esc(w.fr) + "</span>"
+        : '<span class="face-label">Anglais</span><span class="big">' + esc(w.en) + "</span>" + (w.pron ? '<span class="pron">' + esc(w.pron) + "</span>" : "");
+      html += '<div class="details">' + details(w) + "</div>";
+    }
+    box.innerHTML = '<div class="card" id="card" role="button" tabindex="0" aria-label="Retourner la fiche">' + html + "</div>";
+    $("#counter").textContent = "Fiche " + (card.i + 1) + " sur " + card.deck.length;
+    var on = favs.has(w.en);
+    var fb = $("#favBtn");
+    fb.setAttribute("aria-pressed", String(on));
+    fb.textContent = (on ? "★" : "☆") + " À revoir";
+    if (refocus) $("#card").focus({ preventScroll: true });
+  }
+  function go(step) {
+    if (!card.deck.length) return;
+    card.i = (card.i + step + card.deck.length) % card.deck.length;
+    card.flipped = false;
+    renderCard(false);
+  }
+  function flip() {
+    if (!card.deck.length) return;
+    card.flipped = !card.flipped;
+    renderCard(true);
+  }
+
+  /* ---------- Quiz ---------- */
+  function optText(w) { return quiz.dir === "enfr" ? w.fr : w.en; }
+
+  function startQuiz() {
+    var pool = scopeList();
+    if (!pool.length) { renderQuiz(); return; }
+    var n = quiz.n === "all" ? pool.length : Math.min(parseInt(quiz.n, 10), pool.length);
+    var picked = shuffle(pool).slice(0, n);
+    quiz.qs = picked.map(function (w) {
+      var others = shuffle(WORDS.filter(function (x) {
+        return x !== w && !(w.g && x.g === w.g) && optText(x) !== optText(w);
+      }));
+      var opts = [w];
+      var seen = {};
+      seen[optText(w)] = true;
+      for (var k = 0; k < others.length && opts.length < 4; k++) {
+        var t = optText(others[k]);
+        if (seen[t]) continue;
+        seen[t] = true;
+        opts.push(others[k]);
+      }
+      return { w: w, opts: shuffle(opts) };
+    });
+    quiz.phase = "play"; quiz.i = 0; quiz.answered = false; quiz.picked = -1; quiz.score = 0; quiz.wrong = [];
+    renderQuiz();
+  }
+
+  function renderQuiz(focusSel) {
+    var box = $("#quizbox");
+    var html = "";
+    if (quiz.phase === "setup") {
+      var pool = scopeList().length;
+      html = '<div class="panel"><h2>Quiz</h2>' +
+        "<p>Choisis le sens et le nombre de questions. Les mauvaises réponses viennent des autres mots de la liste.</p>" +
+        '<div class="row"><label for="quizDir">Sens</label><select id="quizDir">' +
+        '<option value="enfr"' + (quiz.dir === "enfr" ? " selected" : "") + ">Anglais vers français</option>" +
+        '<option value="fren"' + (quiz.dir === "fren" ? " selected" : "") + ">Français vers anglais</option></select></div>" +
+        '<div class="row"><label for="quizN">Questions</label><select id="quizN">' +
+        ["10", "20", "all"].map(function (v) {
+          return '<option value="' + v + '"' + (quiz.n === v ? " selected" : "") + ">" + (v === "all" ? "Tous les mots concernés" : v) + "</option>";
+        }).join("") + "</select></div>" +
+        (pool ? "" : emptyMessage()) +
+        '<div class="controls single"><button type="button" class="btn primary" data-q="start"' + (pool ? "" : " disabled") + ">Commencer</button></div></div>";
+    } else if (quiz.phase === "play") {
+      var cur = quiz.qs[quiz.i];
+      var w = cur.w;
+      var correctIdx = cur.opts.indexOf(w);
+      var enfr = quiz.dir === "enfr";
+      html = '<div class="panel"><div class="qhead"><span>Question ' + (quiz.i + 1) + " sur " + quiz.qs.length + "</span><span>Score : " + quiz.score + "</span></div>" +
+        '<p class="prompt">' + (enfr ? esc(w.en) + (w.pron ? '<span class="pron">' + esc(w.pron) + "</span>" : "") : esc(w.fr)) + "</p>" +
+        '<div class="opts">' +
+        cur.opts.map(function (o, idx) {
+          var cls = "opt";
+          if (quiz.answered) {
+            if (idx === correctIdx) cls += " good";
+            else if (idx === quiz.picked) cls += " bad";
+          }
+          return '<button type="button" class="' + cls + '" data-q="pick" data-i="' + idx + '"' + (quiz.answered ? " disabled" : "") + ">" + esc(optText(o)) + "</button>";
+        }).join("") + "</div>";
+      if (quiz.answered) {
+        var ok = quiz.picked === correctIdx;
+        html += '<p class="feedback ' + (ok ? "good" : "bad") + '">' + (ok ? "Correct." : "Pas tout à fait. Bonne réponse : " + esc(optText(w))) + "</p>" +
+          '<div class="details">' + details(w) + "</div>" +
+          '<div class="controls single"><button type="button" class="btn primary" data-q="next">' + (quiz.i + 1 === quiz.qs.length ? "Voir le résultat" : "Question suivante") + "</button></div>";
+      }
+      html += "</div>";
+    } else {
+      var total = quiz.qs.length;
+      html = '<div class="panel"><h2>Résultat</h2><p class="score">' + quiz.score + " / " + total + "</p>";
+      if (quiz.wrong.length) {
+        html += "<p>Mots à retravailler :</p><ul class=\"errors\">" + quiz.wrong.map(function (x) {
+          return "<li><b>" + esc(x.en) + "</b> : " + esc(x.fr) + "</li>";
+        }).join("") + "</ul>";
+      } else {
+        html += "<p>Aucune erreur. Beau travail.</p>";
+      }
+      html += '<div class="controls' + (quiz.wrong.length ? "" : " single") + '">' +
+        '<button type="button" class="btn primary" data-q="again">Rejouer</button>' +
+        (quiz.wrong.length ? '<button type="button" class="btn" data-q="favwrong">Mes erreurs en ★</button>' : "") +
+        "</div></div>";
+    }
+    box.innerHTML = html;
+    if (focusSel) { var el = box.querySelector(focusSel); if (el) el.focus(); }
+  }
+
+  /* ---------- navigation and events ---------- */
+  var firstRoute = true;
+  function route() {
+    var h = location.hash.replace("#", "");
+    state.tab = (h === "fiches" || h === "quiz") ? h : "liste";
+    ["liste", "fiches", "quiz"].forEach(function (t) {
+      $("#view-" + t).hidden = (t !== state.tab);
+    });
+    document.querySelectorAll(".tabs a").forEach(function (a) {
+      if (a.getAttribute("data-tab") === state.tab) a.setAttribute("aria-current", "page");
+      else a.removeAttribute("aria-current");
+    });
+    if (state.tab === "liste") renderList();
+    if (state.tab === "fiches") renderCard(false);
+    if (state.tab === "quiz") renderQuiz();
+    if (!firstRoute) { try { window.scrollTo(0, 0); } catch (e) { /* ignore */ } }
+    firstRoute = false;
+  }
+
+  function refreshScope() {
+    var n = scopeList().length;
+    $("#scopeCount").textContent = n + (n > 1 ? " mots" : " mot");
+  }
+
+  function setFav(en) {
+    if (favs.has(en)) favs.delete(en); else favs.add(en);
+    saveFavs();
+    var on = favs.has(en);
+    document.querySelectorAll("[data-fav]").forEach(function (b) {
+      if (b.getAttribute("data-fav") === en) {
+        b.setAttribute("aria-pressed", String(on));
+        b.textContent = on ? "★" : "☆";
+      }
+    });
+    refreshScope();
+    if (state.scope === "fav") {
+      renderList();
+      rebuildDeck(true, false);
+      if (quiz.phase === "setup") renderQuiz();
+    }
+    if (state.tab === "fiches") renderCard(false);
+  }
+
+  function init() {
+    $("#count").textContent = WORDS.length + " mots et expressions, de l’anglais vers le français. Prononciation en API, anglais britannique.";
+    $("#scope").innerHTML = SCOPES.map(function (s) { return '<option value="' + s[0] + '">' + s[1] + "</option>"; }).join("");
+    rebuildDeck(false, false);
+    refreshScope();
+
+    $("#scope").addEventListener("change", function (e) {
+      state.scope = e.target.value;
+      refreshScope();
+      rebuildDeck(false, false);
+      quiz.phase = "setup";
+      route();
+    });
+    $("#q").addEventListener("input", function (e) { state.query = e.target.value; renderList(); });
+    $("#sort").addEventListener("change", function (e) { state.sort = e.target.value; renderList(); });
+    $("#dir").addEventListener("change", function (e) { card.dir = e.target.value; card.flipped = false; renderCard(false); });
+    $("#shuffle").addEventListener("click", function () { rebuildDeck(false, true); renderCard(false); });
+    $("#prev").addEventListener("click", function () { go(-1); });
+    $("#next").addEventListener("click", function () { go(1); });
+    $("#flipBtn").addEventListener("click", flip);
+    $("#favBtn").addEventListener("click", function () {
+      if (card.deck.length) setFav(card.deck[card.i].en);
+    });
+    $("#cardbox").addEventListener("click", function (e) {
+      if (e.target.closest("#card")) flip();
+    });
+    var tx = 0, ty = 0;
+    $("#cardbox").addEventListener("touchstart", function (e) {
+      var t = e.changedTouches[0]; tx = t.clientX; ty = t.clientY;
+    }, { passive: true });
+    $("#cardbox").addEventListener("touchend", function (e) {
+      var t = e.changedTouches[0];
+      var dx = t.clientX - tx, dy = t.clientY - ty;
+      if (Math.abs(dx) > 60 && Math.abs(dx) > 1.5 * Math.abs(dy)) go(dx < 0 ? 1 : -1);
+    }, { passive: true });
+    $("#list").addEventListener("click", function (e) {
+      var b = e.target.closest("[data-fav]");
+      if (b) setFav(b.getAttribute("data-fav"));
+    });
+    $("#quizbox").addEventListener("change", function (e) {
+      if (e.target.id === "quizDir") quiz.dir = e.target.value;
+      if (e.target.id === "quizN") quiz.n = e.target.value;
+    });
+    $("#quizbox").addEventListener("click", function (e) {
+      var b = e.target.closest("[data-q]");
+      if (!b) return;
+      var act = b.getAttribute("data-q");
+      if (act === "start") {
+        startQuiz();
+      } else if (act === "again") {
+        quiz.phase = "setup"; renderQuiz();
+      } else if (act === "pick" && !quiz.answered) {
+        var idx = parseInt(b.getAttribute("data-i"), 10);
+        var cur = quiz.qs[quiz.i];
+        quiz.answered = true;
+        quiz.picked = idx;
+        if (cur.opts[idx] === cur.w) quiz.score++;
+        else quiz.wrong.push(cur.w);
+        renderQuiz('[data-q="next"]');
+      } else if (act === "next") {
+        if (quiz.i + 1 >= quiz.qs.length) { quiz.phase = "done"; renderQuiz(); try { window.scrollTo(0, 0); } catch (err) { /* ignore */ } }
+        else { quiz.i++; quiz.answered = false; quiz.picked = -1; renderQuiz(); try { window.scrollTo(0, 0); } catch (err2) { /* ignore */ } }
+      } else if (act === "favwrong") {
+        quiz.wrong.forEach(function (w) { favs.add(w.en); });
+        saveFavs();
+        refreshScope();
+        b.textContent = "Ajoutées aux mots à revoir";
+        b.disabled = true;
+      }
+    });
+    document.addEventListener("keydown", function (e) {
+      if (state.tab !== "fiches") return;
+      var tag = e.target.tagName;
+      if (tag === "INPUT" || tag === "SELECT" || tag === "TEXTAREA") return;
+      if (e.key === "ArrowRight") { go(1); e.preventDefault(); }
+      else if (e.key === "ArrowLeft") { go(-1); e.preventDefault(); }
+      else if ((e.key === " " || e.key === "Enter") && e.target.id === "card") { flip(); e.preventDefault(); }
+    });
+    window.addEventListener("hashchange", route);
+    route();
+  }
+  init();
+})();
+</script>
+</body>
+</html>
