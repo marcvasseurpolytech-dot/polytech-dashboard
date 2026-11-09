@@ -1038,6 +1038,7 @@ footer strong { letter-spacing: 0.06em; color: var(--ink); }
 
   var PKEY = "vocabulaire-anglais-progression";
   var SKEY = "vocabulaire-anglais-synchro";
+  var DEFAULT_H = "aa06221e9ef8d6b5f81dfeaebf58aeca04247553d7f1efa24518a9381e9dfca2"; /* profil par défaut : sauvegarde automatique dans GitHub, sans saisie */
   var SESSKEY = "vocabulaire-anglais-session";
   var DAY = 86400000;
   var INTERVALS = [0, 1, 3, 7, 14, 30]; /* jours avant le prochain rappel, selon la boîte atteinte */
@@ -1308,19 +1309,19 @@ footer strong { letter-spacing: 0.06em; color: var(--ink); }
       : "<p class=\"meta\">Aucune erreur pour l’instant.</p>";
 
     var syncHTML;
-    if (sync) {
-      syncHTML = "<p>Synchronisation active : ta progression est la même sur tous les appareils où tu as saisi ta phrase secrète.</p>" +
-        '<div class="sync-form"><button type="button" class="btn" data-s="syncnow">Synchroniser maintenant</button>' +
-        '<button type="button" class="btn" data-s="syncoff">Désactiver sur cet appareil</button></div>';
-    } else {
-      syncHTML = "<p>Pour l’instant, ta progression reste sur cet appareil, et Safari peut l’effacer si tu ne reviens pas pendant longtemps. " +
-        "Pour la garder et la retrouver sur plusieurs appareils, choisis une phrase secrète d’au moins 8 caractères, puis retape la même sur chaque appareil.</p>" +
-        '<div class="sync-form"><input type="password" id="syncPass" autocomplete="off" autocapitalize="off" autocorrect="off" placeholder="Phrase secrète" aria-label="Phrase secrète">' +
-        '<button type="button" class="btn primary" data-s="syncon">Activer la synchronisation</button></div>';
-    }
+    syncHTML = "<p>" + (sync.auto
+      ? "Ta progression est sauvegardée automatiquement dans GitHub et se retrouve sur tous tes appareils, sans rien saisir."
+      : "Profil privé actif : ta progression est sauvegardée dans GitHub sous ta phrase secrète.") + "</p>" +
+      '<div class="sync-form"><button type="button" class="btn" data-s="syncnow">Sauvegarder maintenant</button>' +
+      (sync.auto ? "" : '<button type="button" class="btn" data-s="syncoff">Revenir au profil par défaut</button>') + "</div>" +
+      (sync.auto
+        ? "<p>Facultatif : pour un profil séparé et privé, choisis une phrase secrète d’au moins 8 caractères (la même sur chaque appareil).</p>" +
+          '<div class="sync-form"><input type="password" id="syncPass" autocomplete="off" autocapitalize="off" autocorrect="off" placeholder="Phrase secrète" aria-label="Phrase secrète">' +
+          '<button type="button" class="btn" data-s="syncon">Utiliser un profil privé</button></div>'
+        : "");
 
     var resetHTML = resetArmed
-      ? '<p>Cela efface toute ta progression sur cet appareil' + (sync ? " et sur la synchronisation" : "") + '. Cette action est définitive.</p>' +
+      ? '<p>Cela efface toute ta progression sur cet appareil' + " et sur GitHub" + '. Cette action est définitive.</p>' +
         '<div class="sync-form"><button type="button" class="btn danger" data-s="resetgo">Oui, tout effacer</button><button type="button" class="btn" data-s="resetno">Annuler</button></div>'
       : '<div class="sync-form"><button type="button" class="btn danger" data-s="reset">Effacer ma progression</button></div>';
 
@@ -1338,7 +1339,7 @@ footer strong { letter-spacing: 0.06em; color: var(--ink); }
       '<div class="kpi"><b>' + rate + "</b><span>Réussite</span></div></div>" +
       '<div class="block"><h3>Sept derniers jours</h3><div class="week">' + week + '</div><div class="legend"><span>Vert : sus. Rouge : à revoir.</span></div></div>' +
       '<div class="block"><h3>Mots à surveiller</h3>' + weakHTML + "</div>" +
-      '<div class="block"><h3>Synchronisation</h3>' + syncHTML + '<p class="sync-status" id="syncStatus" aria-live="polite">' + esc(syncMsg) + "</p></div>" +
+      '<div class="block"><h3>Sauvegarde</h3>' + syncHTML + '<p class="sync-status" id="syncStatus" aria-live="polite">' + esc(syncMsg) + "</p></div>" +
       '<div class="block"><h3>Remise à zéro</h3>' + resetHTML + "</div>";
   }
 
@@ -1351,7 +1352,7 @@ footer strong { letter-spacing: 0.06em; color: var(--ink); }
         if (s && /^[0-9a-f]{64}$/.test(s.h)) return s;
       }
     } catch (e) { /* ignore */ }
-    return null;
+    return { h: DEFAULT_H, auto: true };
   })();
   var syncMsg = "";
   var syncTimer = null;
@@ -1412,9 +1413,9 @@ footer strong { letter-spacing: 0.06em; color: var(--ink); }
       progress = mergeProgress(progress, j.progress);
       saveLocal();
       refreshAfterSync();
-      setSyncMsg("Synchronisé à " + clock() + ".");
+      setSyncMsg("Sauvegardé dans GitHub à " + clock() + ".");
     } catch (e) {
-      setSyncMsg("Synchronisation impossible pour le moment (" + e.message + "). Ta progression reste enregistrée sur cet appareil.");
+      setSyncMsg("Sauvegarde GitHub impossible pour le moment (" + e.message + "). Elle sera retentée à la prochaine action.");
     }
     syncBusy = false;
     if (syncAgain) { syncAgain = false; scheduleSync(); }
@@ -1447,9 +1448,9 @@ footer strong { letter-spacing: 0.06em; color: var(--ink); }
     saveLocal();
     resetArmed = false;
     var msg = "Progression effacée.";
-    if (sync) {
-      try { await callApi({ action: "reset", h: sync.h }, false); msg = "Progression effacée sur cet appareil et sur la synchronisation."; }
-      catch (e) { msg = "Effacée sur cet appareil, mais pas sur la synchronisation (" + e.message + "). Elle pourrait revenir à la prochaine synchronisation."; }
+    {
+      try { await callApi({ action: "reset", h: sync.h }, false); msg = "Progression effacée sur cet appareil et sur GitHub."; }
+      catch (e) { msg = "Effacée sur cet appareil, mais pas sur GitHub (" + e.message + "). Elle pourrait revenir à la prochaine sauvegarde."; }
     }
     newDraw();
     syncMsg = msg;
@@ -1462,9 +1463,10 @@ footer strong { letter-spacing: 0.06em; color: var(--ink); }
     if (a === "syncon") enableSync();
     else if (a === "syncnow") syncNow(false, false);
     else if (a === "syncoff") {
-      sync = null;
+      sync = { h: DEFAULT_H, auto: true };
       try { localStorage.removeItem(SKEY); } catch (err) { /* ignore */ }
-      syncMsg = "Synchronisation désactivée sur cet appareil.";
+      syncMsg = "Retour au profil par défaut.";
+      syncNow(true, false);
       renderStats();
     }
     else if (a === "reset") { resetArmed = true; renderStats(); }
