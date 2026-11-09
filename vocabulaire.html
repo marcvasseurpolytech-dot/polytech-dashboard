@@ -259,6 +259,71 @@ footer { border-top: 1px solid var(--line); padding: 18px 0 30px; color: var(--m
 footer .wrap { display: flex; flex-wrap: wrap; gap: 6px 16px; justify-content: space-between; }
 footer strong { letter-spacing: 0.06em; color: var(--ink); }
 
+
+/* ---- trois mots du jour ---- */
+.dhead { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+.dtitle { margin: 0; font-family: var(--font-display); font-size: 1.6rem; line-height: 1.2; }
+.dhead .info { margin: 0; }
+#dcards { display: flex; flex-direction: column; gap: 14px; }
+.dcard { display: flex; flex-direction: column; gap: 8px; padding: 18px 16px; background: var(--surface); border: 1px solid var(--line); border-left: 5px solid var(--gold); border-radius: 16px; }
+.dcard.ok { border-left-color: var(--good); }
+.dcard.ko { border-left-color: var(--bad); }
+.dtop { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.dword { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.6rem, 6.5vw, 2.2rem); line-height: 1.15; overflow-wrap: anywhere; }
+.dword.fr-side { font-weight: 500; font-size: clamp(1.3rem, 5.5vw, 1.8rem); }
+.answer { margin-top: 4px; padding-top: 12px; border-top: 1px dashed var(--line); }
+.answer > .pron { margin-bottom: 4px; }
+.rate { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; }
+.rate .btn { min-height: 54px; }
+.btn.no { border-color: var(--bad); color: var(--bad); }
+.result { margin: 10px 0 0; font-weight: 700; }
+.result.good { color: var(--good); }
+.result.bad { color: var(--bad); }
+.nextnote { font-weight: 400; color: var(--muted); font-size: 0.92rem; }
+.dsum { margin-top: 14px; text-align: center; }
+.lvl { font-size: 0.75rem; font-weight: 700; border-radius: 999px; padding: 2px 10px; border: 1px solid var(--line); white-space: nowrap; }
+.lvl-new { color: var(--muted); }
+.lvl-weak { color: var(--bad); border-color: var(--bad); }
+.lvl-learning { color: var(--gold-text); border-color: var(--gold); }
+.lvl-mastered { color: var(--good); border-color: var(--good); }
+
+/* ---- suivi ---- */
+.kpis { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+.kpi { padding: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; }
+.kpi b { display: block; font-family: var(--font-display); font-size: 2rem; line-height: 1; font-variant-numeric: tabular-nums; }
+.kpi span { display: block; margin-top: 6px; font-size: 0.9rem; color: var(--muted); }
+.kpi.mastered b { color: var(--good); }
+.kpi.learning b { color: var(--gold-text); }
+.kpi.weak b { color: var(--bad); }
+.block { padding: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; margin-bottom: 14px; }
+.block h3 { margin: 0 0 8px; font-family: var(--font-display); font-size: 1.2rem; }
+.block p { margin: 0 0 10px; }
+.block .meta { margin-top: 0; }
+.bar { display: flex; height: 14px; border-radius: 999px; overflow: hidden; background: var(--chip); margin: 8px 0 6px; }
+.bar i { display: block; height: 100%; }
+.bar .b-mastered { background: var(--good); }
+.bar .b-learning { background: var(--gold); }
+.bar .b-weak { background: var(--bad); }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 0.88rem; color: var(--muted); }
+.stats3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
+.stats3 .kpi b { font-size: 1.6rem; }
+.week { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-top: 6px; }
+.wday { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.wday .num { font-size: 0.85rem; color: var(--muted); font-variant-numeric: tabular-nums; min-height: 1.3em; }
+.wday .area { height: 84px; width: 100%; display: flex; align-items: flex-end; justify-content: center; }
+.wday .col { width: 100%; max-width: 34px; display: flex; flex-direction: column; border-radius: 6px 6px 2px 2px; overflow: hidden; }
+.wday .col i { display: block; width: 100%; }
+.wday .col .c-ok { background: var(--good); }
+.wday .col .c-ko { background: var(--bad); }
+.wday .col.zero { height: 3px; background: var(--line); }
+.wday .lab { font-size: 0.85rem; font-weight: 700; color: var(--muted); }
+.wday.today .lab { color: var(--gold-text); }
+.sync-form { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+.sync-form input { flex: 1 1 220px; min-width: 0; }
+.sync-status { margin: 10px 0 0; font-size: 0.95rem; color: var(--muted); min-height: 1.4em; }
+.btn.danger { border-color: var(--bad); color: var(--bad); }
+
 @media (min-width: 641px) {
   .tools input[type="search"] { flex: 1 1 260px; }
   .controls { max-width: 560px; margin-left: auto; margin-right: auto; }
@@ -269,12 +334,12 @@ footer strong { letter-spacing: 0.06em; color: var(--ink); }
   .band .sub { margin: 6px 0 0; font-size: 0.95rem; }
   .tabs {
     position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 0;
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 0;
     padding-bottom: env(safe-area-inset-bottom, 0px);
     background: var(--band);
     border-top: 1px solid rgba(255, 255, 255, 0.18);
   }
-  .tabs a { border-radius: 0; background: transparent; text-align: center; padding: 15px 4px; min-height: 54px; font-size: 1.05rem; }
+  .tabs a { border-radius: 0; background: transparent; text-align: center; padding: 15px 2px; min-height: 54px; font-size: 0.95rem; }
   .tabs a:hover { background: transparent; }
   .tabs a[aria-current="page"] { background: transparent; color: var(--gold); box-shadow: inset 0 3px 0 var(--gold); }
   footer { padding-bottom: calc(86px + env(safe-area-inset-bottom, 0px)); }
@@ -290,21 +355,42 @@ footer strong { letter-spacing: 0.06em; color: var(--ink); }
     <h1>Vocabulaire anglais</h1>
     <p class="sub" id="count"></p>
     <nav class="tabs" aria-label="Sections">
+      <a href="#mots" data-tab="mots">3 mots</a>
       <a href="#liste" data-tab="liste">Liste</a>
       <a href="#fiches" data-tab="fiches">Fiches</a>
       <a href="#quiz" data-tab="quiz">Quiz</a>
+      <a href="#suivi" data-tab="suivi">Suivi</a>
     </nav>
   </div>
 </header>
 
 <main class="wrap">
-  <div class="scope">
+  <div class="scope" id="scopeBar" hidden>
     <label for="scope">Mots concernés</label>
     <select id="scope"></select>
     <span class="count-note" id="scopeCount"></span>
   </div>
 
-  <section id="view-liste" aria-label="Liste du vocabulaire">
+  <section id="view-mots" aria-label="Trois mots à apprendre">
+    <div class="dhead">
+      <h2 class="dtitle">Trois mots pour aujourd’hui</h2>
+      <p class="info" id="dailyInfo" aria-live="polite"></p>
+      <div class="deckbar">
+        <label for="dailyDir">Voir d’abord</label>
+        <select id="dailyDir">
+          <option value="enfr">L’anglais</option>
+          <option value="fren">Le français</option>
+        </select>
+        <button type="button" class="btn" id="redraw">Autres mots</button>
+      </div>
+    </div>
+    <div id="dailybox">
+      <div id="dcards"></div>
+      <div id="dsummary"></div>
+    </div>
+  </section>
+
+  <section id="view-liste" aria-label="Liste du vocabulaire" hidden>
     <div class="tools">
       <input type="search" id="q" placeholder="Rechercher en anglais ou en français" aria-label="Rechercher un mot" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false">
       <label for="sort">Tri</label>
@@ -338,6 +424,10 @@ footer strong { letter-spacing: 0.06em; color: var(--ink); }
 
   <section id="view-quiz" aria-label="Quiz" hidden>
     <div id="quizbox"></div>
+  </section>
+
+  <section id="view-suivi" aria-label="Suivi de la progression" hidden>
+    <div id="statsbox"></div>
   </section>
 </main>
 
@@ -751,7 +841,7 @@ footer strong { letter-spacing: 0.06em; color: var(--ink); }
     try { localStorage.setItem(KEY, JSON.stringify(Array.from(favs))); } catch (e) { /* ignore */ }
   }
 
-  var state = { tab: "liste", scope: "all", query: "", sort: "note" };
+  var state = { tab: "mots", scope: "all", query: "", sort: "note" };
   var card = { deck: [], i: 0, flipped: false, dir: "enfr" };
   var quiz = { phase: "setup", dir: "enfr", n: "10", qs: [], i: 0, answered: false, picked: -1, score: 0, wrong: [] };
 
@@ -798,7 +888,8 @@ footer strong { letter-spacing: 0.06em; color: var(--ink); }
     if (!items.length) { $("#list").innerHTML = emptyMessage(); return; }
     $("#list").innerHTML = items.map(function (w) {
       var on = favs.has(w.en);
-      return '<article class="entry"><span class="tag">' + tagLabel(w) + "</span>" +
+      var lv = levelOf(w.en);
+      return '<article class="entry"><div class="tags"><span class="tag">' + tagLabel(w) + '</span><span class="lvl lvl-' + lv + '">' + LEVELS[lv] + "</span></div>" +
         '<div class="entry-top"><h3>' + esc(w.en) + (w.pron ? '<span class="pron">' + esc(w.pron) + "</span>" : "") + "</h3>" +
         '<button type="button" class="star" data-fav="' + esc(w.en) + '" aria-pressed="' + on + '" aria-label="À revoir : ' + esc(w.en) + '">' + (on ? "★" : "☆") + "</button></div>" +
         '<p class="fr">' + esc(w.fr) + "</p>" + details(w) + "</article>";
@@ -941,21 +1032,465 @@ footer strong { letter-spacing: 0.06em; color: var(--ink); }
     if (focusSel) { var el = box.querySelector(focusSel); if (el) el.focus(); }
   }
 
+  /* ---------- Progression : trois mots par visite, suivi, synchronisation ---------- */
+  var byEn = {};
+  WORDS.forEach(function (w) { byEn[w.en] = w; });
+
+  var PKEY = "vocabulaire-anglais-progression";
+  var SKEY = "vocabulaire-anglais-synchro";
+  var SESSKEY = "vocabulaire-anglais-session";
+  var DAY = 86400000;
+  var INTERVALS = [0, 1, 3, 7, 14, 30]; /* jours avant le prochain rappel, selon la boîte atteinte */
+  var LEVELS = { "new": "Nouveau", weak: "À revoir", learning: "En cours", mastered: "Maîtrisé" };
+
+  function pad2(n) { return (n < 10 ? "0" : "") + n; }
+  function dayKeyOf(d) { return d.getFullYear() + "-" + pad2(d.getMonth() + 1) + "-" + pad2(d.getDate()); }
+  function todayKey() { return dayKeyOf(new Date()); }
+  function emptyProgress() { return { v: 1, words: {}, days: {}, updated: 0 }; }
+
+  var progress = (function () {
+    try {
+      var raw = localStorage.getItem(PKEY);
+      if (raw) {
+        var p = JSON.parse(raw);
+        if (p && p.words && p.days) return p;
+      }
+    } catch (e) { /* storage unavailable */ }
+    return emptyProgress();
+  })();
+  function saveLocal() {
+    try { localStorage.setItem(PKEY, JSON.stringify(progress)); } catch (e) { /* ignore */ }
+  }
+
+  function levelOf(en) {
+    var r = progress.words[en];
+    if (!r || !r.s) return "new";
+    if (r.b >= 4) return "mastered";
+    if (r.b >= 1) return "learning";
+    return "weak";
+  }
+  function nextText(r) {
+    if (r.b === 0) return "À revoir bientôt";
+    var d = INTERVALS[r.b];
+    return "Prochain rappel dans " + d + (d > 1 ? " jours" : " jour");
+  }
+
+  /* Réponse juste : boîte +1 (5 au maximum). Réponse fausse : retour à la boîte 0. */
+  function record(en, ok) {
+    var now = Date.now();
+    var r = progress.words[en] || { b: 0, s: 0, r: 0, w: 0, l: 0, d: 0 };
+    r.s++;
+    if (ok) r.r++; else r.w++;
+    r.b = ok ? Math.min(r.b + 1, 5) : 0;
+    r.l = now;
+    r.d = now + INTERVALS[r.b] * DAY;
+    progress.words[en] = r;
+    var k = todayKey();
+    var dd = progress.days[k] || { n: 0, ok: 0 };
+    dd.n++;
+    if (ok) dd.ok++;
+    progress.days[k] = dd;
+    progress.updated = now;
+    saveLocal();
+    scheduleSync();
+    return r;
+  }
+
+  /* Tirage au hasard pondéré : mots ratés d'abord, puis mots à réviser, puis mots jamais vus. */
+  function weightOf(w, now) {
+    var r = progress.words[w.en];
+    var x;
+    if (!r || !r.s) x = 3;
+    else if (r.b === 0) x = 6;
+    else if (now >= r.d) x = 4 + Math.min((now - r.d) / DAY, 10) * 0.3;
+    else x = r.b >= 4 ? 0.15 : 0.4;
+    if (r && now - r.l < 1800000) x *= 0.1;
+    return x;
+  }
+  function drawWords(n) {
+    var now = Date.now();
+    var pool = WORDS.map(function (w) { return { w: w, x: weightOf(w, now) }; });
+    var out = [];
+    for (var i = 0; i < n && pool.length; i++) {
+      var total = pool.reduce(function (a, p) { return a + p.x; }, 0);
+      var t = Math.random() * total;
+      var idx = 0;
+      for (; idx < pool.length - 1; idx++) {
+        t -= pool[idx].x;
+        if (t <= 0) break;
+      }
+      out.push(pool[idx].w);
+      pool.splice(idx, 1);
+    }
+    return out;
+  }
+
+  function streakDays() {
+    var d = new Date();
+    d.setHours(12, 0, 0, 0);
+    function has(x) { var e = progress.days[dayKeyOf(x)]; return !!(e && e.n > 0); }
+    if (!has(d)) d.setDate(d.getDate() - 1);
+    var n = 0;
+    while (has(d)) { n++; d.setDate(d.getDate() - 1); }
+    return n;
+  }
+
+  /* ---------- Trois mots du jour ---------- */
+  var daily = { ids: [], rated: {}, revealed: {}, dir: "enfr", t: 0 };
+  function saveDaily() {
+    try { sessionStorage.setItem(SESSKEY, JSON.stringify(daily)); } catch (e) { /* ignore */ }
+  }
+  function newDraw() {
+    daily.ids = drawWords(3).map(function (w) { return w.en; });
+    daily.rated = {};
+    daily.revealed = {};
+    daily.t = Date.now();
+    saveDaily();
+  }
+  function allRated() {
+    return daily.ids.every(function (id) { return daily.rated.hasOwnProperty(id); });
+  }
+  (function restoreDaily() {
+    try {
+      var raw = sessionStorage.getItem(SESSKEY);
+      if (raw) {
+        var s = JSON.parse(raw);
+        var fresh = s && s.t && Date.now() - s.t < 1800000;
+        if (fresh && Array.isArray(s.ids) && s.ids.length === 3 && s.ids.every(function (id) { return byEn[id]; })) {
+          daily = { ids: s.ids, rated: s.rated || {}, revealed: s.revealed || {}, dir: s.dir === "fren" ? "fren" : "enfr", t: s.t };
+          if (!allRated()) return;
+          daily.dir = daily.dir;
+        }
+        if (s && s.dir === "fren") daily.dir = "fren";
+      }
+    } catch (e) { /* ignore */ }
+    var keepDir = daily.dir;
+    newDraw();
+    daily.dir = keepDir;
+    saveDaily();
+  })();
+
+  function frontHTML(w) {
+    return daily.dir === "enfr"
+      ? '<div class="dword">' + esc(w.en) + "</div>" + (w.pron ? '<span class="pron">' + esc(w.pron) + "</span>" : "")
+      : '<div class="dword fr-side">' + esc(w.fr) + "</div>";
+  }
+  function answerHTML(w) {
+    return '<div class="answer">' + (daily.dir === "enfr"
+      ? '<p class="fr">' + esc(w.fr) + "</p>"
+      : '<div class="dword">' + esc(w.en) + "</div>" + (w.pron ? '<span class="pron">' + esc(w.pron) + "</span>" : "")) +
+      details(w) + "</div>";
+  }
+  function dailyCardHTML(w) {
+    var rated = daily.rated.hasOwnProperty(w.en);
+    var ok = rated && daily.rated[w.en];
+    var on = favs.has(w.en);
+    var lv = levelOf(w.en);
+    var h = '<article class="dcard' + (rated ? (ok ? " ok" : " ko") : "") + '" data-w="' + esc(w.en) + '">' +
+      '<div class="dtop"><div class="tags"><span class="tag">' + tagLabel(w) + '</span><span class="lvl lvl-' + lv + '">' + LEVELS[lv] + "</span></div>" +
+      '<button type="button" class="star" data-fav="' + esc(w.en) + '" aria-pressed="' + on + '" aria-label="À revoir : ' + esc(w.en) + '">' + (on ? "★" : "☆") + "</button></div>" +
+      frontHTML(w);
+    if (!daily.revealed[w.en]) {
+      h += '<button type="button" class="btn primary wide" data-d="reveal">Voir la réponse</button>';
+    } else {
+      h += answerHTML(w);
+      if (!rated) {
+        h += '<div class="rate"><button type="button" class="btn no" data-d="no">Je ne savais pas</button>' +
+          '<button type="button" class="btn primary" data-d="yes">Je savais</button></div>';
+      } else {
+        h += '<p class="result ' + (ok ? "good" : "bad") + '">' + (ok ? "Su." : "À revoir.") +
+          ' <span class="nextnote">' + esc(nextText(progress.words[w.en])) + "</span></p>";
+      }
+    }
+    return h + "</article>";
+  }
+  function dailySummary() {
+    if (!allRated()) return "";
+    var yes = daily.ids.filter(function (id) { return daily.rated[id]; }).length;
+    var no = daily.ids.length - yes;
+    return '<div class="panel dsum"><h2>Séance terminée</h2><p>Trois mots travaillés : ' + yes + (yes > 1 ? " sus, " : " su, ") + no + " à revoir.</p>" +
+      '<div class="controls single"><button type="button" class="btn primary" data-d="again">Trois autres mots</button></div></div>';
+  }
+  function updateDailyInfo() {
+    var t = progress.days[todayKey()] || { n: 0, ok: 0 };
+    var s = streakDays();
+    $("#dailyInfo").textContent = "Aujourd’hui : " + t.n + (t.n > 1 ? " réponses" : " réponse") + ". Série : " + s + (s > 1 ? " jours." : " jour.");
+  }
+  function renderDaily() {
+    $("#dailyDir").value = daily.dir;
+    $("#dcards").innerHTML = daily.ids.map(function (id) { return dailyCardHTML(byEn[id]); }).join("");
+    $("#dsummary").innerHTML = dailySummary();
+    updateDailyInfo();
+  }
+  function findDailyCard(en) {
+    var cards = document.querySelectorAll("#dcards .dcard");
+    for (var i = 0; i < cards.length; i++) if (cards[i].getAttribute("data-w") === en) return cards[i];
+    return null;
+  }
+  function onDailyClick(e) {
+    var b = e.target.closest("[data-d]");
+    if (b) {
+      var act = b.getAttribute("data-d");
+      if (act === "again") {
+        newDraw();
+        renderDaily();
+        try { window.scrollTo(0, 0); } catch (err) { /* ignore */ }
+        return;
+      }
+      var art = b.closest(".dcard");
+      if (!art) return;
+      var en = art.getAttribute("data-w");
+      var w = byEn[en];
+      if (act === "reveal") {
+        daily.revealed[en] = true;
+      } else if ((act === "yes" || act === "no") && !daily.rated.hasOwnProperty(en)) {
+        daily.rated[en] = (act === "yes");
+        record(en, act === "yes");
+      }
+      daily.t = Date.now();
+      saveDaily();
+      art.outerHTML = dailyCardHTML(w);
+      $("#dsummary").innerHTML = dailySummary();
+      updateDailyInfo();
+      var again = $("#dsummary [data-d=\"again\"]");
+      var nextBtn = findDailyCard(en).querySelector("[data-d=\"yes\"]");
+      if (act === "reveal" && nextBtn) nextBtn.focus({ preventScroll: true });
+      else if (again) again.focus({ preventScroll: false });
+      return;
+    }
+    var f = e.target.closest("[data-fav]");
+    if (f) setFav(f.getAttribute("data-fav"));
+  }
+
+  /* ---------- Suivi ---------- */
+  var resetArmed = false;
+  function renderStats() {
+    var c = { "new": 0, weak: 0, learning: 0, mastered: 0 };
+    WORDS.forEach(function (w) { c[levelOf(w.en)]++; });
+    var total = WORDS.length;
+    var seen = 0, right = 0;
+    Object.keys(progress.words).forEach(function (k) {
+      if (!byEn[k]) return;
+      seen += progress.words[k].s || 0;
+      right += progress.words[k].r || 0;
+    });
+    var rate = seen ? Math.round(100 * right / seen) + " %" : "-";
+    var t = progress.days[todayKey()] || { n: 0, ok: 0 };
+    function pct(n) { return (100 * n / total).toFixed(2); }
+
+    var names = ["D", "L", "M", "M", "J", "V", "S"];
+    var wk = [], max = 1;
+    for (var i = 6; i >= 0; i--) {
+      var d = new Date();
+      d.setHours(12, 0, 0, 0);
+      d.setDate(d.getDate() - i);
+      var e = progress.days[dayKeyOf(d)] || { n: 0, ok: 0 };
+      wk.push({ lab: names[d.getDay()], n: e.n, ok: e.ok, today: i === 0 });
+      if (e.n > max) max = e.n;
+    }
+    var week = wk.map(function (x) {
+      var col = x.n
+        ? '<div class="col" style="height:' + Math.max(8, Math.round(100 * x.n / max)) + '%"><i class="c-ko" style="flex:' + (x.n - x.ok) + '"></i><i class="c-ok" style="flex:' + x.ok + '"></i></div>'
+        : '<div class="col zero"></div>';
+      return '<div class="wday' + (x.today ? " today" : "") + '"><span class="num">' + (x.n || "") + '</span><div class="area">' + col + '</div><span class="lab">' + x.lab + "</span></div>";
+    }).join("");
+
+    var weak = Object.keys(progress.words).filter(function (k) { return byEn[k] && progress.words[k].w > 0; })
+      .sort(function (a, b) {
+        var x = progress.words[a], y = progress.words[b];
+        return (y.w - x.w) || (x.b - y.b) || (y.l - x.l);
+      }).slice(0, 8);
+    var weakHTML = weak.length
+      ? '<ul class="errors">' + weak.map(function (k) {
+          var x = progress.words[k];
+          return "<li><b>" + esc(k) + "</b> : " + esc(byEn[k].fr.split(" ; ")[0]) + '<br><span class="nextnote">' + x.w + (x.w > 1 ? " erreurs" : " erreur") + " sur " + x.s + (x.s > 1 ? " réponses" : " réponse") + "</span></li>";
+        }).join("") + "</ul>"
+      : "<p class=\"meta\">Aucune erreur pour l’instant.</p>";
+
+    var syncHTML;
+    if (sync) {
+      syncHTML = "<p>Synchronisation active : ta progression est la même sur tous les appareils où tu as saisi ta phrase secrète.</p>" +
+        '<div class="sync-form"><button type="button" class="btn" data-s="syncnow">Synchroniser maintenant</button>' +
+        '<button type="button" class="btn" data-s="syncoff">Désactiver sur cet appareil</button></div>';
+    } else {
+      syncHTML = "<p>Pour l’instant, ta progression reste sur cet appareil, et Safari peut l’effacer si tu ne reviens pas pendant longtemps. " +
+        "Pour la garder et la retrouver sur plusieurs appareils, choisis une phrase secrète d’au moins 8 caractères, puis retape la même sur chaque appareil.</p>" +
+        '<div class="sync-form"><input type="password" id="syncPass" autocomplete="off" autocapitalize="off" autocorrect="off" placeholder="Phrase secrète" aria-label="Phrase secrète">' +
+        '<button type="button" class="btn primary" data-s="syncon">Activer la synchronisation</button></div>';
+    }
+
+    var resetHTML = resetArmed
+      ? '<p>Cela efface toute ta progression sur cet appareil' + (sync ? " et sur la synchronisation" : "") + '. Cette action est définitive.</p>' +
+        '<div class="sync-form"><button type="button" class="btn danger" data-s="resetgo">Oui, tout effacer</button><button type="button" class="btn" data-s="resetno">Annuler</button></div>'
+      : '<div class="sync-form"><button type="button" class="btn danger" data-s="reset">Effacer ma progression</button></div>';
+
+    $("#statsbox").innerHTML =
+      '<div class="kpis">' +
+      '<div class="kpi mastered"><b>' + c.mastered + '</b><span>Maîtrisés sur ' + total + "</span></div>" +
+      '<div class="kpi learning"><b>' + c.learning + "</b><span>En cours</span></div>" +
+      '<div class="kpi weak"><b>' + c.weak + "</b><span>À revoir</span></div>" +
+      '<div class="kpi"><b>' + c["new"] + "</b><span>Jamais vus</span></div></div>" +
+      '<div class="block"><h3>Progression</h3><div class="bar" role="img" aria-label="' + c.mastered + " mots maîtrisés, " + c.learning + " en cours, " + c.weak + " à revoir, " + c["new"] + ' jamais vus">' +
+      '<i class="b-mastered" style="width:' + pct(c.mastered) + '%"></i><i class="b-learning" style="width:' + pct(c.learning) + '%"></i><i class="b-weak" style="width:' + pct(c.weak) + '%"></i></div>' +
+      '<div class="legend"><span>Maîtrisé : 4 bonnes réponses d’affilée, espacées</span></div></div>' +
+      '<div class="stats3"><div class="kpi"><b>' + streakDays() + "</b><span>Jours d’affilée</span></div>" +
+      '<div class="kpi"><b>' + t.n + "</b><span>Réponses aujourd’hui</span></div>" +
+      '<div class="kpi"><b>' + rate + "</b><span>Réussite</span></div></div>" +
+      '<div class="block"><h3>Sept derniers jours</h3><div class="week">' + week + '</div><div class="legend"><span>Vert : sus. Rouge : à revoir.</span></div></div>' +
+      '<div class="block"><h3>Mots à surveiller</h3>' + weakHTML + "</div>" +
+      '<div class="block"><h3>Synchronisation</h3>' + syncHTML + '<p class="sync-status" id="syncStatus" aria-live="polite">' + esc(syncMsg) + "</p></div>" +
+      '<div class="block"><h3>Remise à zéro</h3>' + resetHTML + "</div>";
+  }
+
+  /* ---------- Synchronisation (optionnelle) ---------- */
+  var sync = (function () {
+    try {
+      var raw = localStorage.getItem(SKEY);
+      if (raw) {
+        var s = JSON.parse(raw);
+        if (s && /^[0-9a-f]{64}$/.test(s.h)) return s;
+      }
+    } catch (e) { /* ignore */ }
+    return null;
+  })();
+  var syncMsg = "";
+  var syncTimer = null;
+  var syncBusy = false;
+  var syncAgain = false;
+
+  function setSyncMsg(m) {
+    syncMsg = m;
+    var el = $("#syncStatus");
+    if (el) el.textContent = m;
+  }
+  function clock() { var d = new Date(); return pad2(d.getHours()) + ":" + pad2(d.getMinutes()); }
+  async function sha256Hex(text) {
+    var buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+    return Array.from(new Uint8Array(buf)).map(function (b) { return b.toString(16).padStart(2, "0"); }).join("");
+  }
+  async function callApi(body, keepalive) {
+    var r = await fetch("/api/vocab-progress", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+      keepalive: !!keepalive
+    });
+    var j = null;
+    try { j = await r.json(); } catch (e) { /* not JSON */ }
+    if (!r.ok || !j || !j.ok) throw new Error((j && j.error) || ("erreur " + r.status));
+    return j;
+  }
+  function mergeProgress(a, b) {
+    if (!b || !b.words || !b.days) return a;
+    var out = emptyProgress();
+    new Set(Object.keys(a.words).concat(Object.keys(b.words))).forEach(function (k) {
+      var x = a.words[k], y = b.words[k];
+      if (!x) out.words[k] = y;
+      else if (!y) out.words[k] = x;
+      else out.words[k] = (y.l > x.l || (y.l === x.l && y.s > x.s)) ? y : x;
+    });
+    new Set(Object.keys(a.days).concat(Object.keys(b.days))).forEach(function (k) {
+      var x = a.days[k], y = b.days[k];
+      if (!x) out.days[k] = y;
+      else if (!y) out.days[k] = x;
+      else out.days[k] = y.n > x.n ? y : x;
+    });
+    out.updated = Math.max(a.updated || 0, b.updated || 0);
+    return out;
+  }
+  function refreshAfterSync() {
+    if (state.tab === "suivi") renderStats();
+    if (state.tab === "mots") updateDailyInfo();
+  }
+  async function syncNow(silent, keepalive) {
+    if (!sync) return;
+    if (syncBusy) { syncAgain = true; return; }
+    syncBusy = true;
+    if (!silent) setSyncMsg("Synchronisation en cours…");
+    try {
+      var j = await callApi({ action: "sync", h: sync.h, progress: progress }, keepalive);
+      progress = mergeProgress(progress, j.progress);
+      saveLocal();
+      refreshAfterSync();
+      setSyncMsg("Synchronisé à " + clock() + ".");
+    } catch (e) {
+      setSyncMsg("Synchronisation impossible pour le moment (" + e.message + "). Ta progression reste enregistrée sur cet appareil.");
+    }
+    syncBusy = false;
+    if (syncAgain) { syncAgain = false; scheduleSync(); }
+  }
+  function scheduleSync() {
+    if (!sync) return;
+    if (syncTimer) clearTimeout(syncTimer);
+    syncTimer = setTimeout(function () { syncTimer = null; syncNow(true, false); }, 3000);
+  }
+  async function enableSync() {
+    var inp = $("#syncPass");
+    var pass = inp ? inp.value.trim() : "";
+    if (pass.length < 8) { setSyncMsg("La phrase secrète doit contenir au moins 8 caractères."); return; }
+    setSyncMsg("Connexion en cours…");
+    try {
+      var h = await sha256Hex("vocabulaire:" + pass);
+      var j = await callApi({ action: "sync", h: h, progress: progress }, false);
+      progress = mergeProgress(progress, j.progress);
+      saveLocal();
+      sync = { h: h };
+      try { localStorage.setItem(SKEY, JSON.stringify(sync)); } catch (e) { /* ignore */ }
+      syncMsg = "Synchronisation activée à " + clock() + ".";
+      renderStats();
+    } catch (e) {
+      setSyncMsg("Activation impossible (" + e.message + ").");
+    }
+  }
+  async function resetAll() {
+    progress = emptyProgress();
+    saveLocal();
+    resetArmed = false;
+    var msg = "Progression effacée.";
+    if (sync) {
+      try { await callApi({ action: "reset", h: sync.h }, false); msg = "Progression effacée sur cet appareil et sur la synchronisation."; }
+      catch (e) { msg = "Effacée sur cet appareil, mais pas sur la synchronisation (" + e.message + "). Elle pourrait revenir à la prochaine synchronisation."; }
+    }
+    newDraw();
+    syncMsg = msg;
+    renderStats();
+  }
+  function onStatsClick(e) {
+    var b = e.target.closest("[data-s]");
+    if (!b) return;
+    var a = b.getAttribute("data-s");
+    if (a === "syncon") enableSync();
+    else if (a === "syncnow") syncNow(false, false);
+    else if (a === "syncoff") {
+      sync = null;
+      try { localStorage.removeItem(SKEY); } catch (err) { /* ignore */ }
+      syncMsg = "Synchronisation désactivée sur cet appareil.";
+      renderStats();
+    }
+    else if (a === "reset") { resetArmed = true; renderStats(); }
+    else if (a === "resetno") { resetArmed = false; renderStats(); }
+    else if (a === "resetgo") resetAll();
+  }
+
   /* ---------- navigation and events ---------- */
   var firstRoute = true;
+  var TABS = ["mots", "liste", "fiches", "quiz", "suivi"];
   function route() {
     var h = location.hash.replace("#", "");
-    state.tab = (h === "fiches" || h === "quiz") ? h : "liste";
-    ["liste", "fiches", "quiz"].forEach(function (t) {
+    state.tab = TABS.indexOf(h) !== -1 ? h : "mots";
+    TABS.forEach(function (t) {
       $("#view-" + t).hidden = (t !== state.tab);
     });
+    $("#scopeBar").hidden = (state.tab === "mots" || state.tab === "suivi");
     document.querySelectorAll(".tabs a").forEach(function (a) {
       if (a.getAttribute("data-tab") === state.tab) a.setAttribute("aria-current", "page");
       else a.removeAttribute("aria-current");
     });
+    if (state.tab === "mots") renderDaily();
     if (state.tab === "liste") renderList();
     if (state.tab === "fiches") renderCard(false);
     if (state.tab === "quiz") renderQuiz();
+    if (state.tab === "suivi") renderStats();
     if (!firstRoute) { try { window.scrollTo(0, 0); } catch (e) { /* ignore */ } }
     firstRoute = false;
   }
@@ -1042,6 +1577,7 @@ footer strong { letter-spacing: 0.06em; color: var(--ink); }
         quiz.picked = idx;
         if (cur.opts[idx] === cur.w) quiz.score++;
         else quiz.wrong.push(cur.w);
+        record(cur.w.en, cur.opts[idx] === cur.w);
         renderQuiz('[data-q="next"]');
       } else if (act === "next") {
         if (quiz.i + 1 >= quiz.qs.length) { quiz.phase = "done"; renderQuiz(); try { window.scrollTo(0, 0); } catch (err) { /* ignore */ } }
@@ -1062,8 +1598,27 @@ footer strong { letter-spacing: 0.06em; color: var(--ink); }
       else if (e.key === "ArrowLeft") { go(-1); e.preventDefault(); }
       else if ((e.key === " " || e.key === "Enter") && e.target.id === "card") { flip(); e.preventDefault(); }
     });
+    $("#dailybox").addEventListener("click", onDailyClick);
+    $("#dailyDir").addEventListener("change", function (e) {
+      daily.dir = e.target.value === "fren" ? "fren" : "enfr";
+      saveDaily();
+      renderDaily();
+    });
+    $("#redraw").addEventListener("click", function () { newDraw(); renderDaily(); });
+    $("#statsbox").addEventListener("click", onStatsClick);
+    $("#statsbox").addEventListener("keydown", function (e) {
+      if (e.key === "Enter" && e.target.id === "syncPass") { e.preventDefault(); enableSync(); }
+    });
+    document.addEventListener("visibilitychange", function () {
+      if (document.visibilityState === "hidden" && syncTimer) {
+        clearTimeout(syncTimer);
+        syncTimer = null;
+        syncNow(true, true);
+      }
+    });
     window.addEventListener("hashchange", route);
     route();
+    if (sync) syncNow(true, false);
   }
   init();
 })();
