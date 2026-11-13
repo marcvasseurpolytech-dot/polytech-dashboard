@@ -794,6 +794,29 @@
               "score": 12
             }
           ]
+        },
+        {
+          "date": "2026-11-12",
+          "label": "",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p1",
+              "score": 6
+            },
+            {
+              "part": "p2",
+              "score": 22
+            },
+            {
+              "part": "p3",
+              "score": 35
+            },
+            {
+              "part": "p4",
+              "score": 28
+            }
+          ]
         }
       ]
     },
