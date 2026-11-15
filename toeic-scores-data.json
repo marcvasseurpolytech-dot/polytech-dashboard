@@ -254,6 +254,13 @@
           "type": "official",
           "listening": 460,
           "reading": 330
+        },
+        {
+          "date": "2026-11-11",
+          "label": "Partie listening",
+          "type": "official",
+          "listening": 445,
+          "reading": 0
         }
       ]
     },
