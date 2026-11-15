@@ -265,6 +265,13 @@
               "score": 45
             }
           ]
+        },
+        {
+          "date": "2026-11-15",
+          "label": "Partie listening",
+          "type": "official",
+          "listening": 445,
+          "reading": 0
         }
       ]
     },
