@@ -842,6 +842,29 @@
               "score": 28
             }
           ]
+        },
+        {
+          "date": "2026-11-16",
+          "label": "",
+          "type": "raw",
+          "entries": [
+            {
+              "part": "p1",
+              "score": 6
+            },
+            {
+              "part": "p1",
+              "score": 6
+            },
+            {
+              "part": "p1",
+              "score": 5
+            },
+            {
+              "part": "p1",
+              "score": 6
+            }
+          ]
         }
       ]
     },
